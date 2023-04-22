@@ -116,8 +116,7 @@ module.exports = class UserRespository {
                 {
                     email: email,
                     google_id: googleId,
-                    auth_method: "google_email",
-                    updated_at: new Date()
+                    auth_method: "google_email"
                 }
             ).first();
             return googleUser;
