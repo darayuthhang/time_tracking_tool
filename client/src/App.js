@@ -10,6 +10,7 @@ import ResetPassword from "./pages/reset_password/ResetPassword";
 import UpdatePassword from "./pages/update_password/UpdatePassword";
 import ProtectedRoute from "./Protectroute/ProtectRoute";
 import Task from "./pages/task/Task";
+import Navigation from "./component/navbar/Navigation";
 function App() {
   return (
     <div>
@@ -19,6 +20,7 @@ function App() {
           {/* <Navbar  variant="dark" className={` mb-5 ${styles.darkblue} `}>
             
           </Navbar> */}
+          <Navigation />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path={ReactEndPoint.SIGN_UP} element={<SignUp />} />
