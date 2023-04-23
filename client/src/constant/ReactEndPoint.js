@@ -5,6 +5,7 @@ class ReactEndPoint{
     RESET_PASSWORD = "/reset-password"
     UPDATE_PASSWORD = "/update-password"
     TASK = "/task"
+    HOME = "/"
   
 }
 export default new ReactEndPoint();

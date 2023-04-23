@@ -29,7 +29,8 @@ module.exports.isPassword = async (
 module.exports.GenerateAccessToken = async (payload) => {
     try {
         if (!process.env.ACCESS_TOKEN_SECRET) throw new Error("Access Token Secret does not exist.")
-        return await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "20m" });
+        //20m
+        return await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20m' });
     } catch (error) {
         throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Access Token Secret does not exist.')
     }
@@ -37,7 +38,8 @@ module.exports.GenerateAccessToken = async (payload) => {
 module.exports.GenerateRefreshToken= async (payload) => {
     try {
         if(!process.env.REFRESH_TOKEN_SECRET) throw new Error("Refresh Token Secret does not exist.")
-        return await jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "24h" });
+        //24h
+        return await jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '24h' });
     } catch (error) {
         throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Refresh Token Secret does not exist.')
     }
@@ -75,3 +77,8 @@ module.exports.ValidateSignature = async (req) => {
         return false;
     }
 };
+
+module.exports.VerifyToken = async (incomingToken, secretToken) => {
+    let user = await jwt.verify(incomingToken, secretToken)
+    return user;
+}

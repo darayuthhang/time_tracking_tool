@@ -1,8 +1,9 @@
 import React from "react";
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+
+
+
 import Home from "./pages/home/Home";
 import SignUp from "./pages/sign_up/SignUp";
-import ReactEndPoint from "./constant/ReactEndPoint";
 import NotFound from "./pages/not_found/NotFound";
 import VerifyUser from "./pages/verify_user/VerifyUser";
 import Login from "./pages/login/Login";
@@ -11,16 +12,52 @@ import UpdatePassword from "./pages/update_password/UpdatePassword";
 import ProtectedRoute from "./Protectroute/ProtectRoute";
 import Task from "./pages/task/Task";
 import Navigation from "./component/navbar/Navigation";
+
+import ReactEndPoint from "./constant/ReactEndPoint";
+import Cookie from "./uti/Cookie";
+import jwt_decode from "jwt-decode";
+import { useSelector } from 'react-redux';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+
 function App() {
+
+
+  const { user, isAuth } = useSelector((state) => state.authReducers)
+
+  const refreshToken = Cookie.getLocalRefreshToken();
+
+
+  const navigateToHomePage = () => {
+    window.location.reload()
+    // <Navigate to="/" />
+  }
+  if (refreshToken) {
+    var decoded = jwt_decode(refreshToken);
+    //if token expire.
+    if (decoded?.exp * 1000 < Date.now()) {
+      //check the cookies from back-end
+      Cookie.removeUser();
+      navigateToHomePage();
+      //remove cookies for cookies js
+    }
+  }
+
+  const handleLogout = () => {
+    Cookie.removeUser();
+    navigateToHomePage();
+  }
+
   return (
     <div>
-          {/* <Ads dataAdSlot='6642898968' /> */}
+      {/* <Ads dataAdSlot='6642898968' /> */}
       <BrowserRouter >
         <div className="App">
-          {/* <Navbar  variant="dark" className={` mb-5 ${styles.darkblue} `}>
-            
-          </Navbar> */}
-          <Navigation />
+          <Navigation
+            isAuth={isAuth}
+            handleLogout={handleLogout}
+
+          />
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path={ReactEndPoint.SIGN_UP} element={<SignUp />} />
@@ -32,7 +69,7 @@ function App() {
               <ProtectedRoute>
                 <Task />
               </ProtectedRoute>
-            }/>
+            } />
             <Route path="*" element={<NotFound />} />
 
             {/* <Route path="/" element={<Home />} />
@@ -41,14 +78,14 @@ function App() {
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes> */}
-      
-       
-       
+
+
+
           </Routes>
         </div>
       </BrowserRouter>
     </div>
-   
+
   );
 }
 

@@ -1,7 +1,13 @@
 import React from 'react';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
-const Navigation = () => {
-    const isAuth = "";
+import {Link} from 'react-router-dom';
+import ReactEndPoint from '../../constant/ReactEndPoint';
+
+const Navigation = ({
+    isAuth,
+    handleLogout
+  
+}) => {
     return (
         <Navbar bg="light" expand="lg">
             <Container>
@@ -9,20 +15,30 @@ const Navigation = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
+                        <Nav.Link 
+                            as={Link}
+                            to={ReactEndPoint.HOME}
+                        >
+                            Home
+                        </Nav.Link >
                         {isAuth ? 
-                        <Nav.Link href="#link">Logout</Nav.Link>
+                          <Nav.Link 
+                           
+                            onClick={handleLogout}
+                           
+                        >
+                             LogOut
+                        </Nav.Link >
+                        
                         :
-                        <Nav.Link href="#link">Login</Nav.Link>
+                        <Nav.Link
+                            as={Link}
+                            to={ReactEndPoint.LOGIN}
+                         
+                        >   Login
+                        </Nav.Link >
                     }
-                      
-                        {/* <NavDropdown title="Profile" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Logout</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
-                                Upgrade to Pro
-                            </NavDropdown.Item>
-                        </NavDropdown> */}
+                   
                     </Nav>
                 </Navbar.Collapse>
             </Container>

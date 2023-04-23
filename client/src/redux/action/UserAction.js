@@ -4,6 +4,7 @@ import BackEndPoint from "../../constant/BackEndPoint";
 import axios from '../../axios/Axios';
 import Cookie from "../../uti/Cookie";
 import { logError, logSuccess } from "../../uti/error-handle";
+import { getAuth } from "./AuthAction";
 
 export const signup = (firstName, lastName, email, password) => async (dispatch) => {
 
@@ -27,6 +28,7 @@ export const login = (email, password) => async (dispatch) => {
         const { data } = await axios.post(BackEndPoint.LOGIN, {email, password });
         logSuccess(data);
         Cookie.saveUser(data?.data);
+        dispatch(getAuth())
         dispatch({ type: UserTypes.LOGIN_USER_SUCCESS, payload: data });
     } catch (error) {
         logError(error, error.message)
@@ -39,6 +41,7 @@ export const googleLogin = (googleToken) => async (dispatch) => {
         const { data } = await axios.post(BackEndPoint.GOOGLE_LOGIN, { googleToken });
         logSuccess(data);
         Cookie.saveUser(data?.data);
+        dispatch(getAuth())
         dispatch({ type: UserTypes.GOOGLE_LOGIN_USER_SUCCESS, payload: data });
     } catch (error) {
         logError(error, error.message)

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const apiVersion = require("../constant/api_version");
 const {ApiRouteMessage} = require("../constant/message")
 const {UserService}  = require("../services/index");
@@ -5,7 +6,8 @@ const logger = require("../utils/error-handler");
 const { 
     resentOtpLimiter, 
     resentPasswordLimiter,
-    updatePasswordLimiter } = require("./middleware/rate-limit");
+    updatePasswordLimiter,
+    accessTokenLimitter } = require("./middleware/rate-limit");
 
 const { 
     validationUserDataRules, 
@@ -15,6 +17,11 @@ const {
     validationUserLoginDataRules,
     validationResentPasswordCodeRules,
     validationUserPasswordDataRules } = require('./middleware/validator');
+
+const {
+    GenerateAcessToken,
+    VerifyToken} = require('../utils/index');
+const { accessToken } = require('mapbox-gl');
 
 module.exports = (app, apiLimiter) => {
     const { API_VERSION } = apiVersion;
@@ -114,6 +121,21 @@ module.exports = (app, apiLimiter) => {
             logger.debug(error.message)
             return res.status(error?.statusCode).json({ success: false, message: error.message })
         }
+    })
+
+    app.post(`${API_VERSION}/user/auth/token`, accessTokenLimitter, async (req, res) => {
+        logger.debug(ApiRouteMessage(`${API_VERSION}/user/auth/token`, "POST"))
+        const refreshToken = req.body.refreshToken;
+        if (refreshToken == null) return res.sendStatus(401);
+        const { REFRESH_TOKEN_SECRET } = process.env;
+        try {
+            const user = await VerifyToken(refreshToken, REFRESH_TOKEN_SECRET)
+            const accessToken = await GenerateAcessToken({ userId: user?.id })
+            return res.status(200).json({ success: true, accessToken: accessToken })
+        } catch (error) {
+            logger.debug(error.message)
+        }
+        return res.status(404).json({ success: false, message: "Nothing is found." })
     })
 
 

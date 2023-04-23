@@ -103,7 +103,7 @@ module.exports = class UserRespository {
                 last_name: lastName,
                 google_id: googleId,
                 auth_method: "google_email"
-            }).returning('id');
+            }).returning('*');
             if (googleUser.length === 0) throw new Error("Unable to Create google user");
             return googleUser;
         } catch (error) {

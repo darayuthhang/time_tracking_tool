@@ -7,5 +7,6 @@ class BackEndPoint{
     GOOGLE_LOGIN = `${API_VERSION}/user/google-login`
     RESET_PASSWORD = `${API_VERSION}/user/reset-password`
     UPDATE_PASSWORD = `${API_VERSION}/user/update-password`
+    AUTH_TOKEN = `${API_VERSION}/user/auth/token`
 }
 export default new BackEndPoint();
