@@ -48,7 +48,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="font-monospace">
       {/* <Ads dataAdSlot='6642898968' /> */}
       <BrowserRouter >
         <div className="App">

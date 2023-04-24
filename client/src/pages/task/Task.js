@@ -1,13 +1,10 @@
 import React from 'react';
+import LeftTab from '../../component/left_tab/LeftTab';
 
 const Task = () => {
     return (
         <div>
-            This is Task.
-            <h1>This heading</h1>
-            <main>
-                todo list
-            </main>
+            <LeftTab />
         </div>
     );
 };

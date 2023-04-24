@@ -9,7 +9,7 @@ const Navigation = ({
   
 }) => {
     return (
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="light" expand="lg" className='mb-5'>
             <Container>
                 <Navbar.Brand href="#home">TimeTracking App</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
