@@ -1,0 +1,13 @@
+.plus_sign:hover {
+    color: darkgrey;
+}
+
+.side_bar {
+    background-color: #fafafa;
+  
+}
+@media screen and (min-width: 600px) {
+    .side_bar {
+        height: 100vh;
+    }
+}
