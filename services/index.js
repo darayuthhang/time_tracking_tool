@@ -1,4 +1,5 @@
 module.exports = {
     OpenAiService:require("./openai-service"),
-    UserService:require("./user-service")
+    UserService:require("./user-service"),
+    ProjectService:require("./project-service")
 }

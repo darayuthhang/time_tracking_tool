@@ -34,7 +34,7 @@ const Signup = () => {
 
     const onhandleChangePassword = (e) => {
         setPassword(e.target.value)
-        const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        const regex = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
        
         if (e.target.value.length < 8 && e.target.value.length > 0) {
             setPasswordError('Password must be at least 8 characters');

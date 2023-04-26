@@ -1,6 +1,11 @@
-const validationResentPasswordCodeRules = () => {
+const { body, validationResult, query } = require('express-validator');
+const logger = require("../../utils/error-handler")
+
+let MIDDLEWARE = "MIDDLEWARE ===> "
+const validationProjectcodeRules = () => {
     logger.debug(MIDDLEWARE + "validationResentPasswordCodeRules")
     return [
+        query('userId').isUUID().withMessage('UserId is not uuid'),
         body('projectName')
             .notEmpty()
             .withMessage('Project name cannot be empty')
@@ -27,6 +32,6 @@ const validateProjectData = (req, res, next) => {
 };
 
 module.exports = {
-    validationResentPasswordCodeRules,
+    validationProjectcodeRules,
     validateProjectData
 };

@@ -15,18 +15,17 @@ module.exports = class ProjectRepository{
         this.project = "PROJECT-REPOSITORY"
     }
 
-    async createProject(projectName, description){
+    async createProject(projectName, description, userId){
         logger.debug(ApiRepositoryMessage(this.project, "createProject"))
         try {
             let projects = [];
             projects = await db(TABLE_PROJECTS).insert({
                 description:description,
-                project_name:projectName
-            }).returning('*');
-            if (projects.length === 0) throw new Error("Unable to Create Project");
-            return projects;
+                project_name:projectName,
+                user_id:userId
+            });
         } catch (error) {
-            throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to Create google user')
+            throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to Create Project')
         }
     }
 }

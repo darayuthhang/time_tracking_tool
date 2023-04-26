@@ -31,12 +31,21 @@ const Navigation = ({
                         </Nav.Link >
                         
                         :
-                        <Nav.Link
-                            as={Link}
-                            to={ReactEndPoint.LOGIN}
-                         
-                        >   Login
-                        </Nav.Link >
+                        <div className='d-flex'>
+                                <Nav.Link
+                                    as={Link}
+                                    to={ReactEndPoint.LOGIN}
+
+                                >   Login
+                                </Nav.Link >
+                                <Nav.Link
+                                    as={Link}
+                                    to={ReactEndPoint.SIGN_UP}
+
+                                >   Sigup
+                                </Nav.Link >
+                        </div>
+                       
                     }
                    
                     </Nav>

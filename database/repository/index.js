@@ -1,4 +1,5 @@
 module.exports = {
     UserRepository:require("./user-repository"),
-    TokenRepository:require("./token-repository")
+    TokenRepository:require("./token-repository"),
+    ProjectRepository:require("./project-repository")
 }

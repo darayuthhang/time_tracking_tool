@@ -29,7 +29,7 @@ const validationUserDataRules = () => {
         body('password')
             .isLength({ min: 8 })
             .withMessage('Password must be at least 8 characters long')
-            .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+            .matches(/^(?=.*[a-zA-Z])(?=.*\d).+$/)
             .withMessage('Password must contain at least one letter and one number')
     ];
 };
@@ -47,7 +47,7 @@ const validationUserLoginDataRules = () => {
         body('password')
             .isLength({ min: 8 })
             .withMessage('Password must be at least 8 characters long')
-            .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+            .matches(/^(?=.*[a-zA-Z])(?=.*\d).+$/)
             .withMessage('Password must contain at least one letter and one number')
     ];
 };
