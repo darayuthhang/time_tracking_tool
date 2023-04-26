@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const {task, user} = require("./api/index");
-
+const {task, user, project} = require("./api/index");
+const { MidError } = require("./utils/middleware-error");
 
 module.exports = async (app) => {
 
@@ -10,6 +10,7 @@ module.exports = async (app) => {
 
     user(app);
     task(app);
+    project(app);
     
     //api
     // customer(app);
@@ -17,6 +18,6 @@ module.exports = async (app) => {
     // shopping(app);
 
     // error handling
-    //app.use(HandleErrors);
+    app.use(MidError);
 
 }

@@ -67,8 +67,8 @@ module.exports.FormatGoogleUser = async (dbGoogleId, googleId, user) => {
 
 module.exports.ValidateSignature = async (req) => {
     try {
-        const signature = req.get("Authorization");
-        const payload = await jwt.verify(signature.split(" ")[1], process.env.APP_SECRET);
+        const signature = req.get("authorization");
+        const payload = await jwt.verify(signature.split(" ")[1], process.env.ACCESS_TOKEN_SECRET);
         req.user = payload;
         return true;
     } catch (error) {

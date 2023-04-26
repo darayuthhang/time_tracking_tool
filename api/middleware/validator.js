@@ -95,6 +95,12 @@ const validationUserPasswordDataRules = () => {
             .withMessage('Password must contain at least one letter and one number')
     ];
 };
+
+/**
+ * @ValidationProjectDataRules
+ */
+
+
 const validateUserData = (req, res, next) => {
     logger.debug(MIDDLEWARE + "validateUserData")
     const errors = validationResult(req);

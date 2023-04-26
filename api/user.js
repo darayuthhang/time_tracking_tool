@@ -21,9 +21,9 @@ const {
 const {
     GenerateAcessToken,
     VerifyToken} = require('../utils/index');
-const { accessToken } = require('mapbox-gl');
 
-module.exports = (app, apiLimiter) => {
+
+module.exports = (app) => {
     const { API_VERSION } = apiVersion;
     const userService = new UserService(); 
 
