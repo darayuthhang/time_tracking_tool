@@ -26,7 +26,7 @@ exports.up = function (knex) {
      })
      .createTable('projects', function(table){
         table.uuid('id').primary().defaultTo(knex.raw('(gen_random_uuid())'));
-        table.string('project_name'),
+        table.string('project_name').notNullable(),
         table.string('project_description'),
         table.uuid('user_id').references('id').inTable('users'),
         table.timestamp('created_at').defaultTo(knex.fn.now());

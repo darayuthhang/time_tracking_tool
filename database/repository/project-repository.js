@@ -15,12 +15,12 @@ module.exports = class ProjectRepository{
         this.project = "PROJECT-REPOSITORY"
     }
 
-    async createProject(projectName, description, userId){
+    async createProject(projectName, projectDescription, userId){
         logger.debug(ApiRepositoryMessage(this.project, "createProject"))
         try {
             let projects = [];
             projects = await db(TABLE_PROJECTS).insert({
-                description:description,
+                project_description: projectDescription,
                 project_name:projectName,
                 user_id:userId
             });

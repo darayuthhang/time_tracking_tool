@@ -1,16 +1,16 @@
-const { body, validationResult, query } = require('express-validator');
+const { body, validationResult, query, param } = require('express-validator');
 const logger = require("../../utils/error-handler")
 
 let MIDDLEWARE = "MIDDLEWARE ===> "
 const validationProjectcodeRules = () => {
     logger.debug(MIDDLEWARE + "validationResentPasswordCodeRules")
     return [
-        query('userId').isUUID().withMessage('UserId is not uuid'),
+        param('userId').isUUID().withMessage('UserId is not uuid').trim(),
         body('projectName')
             .notEmpty()
             .withMessage('Project name cannot be empty')
             .trim(),
-        body('description').trim()
+        body('project_description').trim()
     ]
 }
 

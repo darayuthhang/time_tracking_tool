@@ -48,9 +48,20 @@ describe('POST /api/v1/user/signup', function () {
             password: "Yuthhang!@3"
         });
         expect(response.status).to.eql(200);
-
-        const attributes = response.body.data;
-        console.log(attributes);
+        // const verifyResponse = await request.post("/user/verify").send({
+        //     email: "yuth@gmail.com",
+        //     verificationCode:""
+            
+        // });
+        // expect(response.status).to.eql(200);
+        // const attributes = response.body.data;
+        // console.log(attributes);
+        // const projectResponse = await request.post("/projects").send({
+        //     project_name: "This is my project",
+        //     description: "My usual layover when visiting family",
+        //     user_id:attributes?.user_id
+        // });
+        // expect(response.status).to.eql(200);
         // const response = await request.post("/user/verify").send({
         //     email: attributes?.email,
         //     firstName: "darayuth",

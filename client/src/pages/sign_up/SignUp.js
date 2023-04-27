@@ -5,7 +5,7 @@ import { signup } from '../../redux/action/UserAction';
 import { useSelector, dispatch, useDispatch } from 'react-redux';
 // import { signup, sendNewLinkToVerifyUser, resetSignUpSuccess } from '../../redux/action/UserAction';
 import ReactEndPoint from '../../constant/ReactEndPoint';
-import Cookie from '../../uti/Cookie';
+
 const Signup = () => {
     const [firstName, setFirstname] = useState("");
     const [lastName, setLastName] = useState("");

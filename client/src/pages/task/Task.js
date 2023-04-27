@@ -7,19 +7,47 @@ import {
 import TaskTableList from '../../component/table/TaskTableList';
 import './task.css';
 import styles from './task.module.css';
+import { useSelector, dispatch, useDispatch } from 'react-redux';
+import { createProject } from '../../redux/action/ProjectAction';
 const Task = () => {
     
     const [showProject, setShowProject] = useState(false);
+    const [project, setProject] = useState("");
+    const [projectError, setProjectError] = useState(false);
+    const [projectDescription, setProjectDescription] = useState("");
+    const dispatch = useDispatch();
 
     const onhandleAddProject = (e) => {
-    
-        setShowProject(true);
+        if(!project) {
+            setProjectError(true);
+            return
+        };
+        // dispatch(createProject())
+        //where we add project
+        setShowProject(false);
     }
     const onhandleCloseAddProject = (e) => {
         setShowProject(false)
+        resetProjectToEmpty();
     }
     const onhandleShowAddProject = (e) => {
-        setShowProject(false);
+        setShowProject(true);
+        resetProjectToEmpty();
+    }
+    const onhandleChangeProject = (e) => {
+        setProject(e.target.value)
+        resetErrorStateToDefault();
+    }
+    const onhandleChangeProjectDescription = (e) => {
+        setProjectDescription(e.target.value)
+        resetErrorStateToDefault();
+    }
+    const resetErrorStateToDefault = () =>{
+        if (projectError) setProjectError(false)
+    }
+    const resetProjectToEmpty = () => {
+        if (project) setProject("");
+        if (projectDescription) setProjectDescription("");
     }
     return (
         <div>
@@ -33,7 +61,7 @@ const Task = () => {
                                         <i className="bi bi-airplane-engines"></i>
                                         <div>Projects</div>
                                         <div
-                                            onClick={onhandleAddProject}
+                                            onClick={onhandleShowAddProject}
                                             className={`ms-auto ${styles.plus_sign}`}>
                                             +</div>
                                     </div>
@@ -68,19 +96,26 @@ const Task = () => {
                         <Modal.Title>AddProject</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <div>
+                        <div className="mb-3">
                             <label className='fw-bold'>Name</label>
-                            <InputGroup size="sm" className="mb-3">
+                            <InputGroup size="sm" >
                                 <Form.Control
                                     aria-label="Username"
                                     aria-describedby="basic-addon1"
+                                    onChange={onhandleChangeProject}
                                 />
+                                
                             </InputGroup>
+                            {projectError && <div className='text-danger'>Project cannot be empty.</div>}
                         </div>
                         <div>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                 <Form.Label className='fw-bold'>Description</Form.Label>
-                                <Form.Control as="textarea" rows={3} />
+                                <Form.Control 
+                                    as="textarea" 
+                                    rows={3}
+                                    onChange={onhandleChangeProjectDescription} 
+                                />
                             </Form.Group>
                         </div>
 
@@ -92,7 +127,7 @@ const Task = () => {
                         <Button
                             className='fw-bold'
                             variant="primary"
-                            onClick={onhandleCloseAddProject}>
+                            onClick={onhandleAddProject}>
                             Add
                         </Button>
                     </Modal.Footer>

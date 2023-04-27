@@ -29,9 +29,10 @@ const request = require("supertest")("http://localhost:5000/api/v1");
 // expect(attributes.nautical_miles).to.eql(4690.070954910584);
 describe('POST /api/v1/projects', function () {
     it("return status 200 ", async function () {
-        const response = await request.post("/projects").send({
-            project_name: "This is my project",
-            description: "My usual layover when visiting family",
+        const userId = "8bbf9411-a225-4d31-8f73-356e8bf98e37"
+        const response = await request.post(`/${userId}/projects`).send({
+            projectName: "This is my project",
+            projectDescription: "My usual layover when visiting family"
         });
         expect(response.status).to.eql(200);
 

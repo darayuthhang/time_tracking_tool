@@ -10,10 +10,10 @@ module.exports = class ProjectService{
         this.projectService = "PROJECT SERVICE";
         this.projectRepository = new ProjectRepository();
     }
-    async createProject({projectName, description}){
+    async createProject(projectName, projectDescription, userId){
         logger.debug(ApiServiceMessage(this.userService, "createUser"))
         try {
-            await this.projectRepository.createProject(projectName, description);
+            await this.projectRepository.createProject(projectName, projectDescription, userId);
         } catch (error) {
             logger.debug(error.message)
             if (error instanceof APIError) {

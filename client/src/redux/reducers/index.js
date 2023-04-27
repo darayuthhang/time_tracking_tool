@@ -4,11 +4,13 @@ import {
     userLoginReducers,
     googleUserLoginReducers } from './UserReducers';
 import { authReducers } from './AuthReducers';
+import { projectReducers } from './ProjectReducers';
 
 const allReducers = combineReducers({
     userSignUpReducers,
     userLoginReducers,
     googleUserLoginReducers,
-    authReducers
+    authReducers,
+    projectReducers
 })
 export default allReducers;
