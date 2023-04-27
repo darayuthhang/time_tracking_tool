@@ -12,17 +12,23 @@ import { createProject } from '../../redux/action/ProjectAction';
 const Task = () => {
     
     const [showProject, setShowProject] = useState(false);
-    const [project, setProject] = useState("");
+    const [projectName, setprojectName] = useState("");
     const [projectError, setProjectError] = useState(false);
     const [projectDescription, setProjectDescription] = useState("");
     const dispatch = useDispatch();
-
+    const {user} = useSelector((state) => state.authReducers);
+ 
+    /**
+     * 
+     * @Description onhandleAddProject() is handle sending post request to back-end.
+     */
     const onhandleAddProject = (e) => {
-        if(!project) {
+        if (!projectName) {
             setProjectError(true);
             return
         };
-        // dispatch(createProject())
+        console.log(user);
+        dispatch(createProject({ projectName, projectDescription }, user?.userId))
         //where we add project
         setShowProject(false);
     }
@@ -35,7 +41,7 @@ const Task = () => {
         resetProjectToEmpty();
     }
     const onhandleChangeProject = (e) => {
-        setProject(e.target.value)
+        setprojectName(e.target.value)
         resetErrorStateToDefault();
     }
     const onhandleChangeProjectDescription = (e) => {
@@ -46,7 +52,7 @@ const Task = () => {
         if (projectError) setProjectError(false)
     }
     const resetProjectToEmpty = () => {
-        if (project) setProject("");
+        if (projectName) setprojectName("");
         if (projectDescription) setProjectDescription("");
     }
     return (
