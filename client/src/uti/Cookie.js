@@ -9,7 +9,6 @@ class Cookie {
         }
     }
     saveEmail(email) {
-        alert(email)
         try {
             Cookies.set("email", JSON.stringify(email), { expires: 1 });
         } catch (error) {
@@ -70,7 +69,8 @@ class Cookie {
             }
             user = JSON.parse(user);
             user.accessToken = token
-            Cookie.set("user", JSON.stringify(user));
+            Cookies.set("user", JSON.stringify(user));
+         
         } catch (error) {
 
         }

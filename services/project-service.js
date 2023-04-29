@@ -11,7 +11,7 @@ module.exports = class ProjectService{
         this.projectRepository = new ProjectRepository();
     }
     async createProject(projectName, projectDescription, userId){
-        logger.debug(ApiServiceMessage(this.userService, "createUser"))
+        logger.debug(ApiServiceMessage(this.projectService, "createProject"))
         try {
             await this.projectRepository.createProject(projectName, projectDescription, userId);
         } catch (error) {
@@ -19,7 +19,20 @@ module.exports = class ProjectService{
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
-                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot verify User.')
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot create Project.')
+            }
+        }
+    }
+    async getProjectByUserId(userId){
+        logger.debug(ApiServiceMessage(this.projectService, "getProjectByUserId"))
+        try {
+            await this.projectRepository.getProjectByUserId(userId);
+        } catch (error) {
+            logger.debug(error.message)
+            if (error instanceof APIError) {
+                throw new APIError('API Error', error?.statusCode, error?.message)
+            } else {
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot get project')
             }
         }
     }

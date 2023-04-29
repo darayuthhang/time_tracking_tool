@@ -9,6 +9,7 @@ import './task.css';
 import styles from './task.module.css';
 import { useSelector, dispatch, useDispatch } from 'react-redux';
 import { createProject } from '../../redux/action/ProjectAction';
+import Cookie from '../../uti/Cookie';
 const Task = () => {
     
     const [showProject, setShowProject] = useState(false);
@@ -16,8 +17,10 @@ const Task = () => {
     const [projectError, setProjectError] = useState(false);
     const [projectDescription, setProjectDescription] = useState("");
     const dispatch = useDispatch();
-    const {user} = useSelector((state) => state.authReducers);
- 
+    //const {user} = useSelector((state) => state.authReducers);
+    const user = Cookie.getUser();
+    const { projectRequest, projectSuccess } = useSelector((state) => state.projectReducers);
+    console.log("task");
     /**
      * 
      * @Description onhandleAddProject() is handle sending post request to back-end.
@@ -27,7 +30,6 @@ const Task = () => {
             setProjectError(true);
             return
         };
-        console.log(user);
         dispatch(createProject({ projectName, projectDescription }, user?.userId))
         //where we add project
         setShowProject(false);
@@ -124,7 +126,6 @@ const Task = () => {
                                 />
                             </Form.Group>
                         </div>
-
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="light" onClick={onhandleCloseAddProject}>
@@ -133,6 +134,7 @@ const Task = () => {
                         <Button
                             className='fw-bold'
                             variant="primary"
+                            disabled={projectRequest}
                             onClick={onhandleAddProject}>
                             Add
                         </Button>

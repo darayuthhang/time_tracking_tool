@@ -12,6 +12,11 @@ export function authReducers(state = {
                 isAuth: Cookie.getUser()?.accessToken ? true : false,
                 user: Cookie.getUser()
             };
+        case AuthTypes.UPDATE_AUTH:
+            return {
+                ...state,
+                user: Cookie.getUser()
+            };
         default: return state;
     }
 }

@@ -30,7 +30,7 @@ module.exports.GenerateAccessToken = async (payload) => {
     try {
         if (!process.env.ACCESS_TOKEN_SECRET) throw new Error("Access Token Secret does not exist.")
         //20m
-        return await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20m' });
+        return await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
     } catch (error) {
         throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Access Token Secret does not exist.')
     }
@@ -68,6 +68,7 @@ module.exports.FormatGoogleUser = async (dbGoogleId, googleId, user) => {
 module.exports.ValidateSignature = async (req) => {
     try {
         const signature = req.get("authorization");
+        console.log(signature.split(" ")[1]);
         const payload = await jwt.verify(signature.split(" ")[1], process.env.ACCESS_TOKEN_SECRET);
         req.user = payload;
         return true;

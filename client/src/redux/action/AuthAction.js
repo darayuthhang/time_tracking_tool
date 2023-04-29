@@ -5,3 +5,10 @@ export const getAuth = () => {
         payload: null
     }
 }   
+
+export const setAuth = () => {
+    return {
+        type: AuthTypes.UPDATE_AUTH,
+        payload: null
+    }
+}   

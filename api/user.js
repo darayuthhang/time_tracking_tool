@@ -19,7 +19,7 @@ const {
     validationUserPasswordDataRules } = require('./middleware/validator');
 
 const {
-    GenerateAcessToken,
+    GenerateAccessToken,
     VerifyToken} = require('../utils/index');
 
 
@@ -130,7 +130,7 @@ module.exports = (app) => {
         const { REFRESH_TOKEN_SECRET } = process.env;
         try {
             const user = await VerifyToken(refreshToken, REFRESH_TOKEN_SECRET)
-            const accessToken = await GenerateAcessToken({ userId: user?.id })
+            const accessToken = await GenerateAccessToken({ userId: user?.id })
             return res.status(200).json({ success: true, accessToken: accessToken })
         } catch (error) {
             logger.debug(error.message)

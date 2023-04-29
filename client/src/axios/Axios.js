@@ -1,7 +1,8 @@
 import axios from 'axios';
 import Cookie from '../uti/Cookie';
 import BackEndPoint from '../constant/BackEndPoint';
-
+import { useDispatch } from 'react-redux';
+import { setAuth } from '../redux/action/AuthAction';
 let url = 'http://localhost:5000'
 
 // if (process.env.REACT_APP_STAGE !== 'local') url = 'https://pacific-hollows-55586.herokuapp.com/api/v1'
@@ -38,8 +39,9 @@ instance.interceptors.response.use(
         if (originalConfig.url !== BackEndPoint.LOGIN && err.response) {
             
             // Access Token was expired
-            if (err.response.status === 401 && !originalConfig._retry) {
+            if (err.response.status === 403 && !originalConfig._retry) {
                 originalConfig._retry = true;
+             
                 console.log("Intercept response error When Access Token expire");
                 try {
                     const rs = await instance.post(BackEndPoint.AUTH_TOKEN, {
@@ -47,6 +49,7 @@ instance.interceptors.response.use(
                     });
                     const { accessToken } = rs.data;
                     Cookie.updateLocalAccessToken(accessToken);
+                 
                     return instance(originalConfig);
                 } catch (_error) {
                     return Promise.reject(_error);

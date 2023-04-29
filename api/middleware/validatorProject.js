@@ -2,6 +2,7 @@ const { body, validationResult, query, param } = require('express-validator');
 const logger = require("../../utils/error-handler")
 
 let MIDDLEWARE = "MIDDLEWARE ===> "
+
 const validationProjectcodeRules = () => {
     logger.debug(MIDDLEWARE + "validationResentPasswordCodeRules")
     return [
@@ -14,6 +15,12 @@ const validationProjectcodeRules = () => {
     ]
 }
 
+const validationUserIdcodeRules = () => {
+    logger.debug(MIDDLEWARE + "validationUserIdcodeRules")
+    return [
+        param('userId').isUUID().withMessage('UserId is not uuid').trim()
+    ]
+}
 
 const validateProjectData = (req, res, next) => {
     logger.debug(MIDDLEWARE + "validateUserData")
@@ -33,5 +40,6 @@ const validateProjectData = (req, res, next) => {
 
 module.exports = {
     validationProjectcodeRules,
-    validateProjectData
+    validateProjectData,
+    validationUserIdcodeRules
 };

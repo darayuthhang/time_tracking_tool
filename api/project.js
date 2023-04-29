@@ -7,7 +7,8 @@ const { APIError, STATUS_CODES } = require("../utils/app-errors");
 const UserAuth = require('./middleware/auth')
 const {
     validationProjectcodeRules,
-    validateProjectData } = require('./middleware/validatorProject');
+    validateProjectData,
+    validationUserIdcodeRules } = require('./middleware/validatorProject');
 module.exports = (app) => {
     
     const projectService = new ProjectService();
@@ -19,8 +20,8 @@ module.exports = (app) => {
      * DELETE  - DELETE /api/v1/{userId}/projects/:projectId 
      * PUT  - UPDATE /api/v1/{userId}/projects/:projectId 
      */
-    app.post(`${API_VERSION}/:userId/projects`, validationProjectcodeRules(), validateProjectData, async (req, res, next) => {
-        logger.debug(ApiRouteMessage(`${API_VERSION}/projects`, "POST"))
+    app.post(`${API_VERSION}/:userId/projects`, UserAuth, validationProjectcodeRules(), validateProjectData, async (req, res, next) => {
+        logger.debug(ApiRouteMessage(`${API_VERSION}/:userId/projects`, "POST"))
         const { projectName, projectDescription } = req.body;
         const {userId} = req.params;
         //user id
@@ -28,13 +29,22 @@ module.exports = (app) => {
             await projectService.createProject(projectName, projectDescription, userId)
             // const data = await openAiService.generatePrompt(input);
             //return res.status(200).json({ success: true, data })
-            return res.status(200).json({success: true, message:"success"});
+            return res.status(200).json({ success: true, message: "Hello World!" })
         } catch (error) {
             logger.debug(error.message)
             next(error);
         }
     })
-    app.get(`${API_VERSION}/projects`, async (req, res, next) => {
-        return res.status(404).json({ success: true, message:"Hello World!" })
+    app.get(`${API_VERSION}/:userId/projects`, UserAuth, validationUserIdcodeRules(), validateProjectData, async (req, res, next) => {
+        const {userId} = req.params;
+        logger.debug(ApiRouteMessage(`${API_VERSION}/:userId/projects`, "GET"))
+        try {
+            const project = await projectService.getProjectByUserId(userId);
+            return res.status(200).json({ success: true, message: "Hello World!", data:project })
+        } catch (error) {
+            logger.debug(error.message)
+            next(error);
+        }
+       
     })
 }
