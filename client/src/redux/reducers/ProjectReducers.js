@@ -1,5 +1,29 @@
 import { ProjectTypes } from "../constants/ProjectTypes";
 
+/**
+ * 
+ * @DESCRIPIOTN
+ * 
+ * For example, 
+ * both reducers might be dealing with projects,
+ *  but projectReducers might be responsible for creating, 
+ * updating, and deleting individual projects, 
+ * while projectListReducers 
+ * might be responsible for fetching a list of projects. 
+ * In this case, the data being managed 
+ * by each reducer is related to projects, 
+ * but they have different responsibilities 
+ * and manage different types of data.
+
+    @HERE TO SPLIT
+    SPLIT, LIST FROM SINGLE
+
+    PROJECT SINGLE CONTAIN IT OWN METHOD ==> DELETE, GET, PUT, POST
+    PROJECT LIST CONTAIN IT OWN METHOD ===> DELETE, GET, PUT, POST
+    if it is list split --> DELETE, GET, PUT, POST
+
+    if it is SINGLE s
+ */
 export function projectReducers(state = {
     projectRequest: false,
     projectSuccess: false,
