@@ -18,8 +18,7 @@ const TaskTableList = () => {
                         <th scope="row">
                             <div className='d-flex justify-content-center mt-1 '>
                                 <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />   
-                            </div>
-                                
+                            </div>    
                         </th>
                         <td>Mark</td>
                         <td>Otto</td>

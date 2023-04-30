@@ -13,7 +13,7 @@ module.exports = class ProjectService{
     async createProject(projectName, projectDescription, userId){
         logger.debug(ApiServiceMessage(this.projectService, "createProject"))
         try {
-            await this.projectRepository.createProject(projectName, projectDescription, userId);
+            return await this.projectRepository.createProject(projectName, projectDescription, userId);
         } catch (error) {
             logger.debug(error.message)
             if (error instanceof APIError) {
@@ -26,7 +26,8 @@ module.exports = class ProjectService{
     async getProjectByUserId(userId){
         logger.debug(ApiServiceMessage(this.projectService, "getProjectByUserId"))
         try {
-            await this.projectRepository.getProjectByUserId(userId);
+            let data = await this.projectRepository.getProjectByUserId(userId);
+            return data;
         } catch (error) {
             logger.debug(error.message)
             if (error instanceof APIError) {

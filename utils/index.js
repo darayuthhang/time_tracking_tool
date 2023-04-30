@@ -30,7 +30,7 @@ module.exports.GenerateAccessToken = async (payload) => {
     try {
         if (!process.env.ACCESS_TOKEN_SECRET) throw new Error("Access Token Secret does not exist.")
         //20m
-        return await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
+        return await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20m' });
     } catch (error) {
         throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Access Token Secret does not exist.')
     }

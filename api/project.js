@@ -26,10 +26,10 @@ module.exports = (app) => {
         const {userId} = req.params;
         //user id
         try {
-            await projectService.createProject(projectName, projectDescription, userId)
+            let projectData = await projectService.createProject(projectName, projectDescription, userId)
             // const data = await openAiService.generatePrompt(input);
             //return res.status(200).json({ success: true, data })
-            return res.status(200).json({ success: true, message: "Hello World!" })
+            return res.status(200).json({ success: true, message: "success", data:projectData})
         } catch (error) {
             logger.debug(error.message)
             next(error);
@@ -40,7 +40,7 @@ module.exports = (app) => {
         logger.debug(ApiRouteMessage(`${API_VERSION}/:userId/projects`, "GET"))
         try {
             const project = await projectService.getProjectByUserId(userId);
-            return res.status(200).json({ success: true, message: "Hello World!", data:project })
+            return res.status(200).json({ success: true, message: "success", data:project })
         } catch (error) {
             logger.debug(error.message)
             next(error);

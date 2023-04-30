@@ -1,7 +1,7 @@
-export const logError = (error, message) => {
+export const logError = (error, message = "") => {
     if (process.env.REACT_APP_STAGE === 'local') {
         console.log(error);
-        console.log(error.message);
+        console.log(error?.message);
     }
 }
 

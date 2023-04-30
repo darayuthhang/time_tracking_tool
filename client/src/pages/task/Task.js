@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {
     Row,Col,Nav, Container, Modal, InputGroup, Form,
@@ -7,9 +7,11 @@ import {
 import TaskTableList from '../../component/table/TaskTableList';
 import './task.css';
 import styles from './task.module.css';
-import { useSelector, dispatch, useDispatch } from 'react-redux';
-import { createProject } from '../../redux/action/ProjectAction';
+import { useSelector, useDispatch } from 'react-redux';
+import { createProject, resetStateCreateSuccess } from '../../redux/action/ProjectAction';
 import Cookie from '../../uti/Cookie';
+import { projectList } from '../../redux/action/ProjectAction';
+
 const Task = () => {
     
     const [showProject, setShowProject] = useState(false);
@@ -20,12 +22,24 @@ const Task = () => {
     //const {user} = useSelector((state) => state.authReducers);
     const user = Cookie.getUser();
     const { projectRequest, projectSuccess } = useSelector((state) => state.projectReducers);
-    console.log("task");
+    const { projectListData } = useSelector((state) => state.projectListReducers)
+ 
+    useEffect(() => {
+        if(projectSuccess){
+            dispatch(resetStateCreateSuccess());
+        }
+        dispatch(projectList(user?.userId));
+      return () => {
+        
+      }
+    }, [projectSuccess])
+    
     /**
      * 
      * @Description onhandleAddProject() is handle sending post request to back-end.
      */
     const onhandleAddProject = (e) => {
+        alert("add ")
         if (!projectName) {
             setProjectError(true);
             return
@@ -75,22 +89,28 @@ const Task = () => {
                                     </div>
                                 </Nav.Link>
                             </Nav.Item>
-                            <Nav.Item >
-                                <Nav.Link eventKey="second" style={{ color: 'black' }} className='lh-base'>
-                                    Projects
-                                </Nav.Link>
-                            </Nav.Item>
+                            {projectListData.length > 0 && 
+                                projectListData.map((val, index) => 
+                                    <Nav.Item key={val?.id}  >
+                                        <Nav.Link eventKey={index.toString()} style={{ color: 'black' }} className='lh-base'>
+                                            {val?.project_name}
+                                        </Nav.Link>
+                                    </Nav.Item>
+                                )
+                               
+                            }
                         </Nav>
                     </Col>
                     <Col md={10} className='right-tab-container'>
                         <Container className=' mt-5 ml-3'>
                             <Tab.Content>
-                                <Tab.Pane eventKey="first">
-                                    <TaskTableList />
-                                </Tab.Pane>
-                                <Tab.Pane eventKey="second">
-                                    {/* <Sonnet /> */}
-                                </Tab.Pane>
+                                {projectListData.length > 0 &&
+                                    projectListData.map((val, index) =>
+                                        <Tab.Pane key={val?.id} eventKey={index.toString()}>
+                                            <TaskTableList />
+                                        </Tab.Pane>
+                                    )
+                                }
                             </Tab.Content>
                         </Container>
 

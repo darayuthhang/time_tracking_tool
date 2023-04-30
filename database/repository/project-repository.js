@@ -24,18 +24,20 @@ module.exports = class ProjectRepository{
                 project_name:projectName,
                 user_id:userId
             });
+            console.log(projects);
+            return projects;
         } catch (error) {
             throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to Create Project')
         }
     }
     async getProjectByUserId( userId) {
-        logger.debug(ApiRepositoryMessage(this.project, "createProject"))
+        logger.debug(ApiRepositoryMessage(this.project, "getProjectByUserId"))
         try {
             const projects = await db(TABLE_PROJECTS).where(
                 {
                   user_id:userId
                 }
-            ).first();
+            );
             return projects;
         } catch (error) {
             throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Invalid link.')
