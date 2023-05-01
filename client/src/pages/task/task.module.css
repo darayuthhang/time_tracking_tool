@@ -11,3 +11,11 @@
         height: 100vh;
     }
 }
+@media (orientation: landscape) {
+    .right_tab_bar{
+      width: 55%;
+    }
+    .side_bar {
+        width: 60vh;
+    }
+}

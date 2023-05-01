@@ -24,7 +24,6 @@ module.exports = class ProjectRepository{
                 project_name:projectName,
                 user_id:userId
             });
-            console.log(projects);
             return projects;
         } catch (error) {
             throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to Create Project')

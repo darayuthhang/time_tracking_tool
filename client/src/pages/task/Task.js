@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 import {
     Row,Col,Nav, Container, Modal, InputGroup, Form,
-    Button, Tab
+    Button, Tab, Breadcrumb
 } from 'react-bootstrap';
 import TaskTableList from '../../component/table/TaskTableList';
 import './task.css';
@@ -39,7 +39,6 @@ const Task = () => {
      * @Description onhandleAddProject() is handle sending post request to back-end.
      */
     const onhandleAddProject = (e) => {
-        alert("add ")
         if (!projectName) {
             setProjectError(true);
             return
@@ -73,9 +72,9 @@ const Task = () => {
     }
     return (
         <div>
-            <Tab.Container id="left-tabs-example" >
-                <Row className="">
-                    <Col md={2} className={`left-tab-container ${styles.side_bar} border`}>
+            <Tab.Container id="left-tabs-example"  >
+                <Row className={`${styles.change_font}`}>
+                    <Col  md={2} className={`left-tab-container ${styles.side_bar} border`}>
                         <Nav variant="pills" className="flex-column fs-5 fw-medium" >
                             <Nav.Item >
                                 <Nav.Link eventKey="first" style={{ color: 'black' }} className='lh-base fw-bold'>
@@ -92,7 +91,8 @@ const Task = () => {
                             {projectListData.length > 0 && 
                                 projectListData.map((val, index) => 
                                     <Nav.Item key={val?.id}  >
-                                        <Nav.Link eventKey={index.toString()} style={{ color: 'black' }} className='lh-base'>
+                                        <Nav.Link 
+                                        eventKey={index.toString()} style={{ color: 'black' }} className='lh-base'>
                                             {val?.project_name}
                                         </Nav.Link>
                                     </Nav.Item>
@@ -101,12 +101,24 @@ const Task = () => {
                             }
                         </Nav>
                     </Col>
-                    <Col md={10} className='right-tab-container'>
+                    <Col md={10} className={`right-tab-container ${styles.right_tab_bar}`}>
                         <Container className=' mt-5 ml-3'>
                             <Tab.Content>
                                 {projectListData.length > 0 &&
                                     projectListData.map((val, index) =>
                                         <Tab.Pane key={val?.id} eventKey={index.toString()}>
+                                            <div className='d-flex gap-4 mb-5'>
+                                                <div className='d-flex align-items-center'>
+                                                    <i className="bi bi-book"></i>
+                                                </div>
+                                                <h1 className='fw-bold'>{val?.project_name}</h1>
+                                                
+                                            </div> 
+                                            <Breadcrumb>
+                                                <Breadcrumb.Item href="#">All Tasks</Breadcrumb.Item>
+                                           
+                                                <Breadcrumb.Item active>This week</Breadcrumb.Item>
+                                            </Breadcrumb>
                                             <TaskTableList />
                                         </Tab.Pane>
                                     )

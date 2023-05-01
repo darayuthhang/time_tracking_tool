@@ -1,18 +1,25 @@
-const { OpenAiService } = require('../services');
+const apiVersion = require("../constant/api_version");
+const { ApiRouteMessage } = require("../constant/message");
+const TaskService = require("../services/task-service");
+const logger = require("../utils/error-handler");
+const { validateTaskData, 
+    validationTaskcodeRules } = require("./middleware/validatorTask")
 
 module.exports = (app) => {
-
+    const { API_VERSION } = apiVersion;
+    const taskService  = new TaskService();
     /**
-     * 
+     * add Bulk of items
      */
-    app.post("/api/v1/tasks", async (req, res, next) => {
-        const {input} = req.body;
-        
+    app.post(`${API_VERSION}/:projectId/tasks`, validationTaskcodeRules(), validateTaskData, async (req, res, next) => {
+        logger.debug(ApiRouteMessage(`${API_VERSION}/:projectId/tasks`, "POST"))
+     
+        const { tasks } = req.body;
         try {
-            // const data = await openAiService.generatePrompt(input);
-            return res.status(200).json({success:true, data})
+            await taskService.createTasks(tasks);
+            return res.status(200).json({success:true})
         } catch (error) {
-            console.log(error.message);
+            logger.debug(error.message)
             next(error);
         }
     })

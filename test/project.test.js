@@ -54,14 +54,7 @@ describe('GET /api/v1/{userId}/projects', function () {
         const response = await request
                         .get(`/${userId}/projects`)
             .set("authorization", `Bearer ${accessToken}`);
-        console.log(response);
         expect(response.status).to.eql(200);
-
-        // expect(response.status).to.eql(401);
-        // const getResponse = await request
-        //     .get(`/favorites/${favoriteId}`)
-        //     .set("authorization", `Bearer token=${process.env.AIRPORT_GAP_TOKEN}`);
-
 
     });
 });
