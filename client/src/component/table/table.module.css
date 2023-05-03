@@ -9,3 +9,39 @@ border: 1px solid #ddd;
     border-right: 1px solid red;
     border-bottom: 0;
 }
+.add_task_plus_sign{
+    cursor: pointer;
+}
+.add_task_plus_sign:hover{
+    color:#8e8585;
+}
+.trash{
+    cursor: pointer;
+
+}
+.trash:hover{
+    color: #8e8585;
+}
+.td{
+   width: 32%;
+ 
+}
+.textarea{
+/* width: inherit; */
+    width: 100%;
+    border:0;
+}
+.textarea:focus{
+    outline: none;
+}
+.textarea::-webkit-resizer {
+    /* border-width: 8px; */
+    border-style: solid;
+    border-color: transparent rgb(14, 13, 13) rgb(14, 13, 13) transparent;
+}
+.tick_box_heading{
+    width: 10%;
+}
+.trash_heading{
+    width: 10%;
+}

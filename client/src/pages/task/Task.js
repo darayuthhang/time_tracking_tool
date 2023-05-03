@@ -107,19 +107,9 @@ const Task = () => {
                                 {projectListData.length > 0 &&
                                     projectListData.map((val, index) =>
                                         <Tab.Pane key={val?.id} eventKey={index.toString()}>
-                                            <div className='d-flex gap-4 mb-5'>
-                                                <div className='d-flex align-items-center'>
-                                                    <i className="bi bi-book"></i>
-                                                </div>
-                                                <h1 className='fw-bold'>{val?.project_name}</h1>
-                                                
-                                            </div> 
-                                            <Breadcrumb>
-                                                <Breadcrumb.Item href="#">All Tasks</Breadcrumb.Item>
-                                           
-                                                <Breadcrumb.Item active>This week</Breadcrumb.Item>
-                                            </Breadcrumb>
-                                            <TaskTableList />
+                                            <TaskTableList 
+                                                projectNameHeading={val?.project_name}
+                                            />
                                         </Tab.Pane>
                                     )
                                 }
