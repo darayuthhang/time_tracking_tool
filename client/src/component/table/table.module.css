@@ -23,13 +23,21 @@ border: 1px solid #ddd;
     color: #8e8585;
 }
 .td{
+ 
    width: 32%;
+padding: 0px;
+
+    /* padding: 0;
+    margin: 0; */
  
 }
+
 .textarea{
+    /* flex-grow: 4; */
 /* width: inherit; */
-    width: 100%;
+    margin: 0;
     border:0;
+    width: 100%;
 }
 .textarea:focus{
     outline: none;

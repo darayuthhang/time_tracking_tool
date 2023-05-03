@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styles from './table.module.css';
 import {
-   Breadcrumb
+    Breadcrumb
 } from 'react-bootstrap';
-const TaskTableList = ({projectNameHeading}) => {
+const TaskTableList = ({ projectNameHeading }) => {
     const [tasks, setTasks] = useState([]);
     const [projectName, setProjectName] = useState("");
     const [description, setDescription] = useState("");
     const [status, setStatus] = useState("");
     const [showInputFill, setShowInputFill] = useState(false);
-    
+
 
     /**
      * Project id 
@@ -45,7 +45,7 @@ const TaskTableList = ({projectNameHeading}) => {
     }
     const onhandleDeleteTask = (position) => {
         const newTask = tasks.filter((val, index) => index != position)
-     
+
         setTasks(newTask);
     }
     const onhandleChangeProjectName = (e) => {
@@ -70,7 +70,7 @@ const TaskTableList = ({projectNameHeading}) => {
                     <i className="bi bi-book"></i>
                 </div>
                 <h1 className='fw-bold'>{projectNameHeading}</h1>
-            </div> 
+            </div>
             <Breadcrumb>
                 <Breadcrumb.Item href="#">All Tasks</Breadcrumb.Item>
                 <Breadcrumb.Item active>This week</Breadcrumb.Item>
@@ -136,21 +136,24 @@ const TaskTableList = ({projectNameHeading}) => {
                                         />
                                     </div>
                                 </th>
-                                <td className={``}>
-                                    <textarea
-                                        rows="1"
-                                        className={`${styles.textarea}`}
-
-                                        placeholder="Task name"
-                                        id="floatingTextarea"></textarea>
+                                <td className={` p-0`}>
+                                    <div className='d-flex align-items-center mt-2'>
+                                        <textarea
+                                            rows="1"
+                                            className={`${styles.textarea} p-2`}
+                                            placeholder="Task name"
+                                            id="floatingTextarea"></textarea> 
+                                    </div> 
+                                  
                                 </td>
-                                <td>
-                                    <textarea 
-                                    rows="1"
-                                        className={`${styles.textarea}`} 
-                                    
-                                    placeholder="Leave a comment here" 
-                                    id="floatingTextarea"></textarea>
+                                <td className={` p-0`}>
+                                    <div className='d-flex align-items-center mt-2'>
+                                        <textarea
+                                            rows="1"
+                                            className={`${styles.textarea} p-2`}
+                                            placeholder="Leave your comment"
+                                            id="floatingTextarea"></textarea>
+                                    </div>
                                 </td>
                                 <td className=' d-flex justify-content-center '>
                                     <div className="d-flex gap-2 justify-content-center badge bg-success text-wrap"
@@ -180,10 +183,12 @@ const TaskTableList = ({projectNameHeading}) => {
                         </div>
                     }
                 </div>
+
+
             </div >
         </div>
-       
-       
+
+
     );
 };
 
