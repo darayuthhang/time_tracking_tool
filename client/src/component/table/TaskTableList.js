@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import styles from './table.module.css';
+
 import {
-    Breadcrumb
+    Breadcrumb,
+    Dropdown
 } from 'react-bootstrap';
+import cx from 'classnames';
 const TaskTableList = ({ projectNameHeading }) => {
     const [tasks, setTasks] = useState([]);
     const [projectName, setProjectName] = useState("");
     const [description, setDescription] = useState("");
-    const [status, setStatus] = useState("");
+    const [status, setStatus] = useState("Progress");
+    const [statusDone, setStatusDone] = useState("Done");
     const [showInputFill, setShowInputFill] = useState(false);
-
+ 
 
     /**
      * Project id 
@@ -63,6 +67,15 @@ const TaskTableList = ({ projectNameHeading }) => {
     const onhandleCloseInputFill = () => {
         setShowInputFill(false);
     }
+    const onhandleSelectDropDown = (e) => {
+        if(e === "Done"){
+            setStatusDone("Progress")
+        }else if(e === "Progress"){
+            setStatusDone("Done")
+        }
+        setStatus(e);
+    }
+
     return (
         <div>
             <div className='d-flex gap-4 mb-5'>
@@ -75,7 +88,7 @@ const TaskTableList = ({ projectNameHeading }) => {
                 <Breadcrumb.Item href="#">All Tasks</Breadcrumb.Item>
                 <Breadcrumb.Item active>This week</Breadcrumb.Item>
             </Breadcrumb>
-            <div class="table-responsive card">
+            <div class="table-responsive card  p-3">
                 <table class="table table-bordered rounded rounded-3 text-center  ">
                     <thead>
                         <tr>
@@ -142,9 +155,9 @@ const TaskTableList = ({ projectNameHeading }) => {
                                             rows="1"
                                             className={`${styles.textarea} p-2`}
                                             placeholder="Task name"
-                                            id="floatingTextarea"></textarea> 
-                                    </div> 
-                                  
+                                            id="floatingTextarea"></textarea>
+                                    </div>
+
                                 </td>
                                 <td className={` p-0`}>
                                     <div className='d-flex align-items-center mt-2'>
@@ -155,14 +168,26 @@ const TaskTableList = ({ projectNameHeading }) => {
                                             id="floatingTextarea"></textarea>
                                     </div>
                                 </td>
-                                <td className=' d-flex justify-content-center '>
-                                    <div className="d-flex gap-2 justify-content-center badge bg-success text-wrap"
-                                        style={{ width: '50px' }}>
+                                <td className=''>
 
-                                        <div>
-                                            <i className="bi bi-check fs-5 fw-bold "></i>
-                                        </div>
-                                    </div>
+                                    <Dropdown onSelect={onhandleSelectDropDown}>
+                                        <Dropdown.Toggle
+                                            className={`${styles['dropdown-toggle']}`}
+                                            variant={status === "Done" ? "success" : "danger"}
+                                            id="dropdown-basic" >
+                                            {status}
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu
+                                            className={`${styles['dropdown-menu']}`}>
+                                            <Dropdown.Item 
+                                                eventKey={statusDone === "Done" ? "Done" : "Progress"}
+                                                className={statusDone === "Done" ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
+                                            >
+                                                {statusDone}
+                                            </Dropdown.Item>
+                                  
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                 </td>
                                 <td className=''></td>
                                 <td className=''><i className={`${styles.trash} bi bi-trash`}></i></td>
@@ -183,7 +208,6 @@ const TaskTableList = ({ projectNameHeading }) => {
                         </div>
                     }
                 </div>
-
 
             </div >
         </div>
