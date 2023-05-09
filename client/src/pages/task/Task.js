@@ -109,6 +109,7 @@ const Task = () => {
                                         <Tab.Pane key={val?.id} eventKey={index.toString()}>
                                             <TaskTableList 
                                                 projectNameHeading={val?.project_name}
+                                                projectId={val?.id}
                                             />
                                         </Tab.Pane>
                                     )

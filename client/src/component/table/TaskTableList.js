@@ -3,35 +3,35 @@ import styles from './table.module.css';
 
 import {
     Breadcrumb,
-    Dropdown
+    Dropdown, Row, Col
 } from 'react-bootstrap';
-import cx from 'classnames';
-const TaskTableList = ({ projectNameHeading }) => {
+import { useSelector, useDispatch } from 'react-redux';
+const TaskTableList = ({ projectNameHeading, projectId }) => {
     const [tasks, setTasks] = useState([]);
-    const [projectName, setProjectName] = useState("");
-    const [description, setDescription] = useState("");
+    const [taskName, setTasktName] = useState("");
+    const [taskDate, setTaskDate] = useState("");
+    const [taskDescription, setTaskDescription] = useState("");
     const [status, setStatus] = useState("Progress");
     const [statusDone, setStatusDone] = useState("Done");
     const [showInputFill, setShowInputFill] = useState(false);
- 
-
+    const dispatch = useDispatch();
     /**
      * Project id 
      *  tasks: [
                     {
-                        task_description: "this is descrpition",
+                        task_taskDescription: "this is descrpition",
                         task_name: "this task name",
                         created_at: new Date(),
                         project_id: projectId
                     },
                     {
-                        task_description: "this is descrpition",
+                        task_taskDescription: "this is descrpition",
                         task_name: "this task name",
                         created_at: new Date(),
                         project_id: projectId
                     },
                     {
-                        task_description: "this is descrpition",
+                        task_taskDescription: "this is descrpition",
                         task_name: "this task name",
                         created_at: new Date(),
                         project_id: projectId
@@ -40,26 +40,37 @@ const TaskTableList = ({ projectNameHeading }) => {
      */
     const onhandleAddTask = () => {
         const newTasks = {
-            task_description: "this is descrpition",
-            task_name: "this task name",
-            created_at: new Date(),
-            project_id: "id"
+            task_description: taskDescription,
+            task_name: taskName,
+            task_date:taskDate,
+            project_id: projectId
         }
-        setTasks([...tasks, newTasks])
+        /*
+            @Todo dispatch a item to back-end
+        */
+        //setTasks([...tasks, newTasks])
     }
     const onhandleDeleteTask = (position) => {
         const newTask = tasks.filter((val, index) => index != position)
 
         setTasks(newTask);
     }
-    const onhandleChangeProjectName = (e) => {
-
+    const onhandleChangeTaskName = (e) => {
+        setTasktName(e.target.value);
     }
-    const onhandleChangeDescriptionName = (e) => {
-
+    const onhandleChangetaskDescriptionName = (e) => {
+        setTaskDescription(e.target.value);
     }
-    const onhandleChangeStatus = (e) => {
-
+    const onhandleSelectDropDown = (e) => {
+        if (e === "Done") {
+            setStatusDone("Progress")
+        } else if (e === "Progress") {
+            setStatusDone("Done")
+        }
+        setStatus(e);
+    }
+    const onhandleChangeDate = (e) => {
+        setTaskDate(e.target.value);
     }
     const switchShowFillInput = () => {
         setShowInputFill(true);
@@ -67,14 +78,7 @@ const TaskTableList = ({ projectNameHeading }) => {
     const onhandleCloseInputFill = () => {
         setShowInputFill(false);
     }
-    const onhandleSelectDropDown = (e) => {
-        if(e === "Done"){
-            setStatusDone("Progress")
-        }else if(e === "Progress"){
-            setStatusDone("Done")
-        }
-        setStatus(e);
-    }
+
 
     return (
         <div>
@@ -99,7 +103,7 @@ const TaskTableList = ({ projectNameHeading }) => {
                             </div> */}
                             </th>
                             <th scope="col" className={`${styles.td}`}>Task name</th>
-                            <th scope="col" className={`${styles.td}`}>Description</th>
+                            <th scope="col" className={`${styles.td}`}>taskDescription</th>
                             <th scope="col" className=''>Status</th>
                             <th scope="col" className=''>Date</th>
                             <th scope="col" className={`${styles.trash_heading}`}>
@@ -117,7 +121,7 @@ const TaskTableList = ({ projectNameHeading }) => {
                                         </div>
                                     </th>
                                     <td className=''>{val?.task_name}</td>
-                                    <td>{val?.task_description}</td>
+                                    <td>{val?.task_taskDescription}</td>
                                     <td className='d-flex justify-content-center'>
                                         <div className="d-flex gap-2 justify-content-center badge bg-success text-wrap"
                                             style={{ width: '6rem' }}>
@@ -155,7 +159,10 @@ const TaskTableList = ({ projectNameHeading }) => {
                                             rows="1"
                                             className={`${styles.textarea} p-2`}
                                             placeholder="Task name"
-                                            id="floatingTextarea"></textarea>
+                                            onChange={onhandleChangeTaskName}
+                                            id="floatingTextarea">
+                                
+                                        </textarea>
                                     </div>
 
                                 </td>
@@ -165,11 +172,13 @@ const TaskTableList = ({ projectNameHeading }) => {
                                             rows="1"
                                             className={`${styles.textarea} p-2`}
                                             placeholder="Leave your comment"
-                                            id="floatingTextarea"></textarea>
+                                            onChange={onhandleChangetaskDescriptionName}
+                                            id="floatingTextarea">
+
+                                            </textarea>
                                     </div>
                                 </td>
                                 <td className=''>
-
                                     <Dropdown onSelect={onhandleSelectDropDown}>
                                         <Dropdown.Toggle
                                             className={`${styles['dropdown-toggle']}`}
@@ -189,26 +198,34 @@ const TaskTableList = ({ projectNameHeading }) => {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </td>
-                                <td className=''></td>
+                                <td className=''>
+                                    <input 
+                                        type='date'
+                                        className='border-0 mt-2'
+                                        onChange={onhandleChangeDate}
+                                    />
+                                </td>
                                 <td className=''><i className={`${styles.trash} bi bi-trash`}></i></td>
                             </tr>
                         }
                     </tbody>
                 </table>
-
-                <div className='d-flex'>
-                    <div className={`${styles.add_task_plus_sign} d-flex gap-2`} onClick={switchShowFillInput}>
-                        <div className={` ms-3 fw-bold`} >+</div>
-                        <p>Create new TaskList</p>
-                    </div>
-                    {showInputFill &&
-                        <div className='ms-auto d-flex gap-2 me-3 mb-1 mt-auto'>
-                            <button className='btn btn-light ' onClick={onhandleCloseInputFill}>Cancel</button>
-                            <button className=' btn btn-danger  '>Add task</button>
+                <Row>
+                    <Col md={9}>
+                        <div className={`${styles.add_task_plus_sign} d-flex gap-2`} onClick={switchShowFillInput}>
+                            <div className={` ms-3 fw-bold`} >+</div>
+                            <p>Create new TaskList</p>
                         </div>
-                    }
-                </div>
-
+                    </Col>
+                    <Col  md={3}>
+                        {showInputFill &&
+                            <div className='d-flex justify-content-end gap-2'>
+                                <button type="button" className='btn btn-light' onClick={onhandleCloseInputFill}>Cancel</button>
+                                <button type="button" className='btn btn-danger' onClick={onhandleAddTask}>Add task</button>
+                            </div>
+                        }
+                    </Col>
+                </Row>
             </div >
         </div>
 

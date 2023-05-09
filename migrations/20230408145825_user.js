@@ -36,7 +36,8 @@ exports.up = function (knex) {
         table.uuid('id').primary().defaultTo(knex.raw('(gen_random_uuid())'));
         table.string('task_name'),
         table.string('task_description'),
-        table.boolean('task_completed').notNullable().defaultTo(false);
+        table.date("task_date"),
+        table.enu('task_status', ['done', 'progress']).notNullable(),
         table.uuid('project_id').references('id').inTable('projects'),
         table.timestamp('created_at').defaultTo(knex.fn.now());
         table.timestamp('update_at').defaultTo(knex.fn.now());
