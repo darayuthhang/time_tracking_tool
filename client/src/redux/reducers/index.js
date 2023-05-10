@@ -4,8 +4,11 @@ import {
     userLoginReducers,
     googleUserLoginReducers } from './UserReducers';
 import { authReducers } from './AuthReducers';
-import { projectReducers,
+import { 
+    projectReducers,
     projectListReducers } from './ProjectReducers';
+import { taskReducers } from './TaskReducers';
+
 
 const allReducers = combineReducers({
     userSignUpReducers,
@@ -13,6 +16,7 @@ const allReducers = combineReducers({
     googleUserLoginReducers,
     authReducers,
     projectReducers,
-    projectListReducers
+    projectListReducers,
+    taskReducers
 })
 export default allReducers;

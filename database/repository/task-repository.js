@@ -23,18 +23,27 @@ module.exports = class TaskRepository{
             throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to Create tasks')
         }
     }
-    async createTask(projectId, taskName, taskDate, taskDescription){
+    async createTask(projectId, taskName, taskDate, taskDescription, taskStatus){
         logger.debug(ApiRepositoryMessage(this.TaskRepository, "createTask"))
         try {
             return await db(TABLE_TASKS).insert({
                 project_id:projectId,
                 task_name:taskName,
                 task_date:taskDate,
+                task_status: taskStatus,
                 task_description:taskDescription,
                 created_at:new Date()
             })
         } catch (error) {
             throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to Create task')
+        }
+    }
+    async getTasks(projectId){
+        logger.debug(ApiRepositoryMessage(this.TaskRepository, "getTasks"))
+        try {
+            return await db(TABLE_TASKS).where("project_id", projectId)
+        } catch (error) {
+            throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to Get tasks')
         }
     }
     // async createTask({proje})

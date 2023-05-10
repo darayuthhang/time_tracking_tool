@@ -5,11 +5,12 @@ const logger = require("../utils/error-handler");
 const { 
     validateTaskData, 
     validationTaskscodeRules,
-    validationTaskcodeRules } = require("./middleware/validatorTask")
-
+    validationTaskcodeRules,
+    validationProjectIdTaskcodeRules } = require("./middleware/validatorTask")
+const UserAuth = require('./middleware/auth')
 module.exports = (app) => {
     /**
-   * POST - CREATE /api/v1/{projectId}/task --> collection of project
+   * POST - CREATE SINGLE /api/v1/{projectId}/task
    * GET  - LIST   /api/v1/{projectId}/tasks 
    * GET  - SINGLE /api/v1/{projectId}/task
    * DELETE  - DELETE /api/v1/{projectId}
@@ -35,7 +36,7 @@ module.exports = (app) => {
     /**
      * Add single item
      */
-    app.post(`${API_VERSION}/:projectId/task`, validationTaskcodeRules(), validateTaskData,  async (req, res) => {
+    app.post(`${API_VERSION}/:projectId/task`, UserAuth, validationTaskcodeRules(), validateTaskData,  async (req, res, next) => {
         try {
             await taskService.createTask(req.body);
             return res.status(200).json({ success: true })
@@ -44,6 +45,16 @@ module.exports = (app) => {
             next(error);
         }
   
+    })
+    app.get(`${API_VERSION}/:projectId/tasks`, validationProjectIdTaskcodeRules(), validateTaskData, async (req, res, next) => {
+        const {projectId} = req.params;
+        try {
+            let data = await taskService.getTasks(projectId);
+            return res.status(200).json({ success: true, data })
+        } catch (error) {
+            logger.debug(error.message)
+            next(error);
+        }
     })
     // app.post(`${API_VERSION}/:projectId/tasks`)
     // app.get("/api/v1/tasks", async (req, res, next) => {

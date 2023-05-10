@@ -20,10 +20,10 @@ module.exports = class TaskService{
             }
         }
     }
-    async createTask({ projectId, taskName, taskDate, taskDescription }) {
+    async createTask({ projectId, taskName, taskDate, taskDescription, taskStatus }) {
         logger.debug(ApiServiceMessage(this.taskService, "createTask"))
         try {
-            return await this.taskRepository.createTask(projectId, taskName, taskDate, taskDescription);
+            return await this.taskRepository.createTask(projectId, taskName, taskDate, taskDescription, taskStatus);
         } catch (error) {
             logger.debug(error.message)
             if (error instanceof APIError) {
@@ -33,5 +33,17 @@ module.exports = class TaskService{
             }
         }
     }
-    
+    async getTasks(projectId){
+        logger.debug(ApiServiceMessage(this.taskService, "getTasks"))
+        try {
+            return await this.taskRepository.getTasks(projectId);
+        } catch (error) {
+            logger.debug(error.message)
+            if (error instanceof APIError) {
+                throw new APIError('API Error', error?.statusCode, error?.message)
+            } else {
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot get project')
+            }
+        }
+    }
 }

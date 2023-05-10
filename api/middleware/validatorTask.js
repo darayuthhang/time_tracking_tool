@@ -15,10 +15,17 @@ const validationTaskcodeRules = () => {
     return [
         body('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
         body('taskName').notEmpty().withMessage("Task name cannot be empty.").trim(),
-        body("taskDate").isDate().withMessage("Date is required.").trim()
+        body("taskDate").isDate().withMessage("Date is required.").trim(),
+        body("taskStatus").notEmpty().withMessage("Task status cannot be empty").toLowerCase().trim()
     ]
 }
-
+const validationProjectIdTaskcodeRules = () => {
+    logger.debug(MIDDLEWARE + "validationTaskscodeRules")
+    return [
+        // param('projectId').isUUID().withMessage('Projectid is not uuid').trim(),
+        param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
+    ]
+}
 
 const validateTaskData = (req, res, next) => {
     logger.debug(MIDDLEWARE + "validateUserData")
@@ -39,5 +46,6 @@ const validateTaskData = (req, res, next) => {
 module.exports = {
     validateTaskData,
     validationTaskscodeRules,
-    validationTaskcodeRules
+    validationTaskcodeRules,
+    validationProjectIdTaskcodeRules
 };

@@ -3,9 +3,11 @@ import styles from './table.module.css';
 
 import {
     Breadcrumb,
-    Dropdown, Row, Col
+    Dropdown, Row, Col,
+    Button
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
+import { createTask } from '../../redux/action/TaskAction';
 const TaskTableList = ({ projectNameHeading, projectId }) => {
     const [tasks, setTasks] = useState([]);
     const [taskName, setTasktName] = useState("");
@@ -15,6 +17,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
     const [statusDone, setStatusDone] = useState("Done");
     const [showInputFill, setShowInputFill] = useState(false);
     const dispatch = useDispatch();
+    const {taskRequest} = useSelector((state) => state.taskReducers);
     /**
      * Project id 
      *  tasks: [
@@ -39,16 +42,18 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                 ]
      */
     const onhandleAddTask = () => {
-        const newTasks = {
-            task_description: taskDescription,
-            task_name: taskName,
-            task_date:taskDate,
-            project_id: projectId
+        const newTask = {
+            taskName,
+            taskDescription,
+            taskDate,
+            projectId,
+            taskStatus:status
         }
         /*
             @Todo dispatch a item to back-end
         */
         //setTasks([...tasks, newTasks])
+        dispatch(createTask(newTask))
     }
     const onhandleDeleteTask = (position) => {
         const newTask = tasks.filter((val, index) => index != position)
@@ -221,7 +226,13 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                         {showInputFill &&
                             <div className='d-flex justify-content-end gap-2'>
                                 <button type="button" className='btn btn-light' onClick={onhandleCloseInputFill}>Cancel</button>
-                                <button type="button" className='btn btn-danger' onClick={onhandleAddTask}>Add task</button>
+                                <Button
+                                    variant="danger"
+                                    disabled={taskRequest}
+                                    onClick={onhandleAddTask}
+                                >
+                                    {taskRequest ? 'Loading…' : 'Add task'}
+                                </Button>
                             </div>
                         }
                     </Col>
