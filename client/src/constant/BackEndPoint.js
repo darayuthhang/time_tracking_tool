@@ -8,5 +8,6 @@ class BackEndPoint{
     RESET_PASSWORD = `${API_VERSION}/user/reset-password`
     UPDATE_PASSWORD = `${API_VERSION}/user/update-password`
     AUTH_TOKEN = `${API_VERSION}/user/auth/token`
+    
 }
 export default new BackEndPoint();

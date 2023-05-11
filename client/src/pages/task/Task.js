@@ -73,8 +73,8 @@ const Task = () => {
     return (
         <div>
             <Tab.Container id="left-tabs-example"  >
-                <Row className={`${styles.change_font}`}>
-                    <Col  md={2} className={`left-tab-container ${styles.side_bar} border`}>
+                <Row className={` `}>
+                    <Col  md={2} className={`border left-tab-container ${styles.side_bar} `}>
                         <Nav variant="pills" className="flex-column" >
                             <Nav.Item >
                                 <Nav.Link eventKey="first" style={{ color: 'black' }} className=''>
