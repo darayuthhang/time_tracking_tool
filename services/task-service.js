@@ -46,6 +46,19 @@ module.exports = class TaskService{
             }
         }
     }
+    async deleteTasks(projectId, taskIds){
+        logger.debug(ApiServiceMessage(this.taskService, "deleteTasks"))
+        try {
+            await this.taskRepository.deleteTasks(projectId, taskIds);
+        } catch (error) {
+            logger.debug(error.message)
+            if (error instanceof APIError) {
+                throw new APIError('API Error', error?.statusCode, error?.message)
+            } else {
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot Delete task')
+            }
+        }
+    }
     async getTasks(projectId){
         logger.debug(ApiServiceMessage(this.taskService, "getTasks"))
         try {

@@ -137,9 +137,9 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                             <th scope="col" className={`${styles.td}`}>taskDescription</th>
                             <th scope="col" className=''>Status</th>
                             <th scope="col" className=''>Date</th>
-                            <th scope="col" className={`${styles.trash_heading}`}>
-                                {/* <i className={`${styles.trash} bi bi-trash`}></i> */}
-                            </th>
+                            {/* <th scope="col" className={`${styles.trash_heading}`}>
+                              
+                            </th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -163,9 +163,9 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                         </div>
                                     </td>
                                     <td></td>
-                                    <td>
+                                    {/* <td>
                                         <i className={`${styles.trash} bi bi-trash`}></i>
-                                    </td>
+                                    </td> */}
                                 </tr>
                             )
 
@@ -239,7 +239,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                         onChange={onhandleChangeDate}
                                     />
                                 </td>
-                                <td className=''><i className={`${styles.trash} bi bi-trash`}></i></td>
+                                {/* <td className=''><i className={`${styles.trash} bi bi-trash`}></i></td> */}
                             </tr>
                         }
                     </tbody>

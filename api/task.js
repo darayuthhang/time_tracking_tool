@@ -7,7 +7,8 @@ const {
     validationTaskscodeRules,
     validationTaskcodeRules,
     validationProjectIdTaskcodeRules,
-    validationDeleteProjectTaskcodeRules } = require("./middleware/validatorTask")
+    validationDeleteProjectTaskcodeRules,
+    validationProjectIdAndTaskscodeRules } = require("./middleware/validatorTask")
 const UserAuth = require('./middleware/auth')
 module.exports = (app) => {
     /**
@@ -55,8 +56,28 @@ module.exports = (app) => {
     /**
      * Delete single item
      */
-    app.delete(`${PROJECT_TASK_ROUTE}/:taskId`, validationDeleteProjectTaskcodeRules(), validateTaskData ,async (req, res, next) => {
-        const { projectId, taskId} = req.params;
+    // app.delete(`${PROJECT_TASK_ROUTE}/:taskId`, UserAuth, validationDeleteProjectTaskcodeRules(), validateTaskData ,async (req, res, next) => {
+    //     const { projectId, taskId} = req.params;
+    //     /**
+    //      * if i need to delete project ,
+    //      * Delete task first and then delete project (befcause if we need to delete s3 files in the future)
+    //      * we do not use cascade or any soft delete since database already back ups
+    //      * 
+    //      */
+    //     try {
+    //         await taskService.deleteTask(projectId, taskId);
+    //         return res.status(200).json({ success: true })
+    //     } catch (error) {
+    //         logger.debug(error.message)
+    //         next(error);
+    //     }
+    // })
+    /**
+     * Delete List of Items
+     */
+    app.delete(`${PROJECT_TASKS_ROUTE}`, UserAuth,validationProjectIdAndTaskscodeRules(), validateTaskData, async (req, res, next) => {
+        const { taskIds } = req.body;
+        const { projectId} = req.params;
         /**
          * if i need to delete project ,
          * Delete task first and then delete project (befcause if we need to delete s3 files in the future)
@@ -64,7 +85,7 @@ module.exports = (app) => {
          * 
          */
         try {
-            await taskService.deleteTask(projectId, taskId);
+            await taskService.deleteTasks(projectId, taskIds);
             return res.status(200).json({ success: true })
         } catch (error) {
             logger.debug(error.message)
@@ -74,7 +95,7 @@ module.exports = (app) => {
     /**
      * Get List of Item
      */
-    app.get(PROJECT_TASKS_ROUTE, validationProjectIdTaskcodeRules(), validateTaskData, async (req, res, next) => {
+    app.get(PROJECT_TASKS_ROUTE, UserAuth, validationProjectIdTaskcodeRules(), validateTaskData, async (req, res, next) => {
         const {projectId} = req.params;
         try {
             let data = await taskService.getTasks(projectId);
