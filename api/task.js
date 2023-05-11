@@ -6,18 +6,24 @@ const {
     validateTaskData, 
     validationTaskscodeRules,
     validationTaskcodeRules,
-    validationProjectIdTaskcodeRules } = require("./middleware/validatorTask")
+    validationProjectIdTaskcodeRules,
+    validationDeleteProjectTaskcodeRules } = require("./middleware/validatorTask")
 const UserAuth = require('./middleware/auth')
 module.exports = (app) => {
     /**
    * POST - CREATE SINGLE /api/v1/{projectId}/task
    * GET  - LIST   /api/v1/{projectId}/tasks 
    * GET  - SINGLE /api/v1/{projectId}/task
-   * DELETE  - DELETE /api/v1/{projectId}
+   * DELETE  - DELETE /api/v1/{projectId}/task
    * PUT  - UPDATE /api/v1/{projectId}/task 
+   * 
+   * DELETE SINGLE ITEM  - DELETE /api/v1/{projectId}/task/:taskId
    */
     const { API_VERSION } = apiVersion;
     const taskService  = new TaskService();
+
+    const PROJECT_TASK_ROUTE = `${API_VERSION}/:projectId/task`
+    const PROJECT_TASKS_ROUTE = `${API_VERSION}/:projectId/tasks`
     /**
      * add Bulk of items
      */
@@ -36,7 +42,7 @@ module.exports = (app) => {
     /**
      * Add single item
      */
-    app.post(`${API_VERSION}/:projectId/task`, UserAuth, validationTaskcodeRules(), validateTaskData,  async (req, res, next) => {
+    app.post(PROJECT_TASK_ROUTE, UserAuth, validationTaskcodeRules(), validateTaskData,  async (req, res, next) => {
         try {
             await taskService.createTask(req.body);
             return res.status(200).json({ success: true })
@@ -46,7 +52,29 @@ module.exports = (app) => {
         }
   
     })
-    app.get(`${API_VERSION}/:projectId/tasks`, validationProjectIdTaskcodeRules(), validateTaskData, async (req, res, next) => {
+    /**
+     * Delete single item
+     */
+    app.delete(`${PROJECT_TASK_ROUTE}/:taskId`, validationDeleteProjectTaskcodeRules(), validateTaskData ,async (req, res, next) => {
+        const { projectId, taskId} = req.params;
+        /**
+         * if i need to delete project ,
+         * Delete task first and then delete project (befcause if we need to delete s3 files in the future)
+         * we do not use cascade or any soft delete since database already back ups
+         * 
+         */
+        try {
+            await taskService.deleteTask(projectId, taskId);
+            return res.status(200).json({ success: true })
+        } catch (error) {
+            logger.debug(error.message)
+            next(error);
+        }
+    })
+    /**
+     * Get List of Item
+     */
+    app.get(PROJECT_TASKS_ROUTE, validationProjectIdTaskcodeRules(), validateTaskData, async (req, res, next) => {
         const {projectId} = req.params;
         try {
             let data = await taskService.getTasks(projectId);

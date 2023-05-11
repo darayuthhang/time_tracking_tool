@@ -9,6 +9,8 @@ export function taskReducers(state = {
     switch (action.type) {
         case TaskTypes.CREATE_TASK_REQUEST:
             return { ...state, taskRequest: true };
+        case TaskTypes.RESET_TASK_SUCCESS:
+            return { ...state, taskSuccess: false };
         case TaskTypes.CREATE_TASK_SUCCESS:
             return { ...state, taskSuccess: true, taskRequest: false };
         case TaskTypes.CREATE_TASK_ERROR:

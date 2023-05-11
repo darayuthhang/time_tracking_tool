@@ -7,7 +7,7 @@ import {
     Button
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { createTask, getTaskList } from '../../redux/action/TaskAction';
+import { createTask, getTaskList, resetTaskSuccess } from '../../redux/action/TaskAction';
 const TaskTableList = ({ projectNameHeading, projectId }) => {
     const [tasks, setTasks] = useState([]);
     const [taskName, setTasktName] = useState("");
@@ -18,14 +18,21 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
     const [showInputFill, setShowInputFill] = useState(false);
     
     const dispatch = useDispatch();
-    const {taskRequest} = useSelector((state) => state.taskReducers);
+    const { taskRequest, taskSuccess } = useSelector((state) => state.taskReducers);
     const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
 
     useEffect(() => {
+      /**
+       * @This is best practice do not change
+       */
+      if(taskSuccess){
+        //reset task success
+        dispatch(resetTaskSuccess());
+      }
       dispatch(getTaskList(projectId));
       return () => {
       }
-    }, [])
+    }, [taskSuccess])
     
     /**
      * Project id 
@@ -63,6 +70,8 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         */
         //setTasks([...tasks, newTasks])
         dispatch(createTask(newTask))
+        resetOnChangeStateToDefault();
+       
     }
     const onhandleDeleteTask = (position) => {
         const newTask = tasks.filter((val, index) => index != position)
@@ -71,9 +80,15 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
     }
     const onhandleChangeTaskName = (e) => {
         setTasktName(e.target.value);
+     
     }
     const onhandleChangetaskDescriptionName = (e) => {
         setTaskDescription(e.target.value);
+    
+    }
+    const onhandleChangeDate = (e) => {
+        setTaskDate(e.target.value);
+      
     }
     const onhandleSelectDropDown = (e) => {
         if (e === "Done") {
@@ -83,20 +98,21 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         }
         setStatus(e);
     }
-    const onhandleChangeDate = (e) => {
-        setTaskDate(e.target.value);
-    }
+    
     const switchShowFillInput = () => {
         setShowInputFill(true);
     }
     const onhandleCloseInputFill = () => {
         setShowInputFill(false);
     }
-
+    const resetOnChangeStateToDefault = () => {
+        if(taskName) setTasktName("");
+        if(taskDescription) setTaskDescription("");
+        if(taskDate) setTaskDate("")
+    }
 
     return (
         <div>
-            {console.log(taskListData)}
             <div className='d-flex gap-4 mb-5'>
                 <div className='d-flex align-items-center'>
                     <i className="bi bi-book"></i>
@@ -127,8 +143,8 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {tasks.length > 0 ?
-                            tasks.map((val, index) =>
+                        {taskListData.length > 0 ?
+                            taskListData.map((val, index) =>
                                 <tr key={index}>
                                     <th scope="col">
                                         <div className='d-flex justify-content-center mt-1 '>
@@ -174,6 +190,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                             rows="1"
                                             className={`${styles.textarea} p-2`}
                                             placeholder="Task name"
+                                            value={taskName}
                                             onChange={onhandleChangeTaskName}
                                             id="floatingTextarea">
                                 
@@ -186,6 +203,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                         <textarea
                                             rows="1"
                                             className={`${styles.textarea} p-2`}
+                                            value={taskDescription}
                                             placeholder="Leave your comment"
                                             onChange={onhandleChangetaskDescriptionName}
                                             id="floatingTextarea">
@@ -217,6 +235,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                     <input 
                                         type='date'
                                         className='border-0 mt-2'
+                                        value={taskDate}
                                         onChange={onhandleChangeDate}
                                     />
                                 </td>

@@ -16,7 +16,7 @@ module.exports = class TaskService{
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
-                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot get project')
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot Get task')
             }
         }
     }
@@ -29,7 +29,20 @@ module.exports = class TaskService{
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
-                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot get project')
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot Create task')
+            }
+        }
+    }
+    async deleteTask( projectId, taskId ) {
+        logger.debug(ApiServiceMessage(this.taskService, "deleteTask"))
+        try {
+            await this.taskRepository.deleteTask(projectId, taskId);
+        } catch (error) {
+            logger.debug(error.message)
+            if (error instanceof APIError) {
+                throw new APIError('API Error', error?.statusCode, error?.message)
+            } else {
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot Delete task')
             }
         }
     }
@@ -42,7 +55,7 @@ module.exports = class TaskService{
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
-                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot get project')
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot Get tasks')
             }
         }
     }

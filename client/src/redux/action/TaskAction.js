@@ -24,3 +24,9 @@ export const getTaskList = (projectId) => async (dispatch) => {
         dispatch({ type: TaskTypes.GET_TASK_LIST_ERROR, payload: error.message })
     }
 }
+
+export const resetTaskSuccess = () => {
+    return {
+        type:TaskTypes.RESET_TASK_SUCCESS
+    }
+}

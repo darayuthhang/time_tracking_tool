@@ -26,7 +26,14 @@ const validationProjectIdTaskcodeRules = () => {
         param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
     ]
 }
-
+const validationDeleteProjectTaskcodeRules = () => {
+    logger.debug(MIDDLEWARE + "validationDeleteProjectTaskcodeRules")
+    return [
+        param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
+        param('taskId').isUUID().withMessage('ProjectId is not uuid').trim(),
+    ]
+   
+}
 const validateTaskData = (req, res, next) => {
     logger.debug(MIDDLEWARE + "validateUserData")
     const errors = validationResult(req);
@@ -47,5 +54,6 @@ module.exports = {
     validateTaskData,
     validationTaskscodeRules,
     validationTaskcodeRules,
-    validationProjectIdTaskcodeRules
+    validationProjectIdTaskcodeRules,
+    validationDeleteProjectTaskcodeRules
 };
