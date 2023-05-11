@@ -75,12 +75,13 @@ const Task = () => {
             <Tab.Container id="left-tabs-example"  >
                 <Row className={`${styles.change_font}`}>
                     <Col  md={2} className={`left-tab-container ${styles.side_bar} border`}>
-                        <Nav variant="pills" className="flex-column fs-5 fw-medium" >
+                        <Nav variant="pills" className="flex-column" >
                             <Nav.Item >
-                                <Nav.Link eventKey="first" style={{ color: 'black' }} className='lh-base fw-bold'>
+                                <Nav.Link eventKey="first" style={{ color: 'black' }} className=''>
                                     <div className='d-flex gap-4'>
                                         <i className="bi bi-airplane-engines"></i>
-                                        <div>Projects</div>
+                                        {/* <div className={`${styles["font-size-heading-side-bar"]}`}>Projects</div> */}
+                                        <div className={`mt-2 ${styles.side_bar_font_size}`}>Projects</div>
                                         <div
                                             onClick={onhandleShowAddProject}
                                             className={`ms-auto ${styles.plus_sign}`}>
@@ -92,7 +93,10 @@ const Task = () => {
                                 projectListData.map((val, index) => 
                                     <Nav.Item key={val?.id}  >
                                         <Nav.Link 
-                                        eventKey={index.toString()} style={{ color: 'black' }} className='lh-base'>
+                                             eventKey={index.toString()} style={{ color: 'black' }} 
+                                            className={`${styles.side_bar_font_size}`}
+                                            // className= {`lh-base ${styles["font-size-heading-side-bar"]}`}
+                                             >
                                             {val?.project_name}
                                         </Nav.Link>
                                     </Nav.Item>

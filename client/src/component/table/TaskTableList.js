@@ -16,24 +16,24 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
     const [status, setStatus] = useState("Progress");
     const [statusDone, setStatusDone] = useState("Done");
     const [showInputFill, setShowInputFill] = useState(false);
-    
+
     const dispatch = useDispatch();
     const { taskRequest, taskSuccess } = useSelector((state) => state.taskReducers);
     const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
 
     useEffect(() => {
-      /**
-       * @This is best practice do not change
-       */
-      if(taskSuccess){
-        //reset task success
-        dispatch(resetTaskSuccess());
-      }
-      dispatch(getTaskList(projectId));
-      return () => {
-      }
+        /**
+         * @This is best practice do not change
+         */
+        if (taskSuccess) {
+            //reset task success
+            dispatch(resetTaskSuccess());
+        }
+        dispatch(getTaskList(projectId));
+        return () => {
+        }
     }, [taskSuccess])
-    
+
     /**
      * Project id 
      *  tasks: [
@@ -63,7 +63,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
             taskDescription,
             taskDate,
             projectId,
-            taskStatus:status
+            taskStatus: status
         }
         /*
             @Todo dispatch a item to back-end
@@ -71,7 +71,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         //setTasks([...tasks, newTasks])
         dispatch(createTask(newTask))
         resetOnChangeStateToDefault();
-       
+
     }
     const onhandleDeleteTask = (position) => {
         const newTask = tasks.filter((val, index) => index != position)
@@ -80,15 +80,15 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
     }
     const onhandleChangeTaskName = (e) => {
         setTasktName(e.target.value);
-     
+
     }
     const onhandleChangetaskDescriptionName = (e) => {
         setTaskDescription(e.target.value);
-    
+
     }
     const onhandleChangeDate = (e) => {
         setTaskDate(e.target.value);
-      
+
     }
     const onhandleSelectDropDown = (e) => {
         if (e === "Done") {
@@ -98,7 +98,15 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         }
         setStatus(e);
     }
-    
+    const onhandleChangeTick = (e) => {
+        const {checked, value} = e.target;
+        if(checked === false){  
+            const newTask = tasks.filter((val, index) => val != value)
+            setTasks(newTask);
+        }else{
+            setTasks([...tasks, value]);
+        }
+    }
     const switchShowFillInput = () => {
         setShowInputFill(true);
     }
@@ -106,9 +114,9 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         setShowInputFill(false);
     }
     const resetOnChangeStateToDefault = () => {
-        if(taskName) setTasktName("");
-        if(taskDescription) setTaskDescription("");
-        if(taskDate) setTaskDate("")
+        if (taskName) setTasktName("");
+        if (taskDescription) setTaskDescription("");
+        if (taskDate) setTaskDate("")
     }
 
     return (
@@ -122,6 +130,14 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
             <Breadcrumb>
                 <Breadcrumb.Item href="#">All Tasks</Breadcrumb.Item>
                 <Breadcrumb.Item active>This week</Breadcrumb.Item>
+                {tasks.length > 0 && 
+                    <div className={`${styles.trash} ms-auto`}>
+                        <div className={`text-center`}>
+                            <i className={`bi bi-trash`}></i>
+                        </div>
+                        <div className='fw-bold'>Delete</div>
+                    </div>
+                }
             </Breadcrumb>
             <div class="table-responsive card  p-3">
                 <table class="table table-bordered rounded rounded-3 text-center  ">
@@ -148,7 +164,11 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                 <tr key={index}>
                                     <th scope="col">
                                         <div className='d-flex justify-content-center mt-1 '>
-                                            <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
+                                            <input
+                                                type="checkbox"
+                                                value={val?.id}
+                                                onChange={onhandleChangeTick}
+                                            />
                                         </div>
                                     </th>
                                     <td className=''>{val?.task_name}</td>
@@ -193,7 +213,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                             value={taskName}
                                             onChange={onhandleChangeTaskName}
                                             id="floatingTextarea">
-                                
+
                                         </textarea>
                                     </div>
 
@@ -208,7 +228,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                             onChange={onhandleChangetaskDescriptionName}
                                             id="floatingTextarea">
 
-                                            </textarea>
+                                        </textarea>
                                     </div>
                                 </td>
                                 <td className=''>
@@ -221,18 +241,18 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu
                                             className={`${styles['dropdown-menu']}`}>
-                                            <Dropdown.Item 
+                                            <Dropdown.Item
                                                 eventKey={statusDone === "Done" ? "Done" : "Progress"}
                                                 className={statusDone === "Done" ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
                                             >
                                                 {statusDone}
                                             </Dropdown.Item>
-                                  
+
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </td>
                                 <td className=''>
-                                    <input 
+                                    <input
                                         type='date'
                                         className='border-0 mt-2'
                                         value={taskDate}
@@ -251,7 +271,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                             <p>Create new TaskList</p>
                         </div>
                     </Col>
-                    <Col  md={3}>
+                    <Col md={3}>
                         {showInputFill &&
                             <div className='d-flex justify-content-end gap-2'>
                                 <button type="button" className='btn btn-light' onClick={onhandleCloseInputFill}>Cancel</button>
