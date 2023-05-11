@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './table.module.css';
 
 import {
@@ -7,7 +7,7 @@ import {
     Button
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { createTask } from '../../redux/action/TaskAction';
+import { createTask, getTaskList } from '../../redux/action/TaskAction';
 const TaskTableList = ({ projectNameHeading, projectId }) => {
     const [tasks, setTasks] = useState([]);
     const [taskName, setTasktName] = useState("");
@@ -16,8 +16,17 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
     const [status, setStatus] = useState("Progress");
     const [statusDone, setStatusDone] = useState("Done");
     const [showInputFill, setShowInputFill] = useState(false);
+    
     const dispatch = useDispatch();
     const {taskRequest} = useSelector((state) => state.taskReducers);
+    const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
+
+    useEffect(() => {
+      dispatch(getTaskList(projectId));
+      return () => {
+      }
+    }, [])
+    
     /**
      * Project id 
      *  tasks: [
@@ -87,6 +96,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
 
     return (
         <div>
+            {console.log(taskListData)}
             <div className='d-flex gap-4 mb-5'>
                 <div className='d-flex align-items-center'>
                     <i className="bi bi-book"></i>
