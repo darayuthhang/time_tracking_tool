@@ -16,6 +16,9 @@
     .side_bar {
         height: 100vh;
     }
+    .right_tab_bar{
+        height: 100vh;
+    }
 }
 @media (orientation: landscape) {
     .right_tab_bar{

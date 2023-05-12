@@ -108,6 +108,7 @@ const Task = () => {
                     <Col md={10} className={`right-tab-container ${styles.right_tab_bar}`}>
                         <Container className=' mt-5 ml-3'>
                             <Tab.Content>
+                                <Tab.Pane eventKey="first">First tab content</Tab.Pane>
                                 {projectListData.length > 0 &&
                                     projectListData.map((val, index) =>
                                         <Tab.Pane key={val?.id} eventKey={index.toString()}>
