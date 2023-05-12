@@ -22,6 +22,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
     const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
 
     useEffect(() => {
+
         /**
          * @This is best practice do not change
          */
@@ -32,7 +33,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         dispatch(getTaskList(projectId));
         return () => {
         }
-    }, [taskSuccess])
+    }, [taskSuccess, projectId])
 
     /**
      * Project id 

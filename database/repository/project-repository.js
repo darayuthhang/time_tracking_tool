@@ -7,9 +7,9 @@ const {
 const db = require("../../config/index");
 const logger = require("../../utils/error-handler")
 const { ApiRepositoryMessage } = require('../../constant/message');
+const {TABLE_PROJECTS} = require("../table-name");
 
 
-const TABLE_PROJECTS = "projects";
 module.exports = class ProjectRepository{
     constructor(){
         this.project = "PROJECT-REPOSITORY"
@@ -32,14 +32,20 @@ module.exports = class ProjectRepository{
     async getProjectByUserId( userId) {
         logger.debug(ApiRepositoryMessage(this.project, "getProjectByUserId"))
         try {
-            const projects = await db(TABLE_PROJECTS).where(
-                {
-                  user_id:userId
-                }
-            );
+            const projects = await db(TABLE_PROJECTS)
+       
+            //     .leftJoin("tasks", 'tasks.project_id', 'projects.id')
+            // .select('projects.project_name', 'projects.id','tasks.*')
+            .where(
+                    {
+                        user_id: userId
+                    }
+                );
+        
+            console.log(projects);
             return projects;
         } catch (error) {
-            throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Invalid link.')
+            throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to getProjectByUserId')
         }
     }
 }

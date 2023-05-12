@@ -18,12 +18,14 @@ const Task = () => {
     const [projectName, setprojectName] = useState("");
     const [projectError, setProjectError] = useState(false);
     const [projectDescription, setProjectDescription] = useState("");
+    //const [activeTab, setActiveTab] = useState("");
+    const [projectId, setProjectId] = useState("");
     const dispatch = useDispatch();
     //const {user} = useSelector((state) => state.authReducers);
     const user = Cookie.getUser();
     const { projectRequest, projectSuccess } = useSelector((state) => state.projectReducers);
     const { projectListData } = useSelector((state) => state.projectListReducers)
- 
+    
     useEffect(() => {
         if(projectSuccess){
             dispatch(resetStateCreateSuccess());
@@ -33,6 +35,7 @@ const Task = () => {
         
       }
     }, [projectSuccess])
+
     
     /**
      * 
@@ -70,9 +73,12 @@ const Task = () => {
         if (projectName) setprojectName("");
         if (projectDescription) setProjectDescription("");
     }
+    const onSelectActiveTab = (key) => {
+        setProjectId(key);
+    }
     return (
         <div>
-            <Tab.Container id="left-tabs-example"  >
+            <Tab.Container id="left-tabs-example" onSelect={(selectedKey) => onSelectActiveTab(selectedKey)}>
                 <Row className={` `}>
                     <Col  md={2} className={`border left-tab-container ${styles.side_bar} `}>
                         <Nav variant="pills" className="flex-column" >
@@ -80,7 +86,7 @@ const Task = () => {
                                 <Nav.Link eventKey="first" style={{ color: 'black' }} className=''>
                                     <div className='d-flex gap-4'>
                                         <i className="bi bi-airplane-engines"></i>
-                                        {/* <div className={`${styles["font-size-heading-side-bar"]}`}>Projects</div> */}
+                                        
                                         <div className={`mt-2 ${styles.side_bar_font_size}`}>Projects</div>
                                         <div
                                             onClick={onhandleShowAddProject}
@@ -93,7 +99,7 @@ const Task = () => {
                                 projectListData.map((val, index) => 
                                     <Nav.Item key={val?.id}  >
                                         <Nav.Link 
-                                             eventKey={index.toString()} style={{ color: 'black' }} 
+                                             eventKey={val?.id} style={{ color: 'black' }} 
                                             className={`${styles.side_bar_font_size}`}
                                             // className= {`lh-base ${styles["font-size-heading-side-bar"]}`}
                                              >
@@ -101,7 +107,6 @@ const Task = () => {
                                         </Nav.Link>
                                     </Nav.Item>
                                 )
-                               
                             }
                         </Nav>
                     </Col>
@@ -111,10 +116,11 @@ const Task = () => {
                                 <Tab.Pane eventKey="first">First tab content</Tab.Pane>
                                 {projectListData.length > 0 &&
                                     projectListData.map((val, index) =>
-                                        <Tab.Pane key={val?.id} eventKey={index.toString()}>
+                                        <Tab.Pane key={val?.id} eventKey={val?.id}>
                                             <TaskTableList 
                                                 projectNameHeading={val?.project_name}
-                                                projectId={val?.id}
+                                                projectId={projectId}
+                                               
                                             />
                                         </Tab.Pane>
                                     )
