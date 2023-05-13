@@ -74,15 +74,8 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
             projectId,
             taskStatus: status
         }
-        /**
-         * Disable button if task name is empty
-         * set date default
-         */
-        // if(!taskDate) alert("taskDate is empty");
-        // if(!taskName) alert("Task name is empty");
         dispatch(createTask(newTask))
         resetOnChangeStateToDefault();
-
     }
 
     const handleCloseDeleteModal = () => {
@@ -195,14 +188,10 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                         </div>
                                     </th>
                                     <td className=''>{val?.task_name}</td>
-                                    <td>{val?.task_taskDescription}</td>
+                                    <td>{val?.task_description}</td>
                                     <td className='d-flex justify-content-center'>
-                                        <div className="d-flex gap-2 justify-content-center badge bg-success text-wrap"
-                                            style={{ width: '6rem' }}>
-                                            <div className='mt-1 fw-bold '></div>
-                                            <div>
-                                                <i className="bi bi-check fs-5 fw-bold "></i>
-                                            </div>
+                                        <div className={val.task_status === "progress" ? `badge bg-danger`:`badge bg-success`}>
+                                            {val?.task_status}
                                         </div>
                                     </td>
                                     <td>
@@ -302,7 +291,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                 <button type="button" className='btn btn-light' onClick={onhandleCloseInputFill}>Cancel</button>
                                 <Button
                                     variant="danger"
-                                    disabled={taskRequest}
+                                    disabled={taskRequest || !taskName}
                                     onClick={onhandleAddTask}
                                 >
                                     {taskRequest ? 'Loading…' : 'Add task'}
