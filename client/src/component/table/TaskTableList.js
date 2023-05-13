@@ -7,22 +7,25 @@ import {
     Button
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { createTask, getTaskList, resetTaskSuccess } from '../../redux/action/TaskAction';
+import { createTask, deleteTaskList, getTaskList, resetTaskListSuccess, resetTaskSuccess } from '../../redux/action/TaskAction';
+import TableModal from './TableModal';
+
 const TaskTableList = ({ projectNameHeading, projectId }) => {
-    const [tasks, setTasks] = useState([]);
+    const [tasksIds, setTasksIds] = useState([]);
     const [taskName, setTasktName] = useState("");
     const [taskDate, setTaskDate] = useState("");
     const [taskDescription, setTaskDescription] = useState("");
     const [status, setStatus] = useState("Progress");
     const [statusDone, setStatusDone] = useState("Done");
     const [showInputFill, setShowInputFill] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const dispatch = useDispatch();
     const { taskRequest, taskSuccess } = useSelector((state) => state.taskReducers);
     const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
-
+    const { taskListDeleteRequest, taskListDeleteSuccess } = useSelector((state) => state.taskListDeleteReducers)
+    
     useEffect(() => {
-
         /**
          * @This is best practice do not change
          */
@@ -30,14 +33,18 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
             //reset task success
             dispatch(resetTaskSuccess());
         }
+        if (taskListDeleteSuccess){
+            // dispatch(reset)
+            dispatch(resetTaskListSuccess());
+        }
         dispatch(getTaskList(projectId));
         return () => {
         }
-    }, [taskSuccess, projectId])
+    }, [taskSuccess, projectId, taskListDeleteSuccess])
 
     /**
      * Project id 
-     *  tasks: [
+     *  tasksId: [
                     {
                         task_taskDescription: "this is descrpition",
                         task_name: "this task name",
@@ -69,27 +76,30 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         /*
             @Todo dispatch a item to back-end
         */
-        //setTasks([...tasks, newTasks])
+        //settasksId([...tasksId, newtasksId])
         dispatch(createTask(newTask))
         resetOnChangeStateToDefault();
 
     }
-    const onhandleDeleteTask = (position) => {
-        const newTask = tasks.filter((val, index) => index != position)
 
-        setTasks(newTask);
+    const handleCloseDeleteModal = () => {
+        setShowDeleteModal(false)};
+    const handleShowDeleteModal = () => {
+        setShowDeleteModal(true)
+    };
+
+    const onhandleDeleteTask = () => {
+        handleCloseDeleteModal();
+        dispatch(deleteTaskList(projectId, tasksIds))
     }
     const onhandleChangeTaskName = (e) => {
         setTasktName(e.target.value);
-
     }
     const onhandleChangetaskDescriptionName = (e) => {
         setTaskDescription(e.target.value);
-
     }
     const onhandleChangeDate = (e) => {
         setTaskDate(e.target.value);
-
     }
     const onhandleSelectDropDown = (e) => {
         if (e === "Done") {
@@ -102,10 +112,10 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
     const onhandleChangeTick = (e) => {
         const {checked, value} = e.target;
         if(checked === false){  
-            const newTask = tasks.filter((val, index) => val != value)
-            setTasks(newTask);
+            const newTask = tasksIds.filter((val, index) => val != value)
+            setTasksIds(newTask);
         }else{
-            setTasks([...tasks, value]);
+            setTasksIds([...tasksIds, value]);
         }
     }
     const switchShowFillInput = () => {
@@ -122,6 +132,13 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
 
     return (
         <div>
+            <TableModal 
+                show={showDeleteModal}
+                handleClose={handleCloseDeleteModal}
+                title={tasksIds.length === 1 ? `Delete this task?`: "Delete these tasksId?"}
+                bodyText="hello "
+                onhandleDeleteTask={onhandleDeleteTask}
+            />
             <div className='d-flex gap-4 mb-5'>
                 <div className='d-flex align-items-center'>
                     <i className="bi bi-book"></i>
@@ -129,14 +146,14 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                 <h1 className='fw-bold'>{projectNameHeading}</h1>
             </div>
             <Breadcrumb>
-                <Breadcrumb.Item href="#">All Tasks</Breadcrumb.Item>
+                <Breadcrumb.Item href="#">All tasks</Breadcrumb.Item>
                 <Breadcrumb.Item active>This week</Breadcrumb.Item>
-                {tasks.length > 0 && 
-                    <div className={`${styles.trash} ms-auto`}>
+                {tasksIds.length > 0 && 
+                    <div className={`${styles.trash} ms-auto`} onClick={handleShowDeleteModal}>
                         <div className={`text-center`}>
                             <i className={`bi bi-trash`}></i>
                         </div>
-                        <div className='fw-bold'>Delete</div>
+                        <div className='fw-bold' >Delete</div>
                     </div>
                 }
             </Breadcrumb>

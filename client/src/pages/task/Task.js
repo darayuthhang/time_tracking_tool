@@ -120,7 +120,6 @@ const Task = () => {
                                             <TaskTableList 
                                                 projectNameHeading={val?.project_name}
                                                 projectId={projectId}
-                                               
                                             />
                                         </Tab.Pane>
                                     )

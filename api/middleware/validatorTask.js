@@ -30,16 +30,18 @@ const validationDeleteProjectTaskcodeRules = () => {
     logger.debug(MIDDLEWARE + "validationDeleteProjectTaskcodeRules")
     return [
         param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
-        param('taskId').isUUID().withMessage('ProjectId is not uuid').trim(),
+        param('taskId').isUUID().withMessage('taskId is not uuid').trim(),
     ]
    
 }
 const validationProjectIdAndTaskscodeRules = () => {
     logger.debug(MIDDLEWARE + "validationTaskscodeRules")
+
     return [
+       
         // param('projectId').isUUID().withMessage('Projectid is not uuid').trim(),
         param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
-        body("taskIds").isArray().withMessage("Task id is not array.")
+        param("taskIds").notEmpty().withMessage("Task cannot be empty.")
     ]
 }
 const validateTaskData = (req, res, next) => {

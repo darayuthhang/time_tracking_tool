@@ -15,7 +15,7 @@ module.exports = (app) => {
    * POST - CREATE SINGLE /api/v1/{projectId}/task
    * GET  - LIST   /api/v1/{projectId}/tasks 
    * GET  - SINGLE /api/v1/{projectId}/task
-   * DELETE  - DELETE /api/v1/{projectId}/task
+   * DELETE  - DELETE /api/v1/{projectId}/task/:collection
    * PUT  - UPDATE /api/v1/{projectId}/task 
    * 
    * DELETE SINGLE ITEM  - DELETE /api/v1/{projectId}/task/:taskId
@@ -51,7 +51,6 @@ module.exports = (app) => {
             logger.debug(error.message)
             next(error);
         }
-  
     })
     /**
      * Delete single item
@@ -74,10 +73,15 @@ module.exports = (app) => {
     // })
     /**
      * Delete List of Items
+     * @never send request body in delete route
      */
-    app.delete(`${PROJECT_TASKS_ROUTE}`, UserAuth,validationProjectIdAndTaskscodeRules(), validateTaskData, async (req, res, next) => {
-        const { taskIds } = req.body;
-        const { projectId} = req.params;
+    app.delete(`${PROJECT_TASKS_ROUTE}/:taskIds`, UserAuth,
+        validationProjectIdAndTaskscodeRules(), 
+        validateTaskData, 
+        async (req, res, next) => {
+   
+        const { projectId, taskIds } = req.params;
+        
         /**
          * if i need to delete project ,
          * Delete task first and then delete project (befcause if we need to delete s3 files in the future)
@@ -85,7 +89,7 @@ module.exports = (app) => {
          * 
          */
         try {
-            await taskService.deleteTasks(projectId, taskIds);
+            await taskService.deleteTasks(projectId, JSON.parse(taskIds));
             return res.status(200).json({ success: true })
         } catch (error) {
             logger.debug(error.message)
