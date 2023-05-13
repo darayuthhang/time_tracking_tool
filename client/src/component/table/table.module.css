@@ -32,15 +32,7 @@
 .trash:hover{
     color: #8e8585;
 }
-.td{
- 
-   width: 32%;
-padding: 0px;
 
-    /* padding: 0;
-    margin: 0; */
- 
-}
 
 .textarea{
     /* flex-grow: 4; */
@@ -58,7 +50,18 @@ padding: 0px;
     border-color: transparent rgb(14, 13, 13) rgb(14, 13, 13) transparent;
 }
 .tick_box_heading{
-    width: 10%;
+    width: 5%;
+}
+.status-heading{
+    width: 15%;
+}
+.date-heading{
+    width: 15%;
+}
+.td {
+
+    width: 32%;
+    padding: 0px;
 }
 .trash_heading{
     width: 10%;
@@ -109,3 +112,10 @@ padding: 0px;
     width: 7.2em !important;
     font-weight: 600 !important;
 }
+.project-name-heading{
+    font-size: 20px;
+}
+.all-task-texts{
+    font-size: 15px;
+}
+

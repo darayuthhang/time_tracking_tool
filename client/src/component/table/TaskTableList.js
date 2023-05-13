@@ -9,11 +9,12 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { createTask, deleteTaskList, getTaskList, resetTaskListSuccess, resetTaskSuccess } from '../../redux/action/TaskAction';
 import TableModal from './TableModal';
+import { defaultDate } from '../../uti';
 
 const TaskTableList = ({ projectNameHeading, projectId }) => {
     const [tasksIds, setTasksIds] = useState([]);
     const [taskName, setTasktName] = useState("");
-    const [taskDate, setTaskDate] = useState("");
+    const [taskDate, setTaskDate] = useState(defaultDate());
     const [taskDescription, setTaskDescription] = useState("");
     const [status, setStatus] = useState("Progress");
     const [statusDone, setStatusDone] = useState("Done");
@@ -73,10 +74,12 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
             projectId,
             taskStatus: status
         }
-        /*
-            @Todo dispatch a item to back-end
-        */
-        //settasksId([...tasksId, newtasksId])
+        /**
+         * Disable button if task name is empty
+         * set date default
+         */
+        // if(!taskDate) alert("taskDate is empty");
+        // if(!taskName) alert("Task name is empty");
         dispatch(createTask(newTask))
         resetOnChangeStateToDefault();
 
@@ -127,15 +130,15 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
     const resetOnChangeStateToDefault = () => {
         if (taskName) setTasktName("");
         if (taskDescription) setTaskDescription("");
-        if (taskDate) setTaskDate("")
+        setTaskDate(defaultDate())
     }
 
     return (
-        <div>
+        <div className='fs-5'>
             <TableModal 
                 show={showDeleteModal}
                 handleClose={handleCloseDeleteModal}
-                title={tasksIds.length === 1 ? `Delete this task?`: "Delete these tasksId?"}
+                title={tasksIds.length === 1 ? `Delete this task?`: "Delete these tasks?"}
                 bodyText="hello "
                 onhandleDeleteTask={onhandleDeleteTask}
             />
@@ -143,9 +146,11 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                 <div className='d-flex align-items-center'>
                     <i className="bi bi-book"></i>
                 </div>
-                <h1 className='fw-bold'>{projectNameHeading}</h1>
+                <h1 className={`${styles["project-name-heading"]} fw-bold`}>
+                    <span >{projectNameHeading}</span>
+                </h1>
             </div>
-            <Breadcrumb>
+            <Breadcrumb className={`${styles['all-task-texts']}`}>
                 <Breadcrumb.Item href="#">All tasks</Breadcrumb.Item>
                 <Breadcrumb.Item active>This week</Breadcrumb.Item>
                 {tasksIds.length > 0 && 
@@ -157,8 +162,8 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                     </div>
                 }
             </Breadcrumb>
-            <div class="table-responsive card  p-3">
-                <table class="table table-bordered rounded rounded-3 text-center  ">
+            <div className={`table-responsive card  p-3 ${styles['all-task-texts']}`}>
+                <table className="table table-bordered rounded rounded-3 text-center  ">
                     <thead>
                         <tr>
                             <th scope="col" className={`${styles.tick_box_heading}`}
@@ -168,9 +173,9 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                             </div> */}
                             </th>
                             <th scope="col" className={`${styles.td}`}>Task name</th>
-                            <th scope="col" className={`${styles.td}`}>taskDescription</th>
-                            <th scope="col" className=''>Status</th>
-                            <th scope="col" className=''>Date</th>
+                            <th scope="col" className={`${styles.td}`}>Description</th>
+                            <th scope="col" className={`${styles['status-heading']}`}>Status</th>
+                            <th scope="col" className={`${styles['date-heading']}`}>Date</th>
                             {/* <th scope="col" className={`${styles.trash_heading}`}>
                               
                             </th> */}
@@ -200,7 +205,9 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td></td>
+                                    <td>
+                                        {val?.task_date}
+                                    </td>
                                     {/* <td>
                                         <i className={`${styles.trash} bi bi-trash`}></i>
                                     </td> */}
