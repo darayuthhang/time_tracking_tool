@@ -7,7 +7,7 @@ import {
     Button
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { createTask, deleteTaskList, getTaskList, resetTaskListSuccess, resetTaskSuccess } from '../../redux/action/TaskAction';
+import { createTask, deleteTaskList, getTaskList, resetTaskListSuccess, resetTaskSuccess, updateTaskListState } from '../../redux/action/TaskAction';
 import TableModal from './TableModal';
 import { defaultDate } from '../../uti';
 
@@ -20,6 +20,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
     const [statusDone, setStatusDone] = useState("Done");
     const [showInputFill, setShowInputFill] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [isEditTaskName, setIsEditTaskName] = useState(false);
 
     const dispatch = useDispatch();
     const { taskRequest, taskSuccess } = useSelector((state) => state.taskReducers);
@@ -102,7 +103,13 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         if (taskDescription) setTaskDescription("");
         setTaskDate(defaultDate())
     }
-
+    const onClickColumnTaskName = () => {
+        setIsEditTaskName(true);
+    }
+    const onhandleEditChangeTaskName = (e, index) => {
+        taskListData[index].task_name = e.target.value;
+        dispatch(updateTaskListState(taskListData))
+    }
     return (
         <div className='fs-5'>
             <TableModal 
@@ -155,7 +162,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                         {taskListData.length > 0 ?
                             taskListData.map((val, index) =>
                                 <tr key={index}>
-                                    <th scope="col">
+                                    <th scope="col" >
                                         <div className='d-flex justify-content-center mt-1 '>
                                             <input
                                                 type="checkbox"
@@ -164,14 +171,30 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                             />
                                         </div>
                                     </th>
-                                    <td className=''>{val?.task_name}</td>
-                                    <td>{val?.task_description}</td>
-                                    <td className='d-flex justify-content-center'>
+                                    {isEditTaskName ? 
+                                        <textarea
+                                            rows="1"
+                                            className={`${styles.textarea} p-2`}
+                                            placeholder="Task name"
+                                            value={val?.task_name}
+                                            onChange={(e) => onhandleEditChangeTaskName(e, index)}
+                                            id="floatingTextarea">
+                                        </textarea>
+                                    :
+                                        <td
+                                            onClick={onClickColumnTaskName}
+                                            className={`${styles['task-col']}`}>
+                                            {val?.task_name}
+                                        </td>
+                                    }
+                                  
+                                    <td className={`${styles['task-col']}`}>{val?.task_description}</td>
+                                    <td className={`d-flex justify-content-center ${styles['task-col']}`}>
                                         <div className={val.task_status === "progress" ? `badge bg-danger`:`badge bg-success`}>
                                             {val?.task_status}
                                         </div>
                                     </td>
-                                    <td>
+                                    <td className={`${styles['task-col']}`}>
                                         {val?.task_date}
                                     </td>
                                     {/* <td>
@@ -179,10 +202,8 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                     </td> */}
                                 </tr>
                             )
-
                             :
                             ""
-
                         }
                         {showInputFill &&
                             <tr className=''>
@@ -204,7 +225,6 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                             value={taskName}
                                             onChange={onhandleChangeTaskName}
                                             id="floatingTextarea">
-
                                         </textarea>
                                     </div>
 
@@ -218,7 +238,6 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                             placeholder="Leave your comment"
                                             onChange={onhandleChangetaskDescriptionName}
                                             id="floatingTextarea">
-
                                         </textarea>
                                     </div>
                                 </td>

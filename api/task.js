@@ -57,21 +57,20 @@ module.exports = (app) => {
     /**
      * Put single item
      */
-    app.put(`${PROJECT_TASK_ROUTE}/:taskId`, validationUpdateProjectTaskcodeRules(), validateTaskData, async (req, res, next) => {
-        //accept param projecid and task id
-        //update my projectid and task {}
-        //undefined value will ignore my update method 
-        // in knex js
-     
-        const {projectId, taskId} = req.params;
-        try {
-            if (isObjectEmpty(req.body))throw new Error("Request body is empty.")
-            await taskService.updateTask(projectId, taskId, req.body);
-            return res.status(200).json({ success: true })
-        } catch (error) {
-            logger.debug(error.message)
-            next(error);
-        }
+    app.put(`${PROJECT_TASK_ROUTE}/:taskId`, 
+        UserAuth, 
+        validationUpdateProjectTaskcodeRules(), 
+        validateTaskData, 
+        async (req, res, next) => {
+            const {projectId, taskId} = req.params;
+            try {
+                if (isObjectEmpty(req.body))throw new Error("Request body is empty.")
+                await taskService.updateTask(projectId, taskId, req.body);
+                return res.status(200).json({ success: true })
+            } catch (error) {
+                logger.debug(error.message)
+                next(error);
+            }
     })
     /**
      * Delete single item

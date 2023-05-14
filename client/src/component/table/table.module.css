@@ -32,8 +32,6 @@
 .trash:hover{
     color: #8e8585;
 }
-
-
 .textarea{
     /* flex-grow: 4; */
 /* width: inherit; */
@@ -101,13 +99,11 @@
     font-weight: 600 !important;
 
 }
-
 .dropdown-item-2:hover {
     background-color: var(--bs-btn-hover-danger-bg);
     border: 1px solid var(--bs-btn-hover-danger-border-color);
     color: white;
 }
-
 .dropdown-toggle {
     width: 7.2em !important;
     font-weight: 600 !important;
@@ -118,4 +114,9 @@
 .all-task-texts{
     font-size: 15px;
 }
-
+.task-col{
+    cursor: pointer;
+}
+.task-col:hover{
+    background-color: lightblue;
+}

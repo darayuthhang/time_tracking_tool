@@ -49,13 +49,13 @@ module.exports = class TaskService{
     }
     async updateTask(projectId, taskId, requestBody = {}){
         logger.debug(ApiServiceMessage(this.taskService, "updateTask"))
-        console.log(requestBody);
+        if (isObjectEmpty(requestBody)) throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Request body is empty');
         /**
          * @This show that each time user click
          * update button, it will update column updated_At time stamp too
          */
   
-        if (isObjectEmpty(requestBody)) throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Request body is empty');
+       
         try {
             let taskToUpdate = {
                 updated_at: new Date()

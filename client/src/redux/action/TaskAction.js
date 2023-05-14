@@ -44,6 +44,13 @@ export const deleteTaskList = (projectId, taskIds = []) => async(dispatch) => {
         dispatch({ type: TaskTypes.TASKS_LIST_DELETE_ERROR, payload: error.message })
     }
 }
+
+export const updateTaskListState = (data) => {
+    return {
+        type: TaskTypes.UPDATE_TASKS_LIST_STATE,
+        payload:data
+    }
+}
 export const resetTaskListSuccess = () => {
     return {
         type: TaskTypes.TASK_LIST_RESET_SUCCESS
