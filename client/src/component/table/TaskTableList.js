@@ -43,29 +43,6 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         }
     }, [taskSuccess, projectId, taskListDeleteSuccess])
 
-    /**
-     * Project id 
-     *  tasksId: [
-                    {
-                        task_taskDescription: "this is descrpition",
-                        task_name: "this task name",
-                        created_at: new Date(),
-                        project_id: projectId
-                    },
-                    {
-                        task_taskDescription: "this is descrpition",
-                        task_name: "this task name",
-                        created_at: new Date(),
-                        project_id: projectId
-                    },
-                    {
-                        task_taskDescription: "this is descrpition",
-                        task_name: "this task name",
-                        created_at: new Date(),
-                        project_id: projectId
-                    }
-                ]
-     */
     const onhandleAddTask = () => {
         const newTask = {
             taskName,

@@ -30,7 +30,7 @@ exports.up = function (knex) {
         table.string('project_description'),
         table.uuid('user_id').references('id').inTable('users'),
         table.timestamp('created_at').defaultTo(knex.fn.now());
-        table.timestamp('update_at').defaultTo(knex.fn.now());
+        table.timestamp('updated_at').defaultTo(knex.fn.now());
      })
     .createTable('tasks', function (table) {
         table.uuid('id').primary().defaultTo(knex.raw('(gen_random_uuid())'));
@@ -40,7 +40,7 @@ exports.up = function (knex) {
         table.enu('task_status', ['done', 'progress']).notNullable(),
         table.uuid('project_id').references('id').inTable('projects'),
         table.timestamp('created_at').defaultTo(knex.fn.now());
-        table.timestamp('update_at').defaultTo(knex.fn.now());
+        table.timestamp('updated_at').defaultTo(knex.fn.now());
     })
     
 };

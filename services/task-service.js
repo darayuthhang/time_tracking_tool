@@ -2,6 +2,7 @@ const { ApiServiceMessage } = require("../constant/message");
 const logger = require("../utils/error-handler")
 const { APIError, STATUS_CODES } = require("../utils/app-errors");
 const {TaskRepository} = require("../database/repository/index");
+const {isObjectEmpty} = require("../utils/index");
 module.exports = class TaskService{
     constructor() {
         this.taskService = "TASK_SERVICE";
@@ -43,6 +44,43 @@ module.exports = class TaskService{
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
                 throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot Delete task')
+            }
+        }
+    }
+    async updateTask(projectId, taskId, requestBody = {}){
+        logger.debug(ApiServiceMessage(this.taskService, "updateTask"))
+        console.log(requestBody);
+        /**
+         * @This show that each time user click
+         * update button, it will update column updated_At time stamp too
+         */
+  
+        if (isObjectEmpty(requestBody)) throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Request body is empty');
+        try {
+            let taskToUpdate = {
+                updated_at: new Date()
+            };
+            if (requestBody?.taskName) {
+                taskToUpdate.task_name = requestBody.taskName;
+            }
+            if (requestBody?.taskDescription) {
+                taskToUpdate.task_description = requestBody.taskDescription;
+            }
+            if (requestBody?.taskStatus) {
+                taskToUpdate.task_status = requestBody.taskStatus.toLowerCase();
+            }
+            if (requestBody?.taskDate) {
+                taskToUpdate.task_date = requestBody.taskDate;
+            }
+            await this.taskRepository.updateTask(projectId, taskId, taskToUpdate);
+          
+          
+        } catch (error) {
+            logger.debug(error.message)
+            if (error instanceof APIError) {
+                throw new APIError('API Error', error?.statusCode, error?.message)
+            } else {
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot Update task')
             }
         }
     }

@@ -2,13 +2,15 @@ const apiVersion = require("../constant/api_version");
 const { ApiRouteMessage } = require("../constant/message");
 const TaskService = require("../services/task-service");
 const logger = require("../utils/error-handler");
+const {isObjectEmpty} = require('../utils/index');
 const { 
     validateTaskData, 
     validationTaskscodeRules,
     validationTaskcodeRules,
     validationProjectIdTaskcodeRules,
     validationDeleteProjectTaskcodeRules,
-    validationProjectIdAndTaskscodeRules } = require("./middleware/validatorTask")
+    validationProjectIdAndTaskscodeRules,
+    validationUpdateProjectTaskcodeRules } = require("./middleware/validatorTask")
 const UserAuth = require('./middleware/auth')
 module.exports = (app) => {
     /**
@@ -16,7 +18,7 @@ module.exports = (app) => {
    * GET  - LIST   /api/v1/{projectId}/tasks 
    * GET  - SINGLE /api/v1/{projectId}/task
    * DELETE  - DELETE /api/v1/{projectId}/task/:collection
-   * PUT  - UPDATE /api/v1/{projectId}/task 
+   * PUT  - UPDATE /api/v1/{projectId}/task/:taskId 
    * 
    * DELETE SINGLE ITEM  - DELETE /api/v1/{projectId}/task/:taskId
    */
@@ -46,6 +48,25 @@ module.exports = (app) => {
     app.post(PROJECT_TASK_ROUTE, UserAuth, validationTaskcodeRules(), validateTaskData,  async (req, res, next) => {
         try {
             await taskService.createTask(req.body);
+            return res.status(200).json({ success: true })
+        } catch (error) {
+            logger.debug(error.message)
+            next(error);
+        }
+    })
+    /**
+     * Put single item
+     */
+    app.put(`${PROJECT_TASK_ROUTE}/:taskId`, validationUpdateProjectTaskcodeRules(), validateTaskData, async (req, res, next) => {
+        //accept param projecid and task id
+        //update my projectid and task {}
+        //undefined value will ignore my update method 
+        // in knex js
+     
+        const {projectId, taskId} = req.params;
+        try {
+            if (isObjectEmpty(req.body))throw new Error("Request body is empty.")
+            await taskService.updateTask(projectId, taskId, req.body);
             return res.status(200).json({ success: true })
         } catch (error) {
             logger.debug(error.message)

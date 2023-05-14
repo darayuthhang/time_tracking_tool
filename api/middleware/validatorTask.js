@@ -32,7 +32,14 @@ const validationDeleteProjectTaskcodeRules = () => {
         param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
         param('taskId').isUUID().withMessage('taskId is not uuid').trim(),
     ]
-   
+}
+const validationUpdateProjectTaskcodeRules = () => {
+    logger.debug(MIDDLEWARE + "validationDeleteProjectTaskcodeRules")
+    return [
+        param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
+        param('taskId').isUUID().withMessage('taskId is not uuid').trim(),
+      
+    ]
 }
 const validationProjectIdAndTaskscodeRules = () => {
     logger.debug(MIDDLEWARE + "validationTaskscodeRules")
@@ -66,5 +73,6 @@ module.exports = {
     validationTaskcodeRules,
     validationProjectIdTaskcodeRules,
     validationDeleteProjectTaskcodeRules,
-    validationProjectIdAndTaskscodeRules
+    validationProjectIdAndTaskscodeRules,
+    validationUpdateProjectTaskcodeRules
 };

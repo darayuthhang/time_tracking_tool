@@ -82,3 +82,7 @@ module.exports.VerifyToken = async (incomingToken, secretToken) => {
     let user = await jwt.verify(incomingToken, secretToken)
     return user;
 }
+
+module.exports.isObjectEmpty = (objectName) => {
+    return JSON.stringify(objectName) === "{}";
+};
