@@ -78,7 +78,7 @@ module.exports = class TaskRepository{
         try {
             // return await db(TABLE_TASKS).where("project_id", projectId)
             return await db(TABLE_TASKS)
-            .select(db.raw("to_char(task_date, 'mm/dd/yyyy') as task_date, id, task_name, task_description, task_status, project_id"))
+                .select(db.raw("to_char(task_date, 'mm/dd/yyyy') as task_date, id, task_name, task_description, task_status, project_id"))
             .where("project_id", projectId)
         } catch (error) {
             throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to Get tasks')

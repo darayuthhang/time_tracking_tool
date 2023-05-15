@@ -16,7 +16,7 @@ const validationTaskcodeRules = () => {
         body('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
         body('taskName').notEmpty().withMessage("Task name cannot be empty.").trim(),
         body("taskDate").isDate().withMessage("Date is required.").trim(),
-        body("taskStatus").notEmpty().withMessage("Task status cannot be empty").toLowerCase().trim()
+        body("taskStatus").notEmpty().withMessage("Task status cannot be empty").trim()
     ]
 }
 const validationProjectIdTaskcodeRules = () => {

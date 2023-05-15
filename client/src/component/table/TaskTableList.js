@@ -21,12 +21,15 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
     const [showInputFill, setShowInputFill] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isEditTaskName, setIsEditTaskName] = useState(false);
+    const [isEditTaskDescription, setIsEditTaskDescription] = useState(false);
+    const [isEditTaskStatus, setIsEditTaskStatus] = useState(false);
+    const [isEditDate, setIsEditDate] = useState(false);
 
     const dispatch = useDispatch();
     const { taskRequest, taskSuccess } = useSelector((state) => state.taskReducers);
     const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
     const { taskListDeleteRequest, taskListDeleteSuccess } = useSelector((state) => state.taskListDeleteReducers)
-    
+
     useEffect(() => {
         /**
          * @This is best practice do not change
@@ -35,7 +38,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
             //reset task success
             dispatch(resetTaskSuccess());
         }
-        if (taskListDeleteSuccess){
+        if (taskListDeleteSuccess) {
             // dispatch(reset)
             dispatch(resetTaskListSuccess());
         }
@@ -57,7 +60,8 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
     }
 
     const handleCloseDeleteModal = () => {
-        setShowDeleteModal(false)};
+        setShowDeleteModal(false)
+    };
     const handleShowDeleteModal = () => {
         setShowDeleteModal(true)
     };
@@ -84,11 +88,11 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         setStatus(e);
     }
     const onhandleChangeTick = (e) => {
-        const {checked, value} = e.target;
-        if(checked === false){  
+        const { checked, value } = e.target;
+        if (checked === false) {
             const newTask = tasksIds.filter((val, index) => val != value)
             setTasksIds(newTask);
-        }else{
+        } else {
             setTasksIds([...tasksIds, value]);
         }
     }
@@ -106,16 +110,43 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
     const onClickColumnTaskName = () => {
         setIsEditTaskName(true);
     }
+    const onClickColumnTaskDescription = () => {
+        setIsEditTaskDescription(true);
+    }
+    const onClickColumnTaskStatus = () => {
+        setIsEditTaskStatus(true);
+    }
+    const onClickColumnDate = () => {
+        setIsEditDate(true);
+    }
     const onhandleEditChangeTaskName = (e, index) => {
         taskListData[index].task_name = e.target.value;
         dispatch(updateTaskListState(taskListData))
     }
+    const onhandleEditChangeTaskDescription = (e, index) => {
+        taskListData[index].task_description = e.target.value;
+        dispatch(updateTaskListState(taskListData))
+    }
+    const onhandleEditDropDownStatus = (value, index) => {
+        if (value === "Done") {
+            setStatusDone("Progress")
+        } else if (value === "Progress") {
+            setStatusDone("Done")
+        }
+        taskListData[index].task_status = value;
+        dispatch(updateTaskListState(taskListData))
+    }
+    const onhandleEditChangeTaskDate = (e, index) => {
+        taskListData[index].task_date = e.target.value;
+        dispatch(updateTaskListState(taskListData))
+    }
+   
     return (
         <div className='fs-5'>
-            <TableModal 
+            <TableModal
                 show={showDeleteModal}
                 handleClose={handleCloseDeleteModal}
-                title={tasksIds.length === 1 ? `Delete this task?`: "Delete these tasks?"}
+                title={tasksIds.length === 1 ? `Delete this task?` : "Delete these tasks?"}
                 bodyText="hello "
                 onhandleDeleteTask={onhandleDeleteTask}
             />
@@ -130,7 +161,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
             <Breadcrumb className={`${styles['all-task-texts']}`}>
                 <Breadcrumb.Item href="#">All tasks</Breadcrumb.Item>
                 <Breadcrumb.Item active>This week</Breadcrumb.Item>
-                {tasksIds.length > 0 && 
+                {tasksIds.length > 0 &&
                     <div className={`${styles.trash} ms-auto`} onClick={handleShowDeleteModal}>
                         <div className={`text-center`}>
                             <i className={`bi bi-trash`}></i>
@@ -171,35 +202,97 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                             />
                                         </div>
                                     </th>
-                                    {isEditTaskName ? 
-                                        <textarea
-                                            rows="1"
-                                            className={`${styles.textarea} p-2`}
-                                            placeholder="Task name"
-                                            value={val?.task_name}
-                                            onChange={(e) => onhandleEditChangeTaskName(e, index)}
-                                            id="floatingTextarea">
-                                        </textarea>
-                                    :
+                                    {isEditTaskName ?
+                                        <td>
+                                            <textarea
+                                                rows="1"
+                                                className={`${styles.textarea} p-2`}
+                                                placeholder="Task name"
+                                                value={val?.task_name}
+                                                onChange={(e) => onhandleEditChangeTaskName(e, index)}
+                                                id="floatingTextarea">
+                                            </textarea>
+                                        </td>
+
+                                        :
                                         <td
                                             onClick={onClickColumnTaskName}
                                             className={`${styles['task-col']}`}>
-                                            {val?.task_name}
+                                            <div>
+                                                {val?.task_name}
+                                            </div>
+
                                         </td>
                                     }
-                                  
-                                    <td className={`${styles['task-col']}`}>{val?.task_description}</td>
-                                    <td className={`d-flex justify-content-center ${styles['task-col']}`}>
-                                        <div className={val.task_status === "progress" ? `badge bg-danger`:`badge bg-success`}>
-                                            {val?.task_status}
-                                        </div>
-                                    </td>
-                                    <td className={`${styles['task-col']}`}>
-                                        {val?.task_date}
-                                    </td>
-                                    {/* <td>
-                                        <i className={`${styles.trash} bi bi-trash`}></i>
-                                    </td> */}
+                                    {isEditTaskDescription ?
+                                        <td>
+                                            <textarea
+                                                rows="1"
+                                                className={`${styles.textarea} p-2`}
+                                                placeholder="Task description"
+                                                value={val?.task_description}
+                                                onChange={(e) => onhandleEditChangeTaskDescription(e, index)}
+                                                id="floatingTextarea">
+                                            </textarea>
+                                        </td>
+
+                                        :
+                                        <td
+                                            onClick={onClickColumnTaskDescription}
+                                            className={`${styles['task-col']}`}>
+                                            <div>
+                                                {val?.task_description}
+                                            </div>
+
+                                        </td>
+                                    }
+                                    {isEditTaskStatus ?
+                                        <td className={`d-flex justify-content-center ${styles['task-col']}`}>
+                                            <Dropdown onSelect={(e) => onhandleEditDropDownStatus(e, index)}>
+                                                <Dropdown.Toggle
+                                                    className={`${styles['dropdown-toggle']}`}
+                                                    variant={val?.task_status === "Done" ? "success" : "danger"}
+                                                    id="dropdown-basic" >
+                                                    { val?.task_status}
+                                                </Dropdown.Toggle>
+                                                <Dropdown.Menu
+                                                    className={`${styles['dropdown-menu']}`}>
+                                                    <Dropdown.Item
+                                                        eventKey={statusDone === "Done" ? "Done" : "Progress"}
+                                                        className={statusDone === "Done" ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
+                                                    >
+                                                        {statusDone}
+                                                    </Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </td>
+                                        :
+                                        <td
+                                            className={`d-flex justify-content-center ${styles['task-col']}`}
+                                            onClick={onClickColumnTaskStatus}
+                                        >
+                                            <div className={val.task_status === "progress" ? `badge bg-danger` : `badge bg-success`}>
+                                                {val?.task_status}
+                                            </div>
+                                        </td>
+                                    }
+
+                                    {isEditDate ?
+                                        <td 
+                                            className={`${styles['task-col']}`}
+                                            >
+                                            <input
+                                                type='date'
+                                                className='border-0 mt-2'
+                                                value={val?.task_date}
+                                                onChange={(e) => onhandleEditChangeTaskDate(e, index)}
+                                            />
+                                        </td>
+                                    :
+                                        <td className={`${styles['task-col']}`} onClick={onClickColumnDate}>
+                                            {val?.task_date}
+                                        </td>
+                                    }
                                 </tr>
                             )
                             :
