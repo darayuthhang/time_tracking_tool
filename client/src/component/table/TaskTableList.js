@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './table.module.css';
 
 import {
@@ -9,28 +9,83 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { createTask, deleteTaskList, getTaskList, resetTaskListSuccess, resetTaskSuccess, updateTaskListState } from '../../redux/action/TaskAction';
 import TableModal from './TableModal';
-import { defaultDate } from '../../uti';
+import { defaultDate, convertDateFormatToISOformat } from '../../uti';
 
-const TaskTableList = ({ projectNameHeading, projectId }) => {
+const TaskTableList = ({ 
+    projectNameHeading, 
+    projectId,
+     }) => {
+    const DONE = "Done";
+    const PROGRESS = "Progress";
+    
     const [tasksIds, setTasksIds] = useState([]);
     const [taskName, setTasktName] = useState("");
     const [taskDate, setTaskDate] = useState(defaultDate());
     const [taskDescription, setTaskDescription] = useState("");
-    const [status, setStatus] = useState("Progress");
-    const [statusDone, setStatusDone] = useState("Done");
+    const [status, setStatus] = useState(PROGRESS);
+    const [statusDone, setStatusDone] = useState(DONE);
     const [showInputFill, setShowInputFill] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [isEditTaskName, setIsEditTaskName] = useState(false);
-    const [isEditTaskDescription, setIsEditTaskDescription] = useState(false);
-    const [isEditTaskStatus, setIsEditTaskStatus] = useState(false);
-    const [isEditDate, setIsEditDate] = useState(false);
+   
+    const [isEditTask, setIsEditTask] = useState(false);
+    const [editIndex, setEditIndex] = useState(0);
+    const [isClickedOutSideTask, setIsClickedOutSideTask] = useState(false);
+
+
+    const taskRef = useRef();
 
     const dispatch = useDispatch();
     const { taskRequest, taskSuccess } = useSelector((state) => state.taskReducers);
     const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
     const { taskListDeleteRequest, taskListDeleteSuccess } = useSelector((state) => state.taskListDeleteReducers)
-
+ 
     useEffect(() => {
+        /**
+         * @REASON
+         * The reason we add event in useEffect
+         * we want to ensure that it only run once after program executing, then it stop running
+         * even though you update that state in scope of component, 
+         * it is also life cycle of react, avoid memeory leak causing by event listerner
+         * But if we give dependecy to it , it will run base on
+         * that state depenecy updating
+         * 
+         */
+        let timer;
+        const onhandleOutSideClickForTask = (e) => {
+            /**
+             * Update api only  when it is true
+             */
+            console.log(e.target);
+     
+            if (isClickedOutSideTask && taskRef.current) {
+                // console.log('Debouncing in 1 second');
+                // console.log(taskRef.current);
+            
+            //    timer = setTimeout(() => {
+                   
+            //        setIsEditTask(false);
+            //        setIsClickedOutSideTask(false)
+            //     }, 1000)
+               
+            } else {
+                if (isClickedOutSideTask){
+                    console.log("outsideclick for task");
+                }
+                console.log("outsideclick for task");
+            }
+        }
+        document.addEventListener("mousedown", onhandleOutSideClickForTask)
+      return () => {
+          document.removeEventListener("mousedown", onhandleOutSideClickForTask)
+          clearTimeout(timer)
+      }
+    }, [isClickedOutSideTask])
+  
+
+   
+    useEffect(() => {   
+        console.log('useEffect');
+
         /**
          * @This is best practice do not change
          */
@@ -44,8 +99,14 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         }
         dispatch(getTaskList(projectId));
         return () => {
+           
         }
     }, [taskSuccess, projectId, taskListDeleteSuccess])
+
+
+    const updateIsClickedOutSideTask = () => {
+        setIsClickedOutSideTask(true);
+    }
 
     const onhandleAddTask = () => {
         const newTask = {
@@ -80,10 +141,10 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         setTaskDate(e.target.value);
     }
     const onhandleSelectDropDown = (e) => {
-        if (e === "Done") {
-            setStatusDone("Progress")
-        } else if (e === "Progress") {
-            setStatusDone("Done")
+        if (e === DONE) {
+            setStatusDone(PROGRESS)
+        } else if (e === PROGRESS) {
+            setStatusDone(DONE)
         }
         setStatus(e);
     }
@@ -96,8 +157,10 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
             setTasksIds([...tasksIds, value]);
         }
     }
-    const switchShowFillInput = () => {
+    const switchShowFillInput = (e) => {
+        e.stopPropagation();
         setShowInputFill(true);
+     
     }
     const onhandleCloseInputFill = () => {
         setShowInputFill(false);
@@ -107,18 +170,7 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         if (taskDescription) setTaskDescription("");
         setTaskDate(defaultDate())
     }
-    const onClickColumnTaskName = () => {
-        setIsEditTaskName(true);
-    }
-    const onClickColumnTaskDescription = () => {
-        setIsEditTaskDescription(true);
-    }
-    const onClickColumnTaskStatus = () => {
-        setIsEditTaskStatus(true);
-    }
-    const onClickColumnDate = () => {
-        setIsEditDate(true);
-    }
+   
     const onhandleEditChangeTaskName = (e, index) => {
         taskListData[index].task_name = e.target.value;
         dispatch(updateTaskListState(taskListData))
@@ -128,21 +180,26 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
         dispatch(updateTaskListState(taskListData))
     }
     const onhandleEditDropDownStatus = (value, index) => {
-        if (value === "Done") {
-            setStatusDone("Progress")
-        } else if (value === "Progress") {
-            setStatusDone("Done")
+        if (value === DONE) {
+            setStatusDone(PROGRESS)
+        } else if (value === PROGRESS) {
+            setStatusDone(DONE)
         }
         taskListData[index].task_status = value;
         dispatch(updateTaskListState(taskListData))
     }
     const onhandleEditChangeTaskDate = (e, index) => {
+        console.log(e.target.value);
         taskListData[index].task_date = e.target.value;
         dispatch(updateTaskListState(taskListData))
     }
-   
+    const onhandleClickEditTask = (index) => {
+        setIsEditTask(true);
+        setEditIndex(index);
+        updateIsClickedOutSideTask();
+    }
     return (
-        <div className='fs-5'>
+        <div className={`fs-5 ${styles['task-table-list']}`}>
             <TableModal
                 show={showDeleteModal}
                 handleClose={handleCloseDeleteModal}
@@ -202,8 +259,8 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                             />
                                         </div>
                                     </th>
-                                    {isEditTaskName ?
-                                        <td>
+                                    {isEditTask && editIndex  === index?
+                                        <td ref={taskRef}>
                                             <textarea
                                                 rows="1"
                                                 className={`${styles.textarea} p-2`}
@@ -216,7 +273,8 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
 
                                         :
                                         <td
-                                            onClick={onClickColumnTaskName}
+                                            onClick={() => onhandleClickEditTask(index)}
+                                      
                                             className={`${styles['task-col']}`}>
                                             <div>
                                                 {val?.task_name}
@@ -224,8 +282,8 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
 
                                         </td>
                                     }
-                                    {isEditTaskDescription ?
-                                        <td>
+                                    {isEditTask && editIndex === index ?
+                                        <td ref={taskRef}>
                                             <textarea
                                                 rows="1"
                                                 className={`${styles.textarea} p-2`}
@@ -235,10 +293,9 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                                 id="floatingTextarea">
                                             </textarea>
                                         </td>
-
                                         :
                                         <td
-                                            onClick={onClickColumnTaskDescription}
+                                            onClick={() => onhandleClickEditTask(index)}
                                             className={`${styles['task-col']}`}>
                                             <div>
                                                 {val?.task_description}
@@ -246,20 +303,23 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
 
                                         </td>
                                     }
-                                    {isEditTaskStatus ?
-                                        <td className={`d-flex justify-content-center ${styles['task-col']}`}>
+                                    {isEditTask && editIndex === index?
+                                        <td 
+                                            ref={taskRef}
+                                        className={`d-flex justify-content-center ${styles['task-col']}`}
+                                        >
                                             <Dropdown onSelect={(e) => onhandleEditDropDownStatus(e, index)}>
                                                 <Dropdown.Toggle
                                                     className={`${styles['dropdown-toggle']}`}
-                                                    variant={val?.task_status === "Done" ? "success" : "danger"}
+                                                    variant={val?.task_status === DONE ? "success" : "danger"}
                                                     id="dropdown-basic" >
                                                     { val?.task_status}
                                                 </Dropdown.Toggle>
                                                 <Dropdown.Menu
                                                     className={`${styles['dropdown-menu']}`}>
                                                     <Dropdown.Item
-                                                        eventKey={statusDone === "Done" ? "Done" : "Progress"}
-                                                        className={statusDone === "Done" ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
+                                                        eventKey={statusDone === DONE ? DONE : PROGRESS}
+                                                        className={statusDone === DONE ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
                                                     >
                                                         {statusDone}
                                                     </Dropdown.Item>
@@ -269,27 +329,30 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                         :
                                         <td
                                             className={`d-flex justify-content-center ${styles['task-col']}`}
-                                            onClick={onClickColumnTaskStatus}
+                                            onClick={() => onhandleClickEditTask(index)}
                                         >
-                                            <div className={val.task_status === "progress" ? `badge bg-danger` : `badge bg-success`}>
+                                            <div className={val.task_status === PROGRESS ? `badge bg-danger` : `badge bg-success`}>
                                                 {val?.task_status}
                                             </div>
                                         </td>
                                     }
 
-                                    {isEditDate ?
+                                    {isEditTask && editIndex === index ?
                                         <td 
                                             className={`${styles['task-col']}`}
+                                            ref={taskRef}
                                             >
                                             <input
                                                 type='date'
                                                 className='border-0 mt-2'
-                                                value={val?.task_date}
+                                                value={convertDateFormatToISOformat(val?.task_date)}
                                                 onChange={(e) => onhandleEditChangeTaskDate(e, index)}
                                             />
                                         </td>
                                     :
-                                        <td className={`${styles['task-col']}`} onClick={onClickColumnDate}>
+                                        <td className={`${styles['task-col']}`} 
+                                            onClick={() => onhandleClickEditTask(index)}
+                                            >
                                             {val?.task_date}
                                         </td>
                                     }
@@ -338,15 +401,15 @@ const TaskTableList = ({ projectNameHeading, projectId }) => {
                                     <Dropdown onSelect={onhandleSelectDropDown}>
                                         <Dropdown.Toggle
                                             className={`${styles['dropdown-toggle']}`}
-                                            variant={status === "Done" ? "success" : "danger"}
+                                            variant={status === DONE ? "success" : "danger"}
                                             id="dropdown-basic" >
                                             {status}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu
                                             className={`${styles['dropdown-menu']}`}>
                                             <Dropdown.Item
-                                                eventKey={statusDone === "Done" ? "Done" : "Progress"}
-                                                className={statusDone === "Done" ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
+                                                eventKey={statusDone === DONE ? DONE : PROGRESS}
+                                                className={statusDone === DONE ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
                                             >
                                                 {statusDone}
                                             </Dropdown.Item>

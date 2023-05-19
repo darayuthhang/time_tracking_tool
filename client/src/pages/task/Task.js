@@ -12,6 +12,7 @@ import { createProject, resetStateCreateSuccess } from '../../redux/action/Proje
 import Cookie from '../../uti/Cookie';
 import { projectList } from '../../redux/action/ProjectAction';
 
+
 const Task = () => {
     
     const [showProject, setShowProject] = useState(false);
@@ -20,7 +21,9 @@ const Task = () => {
     const [projectDescription, setProjectDescription] = useState("");
     //const [activeTab, setActiveTab] = useState("");
     const [projectId, setProjectId] = useState("");
+ 
     const dispatch = useDispatch();
+
     //const {user} = useSelector((state) => state.authReducers);
     const user = Cookie.getUser();
     const { projectRequest, projectSuccess } = useSelector((state) => state.projectReducers);
@@ -35,8 +38,16 @@ const Task = () => {
         
       }
     }, [projectSuccess])
+    // useEffect(() => {
+    //     document.addEventListener("mousedown", onhandleOutSideClick)
 
-    
+    //     return () => {
+    //         document.removeEventListener("mousedown", onhandleOutSideClick)
+    //     }
+    // }, [])
+    // const onhandleOutSideClick = () => {
+    //     console.log("outsideclick for project");
+    // }
     /**
      * 
      * @Description onhandleAddProject() is handle sending post request to back-end.
@@ -76,11 +87,12 @@ const Task = () => {
     const onSelectActiveTab = (key) => {
         setProjectId(key);
     }
+   
     return (
         <div>
             <Tab.Container id="left-tabs-example" onSelect={(selectedKey) => onSelectActiveTab(selectedKey)}>
                 <Row className={` `}>
-                    <Col  md={2} className={`border left-tab-container ${styles.side_bar} `}>
+                    <Col  md={2} className={`left-tab-container ${styles.side_bar} `}>
                         <Nav variant="pills" className="flex-column" >
                             <Nav.Item >
                                 <Nav.Link eventKey="first" style={{ color: 'black' }} className=''>
@@ -110,16 +122,20 @@ const Task = () => {
                             }
                         </Nav>
                     </Col>
-                    <Col md={10} className={`right-tab-container ${styles.right_tab_bar}`}>
+                    <Col md={10} className={`right-tab-container ${styles.right_tab_bar} `}>
                         <Container className=' mt-5 ml-3'>
                             <Tab.Content>
-                                <Tab.Pane eventKey="first">First tab content</Tab.Pane>
+                                <Tab.Pane className='' eventKey="first">First tab content</Tab.Pane>
                                 {projectListData.length > 0 &&
                                     projectListData.map((val, index) =>
-                                        <Tab.Pane key={val?.id} eventKey={val?.id}>
+                                        <Tab.Pane 
+                                        key={val?.id} 
+                                        eventKey={val?.id} 
+                                        >
                                             <TaskTableList 
                                                 projectNameHeading={val?.project_name}
                                                 projectId={projectId}
+                                             
                                             />
                                         </Tab.Pane>
                                     )

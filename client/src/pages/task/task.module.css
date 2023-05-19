@@ -12,6 +12,7 @@
     /* padding: 3px 0 3px 5px; */
     font-weight: 600;
 }
+
 @media screen and (min-width: 600px) {
     .side_bar {
         height: 100vh;

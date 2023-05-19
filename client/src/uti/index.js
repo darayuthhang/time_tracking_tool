@@ -16,3 +16,16 @@ export const defaultDate = () => {
     today = yyyy + '-' + mm + '-' + dd;
     return today;
 }
+/**
+ * 
+ *@description ISO FORMAT YYYY-MM-DD
+ */
+export const convertDateFormatToISOformat = (input = "") => {
+    let format = input.split('/');
+    /**
+     * format is empty or there is no slash, return original input
+     */
+    if(format[0] === '' || format.length === 1) return input;
+    let newFormat = format[2] + "-" + format[0] + "-" + format[1];
+    return newFormat
+}
