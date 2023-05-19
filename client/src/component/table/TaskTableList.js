@@ -40,38 +40,25 @@ const TaskTableList = ({
     const { taskListDeleteRequest, taskListDeleteSuccess } = useSelector((state) => state.taskListDeleteReducers)
  
     useEffect(() => {
-        /**
-         * @REASON
-         * The reason we add event in useEffect
-         * we want to ensure that it only run once after program executing, then it stop running
-         * even though you update that state in scope of component, 
-         * it is also life cycle of react, avoid memeory leak causing by event listerner
-         * But if we give dependecy to it , it will run base on
-         * that state depenecy updating
-         * 
-         */
         let timer;
         const onhandleOutSideClickForTask = (e) => {
             /**
+             * @Description read in the morning
              * Update api only  when it is true
-             */
-            console.log(e.target);
-     
-            if (isClickedOutSideTask && taskRef.current) {
-                // console.log('Debouncing in 1 second');
-                // console.log(taskRef.current);
-            
-            //    timer = setTimeout(() => {
-                   
-            //        setIsEditTask(false);
-            //        setIsClickedOutSideTask(false)
-            //     }, 1000)
-               
-            } else {
-                if (isClickedOutSideTask){
-                    console.log("outsideclick for task");
-                }
-                console.log("outsideclick for task");
+             *  Consequently, a state update inside the onHandleOutsideClickForTask 
+             * function triggered by a mouse-down event will not trigger a re-render of the component.
+                In this case, clicking the mouse down will call the onHandleOutsideClickForTask 
+                function, which updates the state using setIsEditTask(false).
+                However, since the effect is not re-executed, 
+                the component will not re-render, and the UI will not reflect the updated state.
+                            */
+            const OUT_SIDE_TAB = "out-side-tab-for-ref"
+            const isOutSide = e.target?.className?.includes(OUT_SIDE_TAB);
+            if (isClickedOutSideTask && isOutSide) {
+                timer = setTimeout(() => {
+                    setIsClickedOutSideTask(false)
+                    setIsEditTask(false);
+                }, 1000)
             }
         }
         document.addEventListener("mousedown", onhandleOutSideClickForTask)
@@ -200,6 +187,7 @@ const TaskTableList = ({
     }
     return (
         <div className={`fs-5 ${styles['task-table-list']}`}>
+            {console.log(isEditTask)}
             <TableModal
                 show={showDeleteModal}
                 handleClose={handleCloseDeleteModal}
@@ -260,8 +248,9 @@ const TaskTableList = ({
                                         </div>
                                     </th>
                                     {isEditTask && editIndex  === index?
-                                        <td ref={taskRef}>
+                                        <td ref={taskRef} className='inside-row hello'>
                                             <textarea
+                                                
                                                 rows="1"
                                                 className={`${styles.textarea} p-2`}
                                                 placeholder="Task name"
@@ -283,7 +272,8 @@ const TaskTableList = ({
                                         </td>
                                     }
                                     {isEditTask && editIndex === index ?
-                                        <td ref={taskRef}>
+                                        <td
+                                        >
                                             <textarea
                                                 rows="1"
                                                 className={`${styles.textarea} p-2`}
@@ -305,7 +295,7 @@ const TaskTableList = ({
                                     }
                                     {isEditTask && editIndex === index?
                                         <td 
-                                            ref={taskRef}
+                                          
                                         className={`d-flex justify-content-center ${styles['task-col']}`}
                                         >
                                             <Dropdown onSelect={(e) => onhandleEditDropDownStatus(e, index)}>
@@ -340,7 +330,7 @@ const TaskTableList = ({
                                     {isEditTask && editIndex === index ?
                                         <td 
                                             className={`${styles['task-col']}`}
-                                            ref={taskRef}
+                                           
                                             >
                                             <input
                                                 type='date'

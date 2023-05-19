@@ -122,7 +122,7 @@ const Task = () => {
                             }
                         </Nav>
                     </Col>
-                    <Col md={10} className={`right-tab-container ${styles.right_tab_bar} `}>
+                    <Col md={10} className={`right-tab-container ${styles.right_tab_bar} out-side-tab-for-ref`}>
                         <Container className=' mt-5 ml-3'>
                             <Tab.Content>
                                 <Tab.Pane className='' eventKey="first">First tab content</Tab.Pane>
