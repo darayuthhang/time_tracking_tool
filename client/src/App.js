@@ -51,7 +51,9 @@ function App() {
     <div className="font-monospace">
       {/* <Ads dataAdSlot='6642898968' /> */}
       <BrowserRouter >
-        <div className="App">
+        <div className="App" 
+        
+        >
           <Navigation
             isAuth={isAuth}
             handleLogout={handleLogout}

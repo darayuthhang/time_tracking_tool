@@ -89,9 +89,18 @@ const Task = () => {
     }
    
     return (
-        <div>
-            <Tab.Container id="left-tabs-example" onSelect={(selectedKey) => onSelectActiveTab(selectedKey)}>
-                <Row className={` `}>
+        <div 
+       
+            style={{height: "100vh"}}
+        //    style={{height: "100vh"}}
+            // style={{height: '100vh'}}
+        // style={{ position: 'absolute', left: '0px', height: '100%', width: '100%', overflow: 'hidden'}}
+        >
+            <Tab.Container id="left-tabs-example" 
+                className=""
+                onSelect={(selectedKey) => onSelectActiveTab(selectedKey)}
+            >
+                <Row className={`h-100`} >
                     <Col  md={2} className={`left-tab-container ${styles.side_bar} `}>
                         <Nav variant="pills" className="flex-column" >
                             <Nav.Item >
@@ -122,15 +131,16 @@ const Task = () => {
                             }
                         </Nav>
                     </Col>
-                    <Col md={10} className={`right-tab-container ${styles.right_tab_bar} out-side-tab-for-ref`}>
-                        <Container className=' mt-5 ml-3'>
-                            <Tab.Content>
+                    <Col md={10} className={` h-100 right-tab-container  ${styles.right_tab_bar} is-clicked `}>
+                            <Tab.Content className='h-100 '>
                                 <Tab.Pane className='' eventKey="first">First tab content</Tab.Pane>
                                 {projectListData.length > 0 &&
                                     projectListData.map((val, index) =>
                                         <Tab.Pane 
                                         key={val?.id} 
                                         eventKey={val?.id} 
+                                        className="h-100"
+                                        // className="border border-danger"
                                         >
                                             <TaskTableList 
                                                 projectNameHeading={val?.project_name}
@@ -141,8 +151,6 @@ const Task = () => {
                                     )
                                 }
                             </Tab.Content>
-                        </Container>
-
                     </Col>
                 </Row>
                 <Modal 
