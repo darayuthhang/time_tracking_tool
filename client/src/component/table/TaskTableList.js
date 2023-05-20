@@ -24,25 +24,21 @@ const TaskTableList = ({
     const [taskDate, setTaskDate] = useState(defaultDate());
     const [taskDescription, setTaskDescription] = useState("");
     const [status, setStatus] = useState(PROGRESS);
-    const [statusDone, setStatusDone] = useState(PROGRESS);
+    const [statusDone, setStatusDone] = useState("");
     const [showInputFill, setShowInputFill] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-   
     const [isEditTask, setIsEditTask] = useState(false);
     const [editIndex, setEditIndex] = useState(0);
-    const [isClickedOutSideTask, setIsClickedOutSideTask] = useState(false);
-
-
-    const taskRef = useRef();
-
+    const [isDateEmpty, setIsDateEmpty] = useState(false);
+    /**
+     * @REDUX STATE
+     */
     const dispatch = useDispatch();
     const { taskRequest, taskSuccess } = useSelector((state) => state.taskReducers);
     const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
     const { taskListDeleteRequest, taskListDeleteSuccess } = useSelector((state) => state.taskListDeleteReducers)
         
-    // useEffect(() => {
-    //     let timer;
-    //     const onhandleOutSideClickForTask = (e) => {
+
     //         /**
     //          * @Description read in the morning
     //          * Update api only  when it is true
@@ -55,24 +51,6 @@ const TaskTableList = ({
     //             the component will not re-render, and the UI will not reflect the updated state.
     //                         */
           
-    //         const BREAD_CRUMP = "breadcrumb"
-
-    //         const isClickedOutSideTable = e.target?.className?.includes(IS_CLCIKED);
-    //         const isClickOnBreadCrump = e.target?.className?.includes(BREAD_CRUMP);
-       
-    //         // if (isClickedOutSideTask && (isClickedOutSideTable || isClickOnBreadCrump)) {
-    //         //     setIsEditTask(false);
-    //         //     setIsClickedOutSideTask(false)
-    //         // }
-    //     }
-    //     document.addEventListener("mousedown", onhandleOutSideClickForTask)
-    //   return () => {
-    //       document.removeEventListener("mousedown", onhandleOutSideClickForTask)
-    //       clearTimeout(timer)
-    //   }
-    // }, [isClickedOutSideTask])
-  
-
    
     useEffect(() => {   
         console.log('useEffect');
@@ -86,6 +64,9 @@ const TaskTableList = ({
         }
         if (taskListDeleteSuccess) {
             // dispatch(reset)
+            // setTasksIds([]);
+            // if(taskDate === "") setTaskDate()
+            
             dispatch(resetTaskListSuccess());
         }
         dispatch(getTaskList(projectId));
@@ -94,23 +75,43 @@ const TaskTableList = ({
         }
     }, [taskSuccess, projectId, taskListDeleteSuccess])
 
-
-    const updateIsClickedOutSideTask = () => {
-        setIsClickedOutSideTask(true);
+    /**
+     * @description
+     * - @Reset all task to default
+     * 
+     */
+    const resetOnChangeStateToDefault = () => {
+        if (taskName) setTasktName("");
+        if (taskDescription) setTaskDescription("");
     }
-
+    /**
+     * @description
+     *  - @AddTask
+     */
     const onhandleAddTask = () => {
+        /**
+         * @description
+         * - Taskname do not need to show empty since we already lock
+         *   button if it is empty
+         * - Taskdate do not need to show empty since we already
+         *   set default value from it
+         * 
+         * */
+     
         const newTask = {
             taskName,
             taskDescription,
             taskDate,
             projectId,
-            taskStatus: status
+            taskStatus:status 
         }
         dispatch(createTask(newTask))
         resetOnChangeStateToDefault();
     }
-
+    /**
+     * @description
+     *   - @Modal
+     */
     const handleCloseDeleteModal = () => {
         setShowDeleteModal(false)
     };
@@ -143,6 +144,7 @@ const TaskTableList = ({
         setStatus(val);
     }
     const onhandleChangeTick = (e) => {
+      
         const { checked, value } = e.target;
         if (checked === false) {
             const newTask = tasksIds.filter((val, index) => val != value)
@@ -151,6 +153,10 @@ const TaskTableList = ({
             setTasksIds([...tasksIds, value]);
         }
     }
+    /**
+     * @Description
+     *  - @Show the @Cancel and @Add button
+     */
     const switchShowFillInput = (e) => {
         e.stopPropagation();
         setShowInputFill(true);
@@ -159,11 +165,7 @@ const TaskTableList = ({
     const onhandleCloseInputFill = () => {
         setShowInputFill(false);
     }
-    const resetOnChangeStateToDefault = () => {
-        if (taskName) setTasktName("");
-        if (taskDescription) setTaskDescription("");
-        setTaskDate(defaultDate())
-    }
+
 
     /**
      * We can’t use the above function directly in a functional component 
@@ -176,33 +178,60 @@ const TaskTableList = ({
  */
     
     //const debounceOnEditChange = React.useCallback(debounce((e, index) => onhandleEditChangeTaskName(e, index), 400), []);
+    
+    /**
+     * 
+     * @Description
+     *  - @HandleEditonChange on All edit task 
+     */
     const onhandleEditChangeTaskName = (e, index) => {
-        taskListData[index].task_name = e.target.value;
+        const {value} = e.target;
+        setTasktName(value)
+        taskListData[index].task_name = value;
         dispatch(updateTaskListState(taskListData))
     }
     const onhandleEditChangeTaskDescription = (e, index) => {
-        taskListData[index].task_description = e.target.value;
+        const {value} = e.target;
+        setTaskDescription(value)
+        taskListData[index].task_description = value;
         dispatch(updateTaskListState(taskListData))
     }
     const onhandleEditDropDownStatus = (eventKey, event, index) => {
         event.stopPropagation();
-        console.log(eventKey);
+        setStatus(eventKey);
         taskListData[index].task_status = eventKey;
         dispatch(updateTaskListState(taskListData))
     }
     const onhandleEditChangeTaskDate = (e, index) => {
-        taskListData[index].task_date = e.target.value;
+        const { value } = e.target;
+        setTaskDate(value)
+        taskListData[index].task_date = value;
         dispatch(updateTaskListState(taskListData))
     }
     const onhandleClickEditTask = (e, index) => {
         e.stopPropagation();
         setIsEditTask(true);
         setEditIndex(index);
-        // updateStateStatusDone();
     }
     const onClickOutsideTable = () => {
         // send update to api 
-        console.log("clicked outside the table");
+        const newTask = {
+            taskName,
+            taskDescription,
+            taskDate,
+            projectId,
+            taskStatus: status
+        }
+        //if edit task is true, we will send api
+        if(isEditTask){
+            setIsEditTask(false)
+            //send date
+            if(taskName){
+                console.log("send data api");
+            }
+            console.log(newTask);
+            console.log("clicked outside the table");
+        }
     }
    
     return (
@@ -235,7 +264,7 @@ const TaskTableList = ({
                 >
                     <Breadcrumb.Item href="#">All tasks</Breadcrumb.Item>
                     <Breadcrumb.Item active>This week</Breadcrumb.Item>
-                    {tasksIds.length > 0 &&
+                    {tasksIds.length > 0 && taskListData.length > 0 &&
                         <div className={`${styles.trash} ms-auto`} onClick={handleShowDeleteModal}>
                             <div className={`text-center`}>
                                 <i className={`bi bi-trash`}></i>
@@ -266,6 +295,9 @@ const TaskTableList = ({
                             </tr>
                         </thead>
                         <tbody>
+                            {/* 
+                                Show data that have already added.
+                            */} 
                             {taskListData.length > 0 ?
                                 taskListData.map((val, index) =>
                                     <tr key={index}>
@@ -389,6 +421,9 @@ const TaskTableList = ({
                                 :
                                 ""
                             }
+                            {/* 
+                                Show Cancel and Add Button 
+                            */} 
                             {showInputFill &&
                                 <tr className=''>
                                     <th scope="row" className=''>
@@ -431,15 +466,17 @@ const TaskTableList = ({
                                                 className={`${styles['dropdown-toggle']}`}
                                                 variant={status === DONE ? "success" : "danger"}
                                                 id="dropdown-basic" >
-                                                {status}
+                                                {status === "" || status === PROGRESS ? PROGRESS : DONE}
+                                                {/* {status === "" ? PROGRESS: DONE} */}
                                             </Dropdown.Toggle>
                                             <Dropdown.Menu
                                                 className={`${styles['dropdown-menu']}`}>
                                                 <Dropdown.Item
-                                                    eventKey={statusDone === DONE ? DONE : PROGRESS}
-                                                    className={statusDone === DONE ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
+                                                    eventKey={status === "" || status === PROGRESS ? DONE : PROGRESS}
+                                                    className={status === "" || status === PROGRESS ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
                                                 >
-                                                    {statusDone}
+                                                    {status === "" || status === PROGRESS ? DONE : PROGRESS}
+                                                    {/* {status !== "" ? PROGRESS : DONE} */}
                                                 </Dropdown.Item>
 
                                             </Dropdown.Menu>
@@ -452,6 +489,7 @@ const TaskTableList = ({
                                             value={taskDate}
                                             onChange={onhandleChangeDate}
                                         />
+                                        {/* {isDateEmpty && <div className='text-danger'>Input date cannot be empty</div>} */}
                                     </td>
                                     {/* <td className=''><i className={`${styles.trash} bi bi-trash`}></i></td> */}
                                 </tr>
