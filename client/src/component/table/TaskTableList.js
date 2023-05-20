@@ -216,21 +216,22 @@ const TaskTableList = ({
     const onClickOutsideTable = () => {
         // send update to api 
         const newTask = {
-            taskName,
-            taskDescription,
-            taskDate,
+            taskName: taskListData[editIndex]?.task_name,
+            taskDescription: taskListData[editIndex]?.task_description,
+            taskDate: taskListData[editIndex]?.task_date,
             projectId,
-            taskStatus: status
+            taskStatus: taskListData[editIndex]?.task_status
         }
         //if edit task is true, we will send api
         if(isEditTask){
+            /**
+             * send the same object data to 
+             * back-end because back-end will handle
+             * which one to update
+             * @Todo send data to back-end
+             */
             setIsEditTask(false)
-            //send date
-            if(taskName){
-                console.log("send data api");
-            }
             console.log(newTask);
-            console.log("clicked outside the table");
         }
     }
    
@@ -279,19 +280,12 @@ const TaskTableList = ({
                     <table className="table table-bordered rounded rounded-3 text-center  ">
                         <thead>
                             <tr>
-                                <th scope="col" className={`${styles.tick_box_heading}`}
-                                >
-                                    {/* <div className='d-flex justify-content-center mt-1 '>
-                                <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
-                            </div> */}
+                                <th scope="col" className={`${styles.tick_box_heading}`}>
                                 </th>
                                 <th scope="col" className={`${styles.td}`}>Task name</th>
                                 <th scope="col" className={`${styles.td}`}>Description</th>
                                 <th scope="col" className={`${styles['status-heading']}`}>Status</th>
                                 <th scope="col" className={`${styles['date-heading']}`}>Date</th>
-                                {/* <th scope="col" className={`${styles.trash_heading}`}>
-                              
-                            </th> */}
                             </tr>
                         </thead>
                         <tbody>
