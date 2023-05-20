@@ -56,3 +56,20 @@ export function taskListDeleteReducers(state = {
     }
 }
 
+export function taskUpdateReducers(state = {
+    taskUpdateRequest: false,
+    taskUpdateSuccess: false,
+    taskUpdateError: null
+}, action) {
+    switch (action.type) {
+        case TaskTypes.TASK_UPDATE_REQUEST:
+            return { ...state, taskUpdateRequest: true };
+        // case TaskTypes.TASK_LIST_RESET_SUCCESS:
+        //     return { ...state, taskListDeleteSuccess: false };
+        case TaskTypes.TASK_UPDATE_SUCCESS:
+            return { ...state, taskUpdateSuccess: true, taskUpdateRequest: false };
+        case TaskTypes.TASK_UPDATE_ERROR_REQUEST:
+            return { ...state, taskUpdateError: action.payload, taskUpdateRequest: false };
+        default: return state;
+    }
+}

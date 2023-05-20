@@ -44,6 +44,19 @@ export const deleteTaskList = (projectId, taskIds = []) => async(dispatch) => {
         dispatch({ type: TaskTypes.TASKS_LIST_DELETE_ERROR, payload: error.message })
     }
 }
+export const updateTaskList = (projectId, taskId) => async (dispatch) => {
+    try {
+        // console.log(JSON.stringify(taskIds));
+        dispatch({ type: TaskTypes.TASK_UPDATE_REQUEST })
+        const getData = await axios.put(`/api/v1/${projectId}/task/${taskId}`);
+        logSuccess(getData);
+        dispatch({ type: TaskTypes.TASK_UPDATE_SUCCESS })
+    } catch (error) {
+        logError(error)
+        dispatch({ type: TaskTypes.TASK_UPDATE_ERROR_REQUEST, payload: error.message })
+    }
+}
+
 
 export const updateTaskListState = (data) => {
     return {

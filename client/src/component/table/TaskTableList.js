@@ -194,19 +194,20 @@ const TaskTableList = ({
         taskListData[index].task_date = e.target.value;
         dispatch(updateTaskListState(taskListData))
     }
-    const onhandleClickEditTask = (index) => {
+    const onhandleClickEditTask = (e, index) => {
+        e.stopPropagation();
         setIsEditTask(true);
         setEditIndex(index);
-        updateStateStatusDone();
+        // updateStateStatusDone();
     }
     const onClickOutsideTable = () => {
-     
+        // send update to api 
         console.log("clicked outside the table");
     }
    
     return (
         <div 
-            className={`h-100 fs-5 p-5 ${styles['task-table-list']} ${IS_CLCIKED}
+            className={`h-100 fs-5 p-5 ${styles['task-table-list']} 
             border border-primary `}
             onClick={onClickOutsideTable}
        
@@ -245,7 +246,7 @@ const TaskTableList = ({
                 </Breadcrumb>
 
 
-                <div className={`table-responsive card  p-3 ${styles['all-task-texts']} ${IS_CLCIKED}`}>
+                <div className={`table-responsive card  p-3 ${styles['all-task-texts']} `}>
                     <table className="table table-bordered rounded rounded-3 text-center  ">
                         <thead>
                             <tr>
@@ -280,13 +281,14 @@ const TaskTableList = ({
                                         </th>
                                         {isEditTask && editIndex === index ?
                                             <td
+                                                onClick={(e) => { e.stopPropagation() }}
                                             >
                                                 <textarea
                                                     rows="1"
                                                     className={`${styles.textarea} p-2`}
                                                     placeholder="Task name"
                                                     value={val?.task_name}
-                                                    onMouseDown={(e) => { e.stopPropagation() }}
+                                                   
                                                     onChange={(e) => onhandleEditChangeTaskName(e, index)}
                                                     id="floatingTextarea">
                                                 </textarea>
@@ -294,7 +296,7 @@ const TaskTableList = ({
 
                                             :
                                             <td
-                                                onClick={() => onhandleClickEditTask(index)}
+                                                onClick={(e) => onhandleClickEditTask(e, index)}
 
                                                 className={`${styles['task-col']}`}>
                                                 <div>
@@ -305,20 +307,22 @@ const TaskTableList = ({
                                         }
                                         {isEditTask && editIndex === index ?
                                             <td
-
+                                                onClick={(e) => { e.stopPropagation() }}
                                             >
                                                 <textarea
                                                     rows="1"
                                                     className={`${styles.textarea} p-2`}
                                                     placeholder="Task description"
                                                     value={val?.task_description}
+                                                    onClick={(e) => { e.stopPropagation() }}
                                                     onChange={(e) => onhandleEditChangeTaskDescription(e, index)}
                                                     id="floatingTextarea">
                                                 </textarea>
                                             </td>
                                             :
                                             <td
-                                                onClick={() => onhandleClickEditTask(index)}
+                                                onClick={(e) => onhandleClickEditTask(e, index)}
+                                                // onClick={(e) => onhandleClickEditTask(e, index)}
                                                 className={`${styles['task-col']}`}>
                                                 <div>
                                                     {val?.task_description}
@@ -329,6 +333,7 @@ const TaskTableList = ({
                                         {isEditTask && editIndex === index ?
                                             <td
                                                 className={`d-flex justify-content-center ${styles['task-col']}`}
+                                                onClick={(e) => { e.stopPropagation() }}
                                             >
                                                 <Dropdown onSelect={(eventKey, event) => onhandleEditDropDownStatus(eventKey, event, index)}>
                                                     <Dropdown.Toggle
@@ -352,7 +357,7 @@ const TaskTableList = ({
                                             :
                                             <td
                                                 className={`d-flex justify-content-center ${styles['task-col']}`}
-                                                onClick={() => onhandleClickEditTask(index)}
+                                                onClick={(e) => onhandleClickEditTask(e, index)}
                                             >
                                                 <div className={val.task_status === PROGRESS ? `badge bg-danger` : `badge bg-success`}>
                                                     {val?.task_status}
@@ -363,7 +368,7 @@ const TaskTableList = ({
                                         {isEditTask && editIndex === index ?
                                             <td
                                                 className={`${styles['task-col']}`}
-
+                                                onClick={(e) => { e.stopPropagation() }}
                                             >
                                                 <input
                                                     type='date'
@@ -374,7 +379,7 @@ const TaskTableList = ({
                                             </td>
                                             :
                                             <td className={`${styles['task-col']}`}
-                                                onClick={() => onhandleClickEditTask(index)}
+                                                onClick={(e) => onhandleClickEditTask(e, index)}
                                             >
                                                 {val?.task_date}
                                             </td>

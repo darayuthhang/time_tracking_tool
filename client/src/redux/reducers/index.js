@@ -10,7 +10,8 @@ import {
 import { 
     taskReducers,
     taskListReducers,
-    taskListDeleteReducers } from './TaskReducers';
+    taskListDeleteReducers,
+    taskUpdateReducers } from './TaskReducers';
 
 
 const allReducers = combineReducers({
@@ -22,6 +23,7 @@ const allReducers = combineReducers({
     projectListReducers,
     taskReducers,
     taskListReducers,
-    taskListDeleteReducers
+    taskListDeleteReducers,
+    taskUpdateReducers
 })
 export default allReducers;
