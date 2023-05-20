@@ -40,37 +40,37 @@ const TaskTableList = ({
     const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
     const { taskListDeleteRequest, taskListDeleteSuccess } = useSelector((state) => state.taskListDeleteReducers)
         
-    useEffect(() => {
-        let timer;
-        const onhandleOutSideClickForTask = (e) => {
-            /**
-             * @Description read in the morning
-             * Update api only  when it is true
-             *  Consequently, a state update inside the onHandleOutsideClickForTask 
-             * function triggered by a mouse-down event will
-             *  not trigger a re-render of the component.
-                In this case, clicking the mouse down will call the onHandleOutsideClickForTask 
-                function, which updates the state using setIsEditTask(false).
-                However, since the effect is not re-executed, 
-                the component will not re-render, and the UI will not reflect the updated state.
-                            */
+    // useEffect(() => {
+    //     let timer;
+    //     const onhandleOutSideClickForTask = (e) => {
+    //         /**
+    //          * @Description read in the morning
+    //          * Update api only  when it is true
+    //          *  Consequently, a state update inside the onHandleOutsideClickForTask 
+    //          * function triggered by a mouse-down event will
+    //          *  not trigger a re-render of the component.
+    //             In this case, clicking the mouse down will call the onHandleOutsideClickForTask 
+    //             function, which updates the state using setIsEditTask(false).
+    //             However, since the effect is not re-executed, 
+    //             the component will not re-render, and the UI will not reflect the updated state.
+    //                         */
           
-            const BREAD_CRUMP = "breadcrumb"
+    //         const BREAD_CRUMP = "breadcrumb"
 
-            const isClickedOutSideTable = e.target?.className?.includes(IS_CLCIKED);
-            const isClickOnBreadCrump = e.target?.className?.includes(BREAD_CRUMP);
+    //         const isClickedOutSideTable = e.target?.className?.includes(IS_CLCIKED);
+    //         const isClickOnBreadCrump = e.target?.className?.includes(BREAD_CRUMP);
        
-            // if (isClickedOutSideTask && (isClickedOutSideTable || isClickOnBreadCrump)) {
-            //     setIsEditTask(false);
-            //     setIsClickedOutSideTask(false)
-            // }
-        }
-        document.addEventListener("mousedown", onhandleOutSideClickForTask)
-      return () => {
-          document.removeEventListener("mousedown", onhandleOutSideClickForTask)
-          clearTimeout(timer)
-      }
-    }, [isClickedOutSideTask])
+    //         // if (isClickedOutSideTask && (isClickedOutSideTable || isClickOnBreadCrump)) {
+    //         //     setIsEditTask(false);
+    //         //     setIsClickedOutSideTask(false)
+    //         // }
+    //     }
+    //     document.addEventListener("mousedown", onhandleOutSideClickForTask)
+    //   return () => {
+    //       document.removeEventListener("mousedown", onhandleOutSideClickForTask)
+    //       clearTimeout(timer)
+    //   }
+    // }, [isClickedOutSideTask])
   
 
    
@@ -131,13 +131,16 @@ const TaskTableList = ({
     const onhandleChangeDate = (e) => {
         setTaskDate(e.target.value);
     }
-    const onhandleSelectDropDown = (e) => {
-        if (e === DONE) {
+    const updateStateStatusDone = (val) => {
+        if (val === DONE) {
             setStatusDone(PROGRESS)
-        } else if (e === PROGRESS) {
+        } else if (val === PROGRESS) {
             setStatusDone(DONE)
         }
-        setStatus(e);
+    }
+    const onhandleSelectDropDown = (val) => {
+        updateStateStatusDone(val);
+        setStatus(val);
     }
     const onhandleChangeTick = (e) => {
         const { checked, value } = e.target;
@@ -177,40 +180,35 @@ const TaskTableList = ({
         taskListData[index].task_name = e.target.value;
         dispatch(updateTaskListState(taskListData))
     }
-
-    
     const onhandleEditChangeTaskDescription = (e, index) => {
         taskListData[index].task_description = e.target.value;
         dispatch(updateTaskListState(taskListData))
     }
-    const onhandleEditDropDownStatus = (value, index) => {
-        if (value === DONE) {
-            setStatusDone(PROGRESS)
-        } else if (value === PROGRESS) {
-            setStatusDone(DONE)
-        }
-        taskListData[index].task_status = value;
+    const onhandleEditDropDownStatus = (eventKey, event, index) => {
+        event.stopPropagation();
+        console.log(eventKey);
+        taskListData[index].task_status = eventKey;
         dispatch(updateTaskListState(taskListData))
     }
     const onhandleEditChangeTaskDate = (e, index) => {
-        console.log(e.target.value);
         taskListData[index].task_date = e.target.value;
         dispatch(updateTaskListState(taskListData))
     }
     const onhandleClickEditTask = (index) => {
         setIsEditTask(true);
         setEditIndex(index);
-        updateIsClickedOutSideTask();
+        updateStateStatusDone();
     }
     const onClickOutsideTable = () => {
-
+     
+        console.log("clicked outside the table");
     }
    
     return (
         <div 
             className={`h-100 fs-5 p-5 ${styles['task-table-list']} ${IS_CLCIKED}
             border border-primary `}
-            onClick={(e) => console.log("onMouseDown")}
+            onClick={onClickOutsideTable}
        
             >
             <Container>
@@ -330,10 +328,9 @@ const TaskTableList = ({
                                         }
                                         {isEditTask && editIndex === index ?
                                             <td
-
                                                 className={`d-flex justify-content-center ${styles['task-col']}`}
                                             >
-                                                <Dropdown onSelect={(e) => onhandleEditDropDownStatus(e, index)}>
+                                                <Dropdown onSelect={(eventKey, event) => onhandleEditDropDownStatus(eventKey, event, index)}>
                                                     <Dropdown.Toggle
                                                         className={`${styles['dropdown-toggle']}`}
                                                         variant={val?.task_status === DONE ? "success" : "danger"}
@@ -343,11 +340,12 @@ const TaskTableList = ({
                                                     <Dropdown.Menu
                                                         className={`${styles['dropdown-menu']}`}>
                                                         <Dropdown.Item
-                                                            eventKey={statusDone === DONE ? DONE : PROGRESS}
-                                                            className={statusDone === DONE ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
+                                                            eventKey={val?.task_status === PROGRESS ? DONE : PROGRESS}
+                                                            className={val?.task_status !== DONE ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
                                                         >
-                                                            {statusDone}
+                                                            {val?.task_status === PROGRESS ? DONE : PROGRESS}
                                                         </Dropdown.Item>
+                                                        
                                                     </Dropdown.Menu>
                                                 </Dropdown>
                                             </td>
