@@ -1,0 +1,12 @@
+build:
+  frontend:
+    docker:
+      web: client/Dockerfile.prod
+  backend:
+    docker:
+      web: Dockerfile.prod
+
+# release:
+#   image: backend
+#   command:
+#     - npm run start

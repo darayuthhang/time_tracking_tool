@@ -44,11 +44,11 @@ export const deleteTaskList = (projectId, taskIds = []) => async(dispatch) => {
         dispatch({ type: TaskTypes.TASKS_LIST_DELETE_ERROR, payload: error.message })
     }
 }
-export const updateTaskList = (projectId, taskId) => async (dispatch) => {
+export const updateTask = (projectId, taskId, task) => async (dispatch) => {
     try {
         // console.log(JSON.stringify(taskIds));
         dispatch({ type: TaskTypes.TASK_UPDATE_REQUEST })
-        const getData = await axios.put(`/api/v1/${projectId}/task/${taskId}`);
+        const getData = await axios.put(`/api/v1/${projectId}/task/${taskId}`, task);
         logSuccess(getData);
         dispatch({ type: TaskTypes.TASK_UPDATE_SUCCESS })
     } catch (error) {

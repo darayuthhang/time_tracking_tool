@@ -7,7 +7,7 @@ import {
     Button, Container
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { createTask, deleteTaskList, getTaskList, resetTaskListSuccess, resetTaskSuccess, updateTaskListState } from '../../redux/action/TaskAction';
+import { createTask, deleteTaskList, getTaskList, resetTaskListSuccess, resetTaskSuccess, updateTask, updateTaskListState } from '../../redux/action/TaskAction';
 import TableModal from './TableModal';
 import { defaultDate, convertDateFormatToISOformat } from '../../uti';
 
@@ -215,6 +215,7 @@ const TaskTableList = ({
     }
     const onClickOutsideTable = () => {
         // send update to api 
+        const taskId = taskListData[editIndex]?.id
         const newTask = {
             taskName: taskListData[editIndex]?.task_name,
             taskDescription: taskListData[editIndex]?.task_description,
@@ -231,14 +232,15 @@ const TaskTableList = ({
              * @Todo send data to back-end
              */
             setIsEditTask(false)
-            console.log(newTask);
+            dispatch(updateTask(projectId, taskId, newTask))
+            // dispatch(updateTas)
+           
         }
     }
    
     return (
         <div 
-            className={`h-100 fs-5 p-5 ${styles['task-table-list']} 
-            border border-primary `}
+            className={`h-100 fs-5 p-5 ${styles['task-table-list']}`}
             onClick={onClickOutsideTable}
        
             >

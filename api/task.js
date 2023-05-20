@@ -129,8 +129,5 @@ module.exports = (app) => {
             next(error);
         }
     })
-    // app.post(`${API_VERSION}/:projectId/tasks`)
-    // app.get("/api/v1/tasks", async (req, res, next) => {
-    //     return res.status(200).json({success: true})
-    // })
+
 }
