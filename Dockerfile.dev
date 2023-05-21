@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:18-alpine
 
 #tell docker to run configure in this app directory
 WORKDIR /usr/app
