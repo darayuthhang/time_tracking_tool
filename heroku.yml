@@ -1,9 +1,3 @@
 build:
-  backend:
-    docker:
-      web: Dockerfile.prod
-
-# release:
-#   image: backend
-#   command:
-#     - npm run start
+  docker:
+    web: Dockerfile.prod 
