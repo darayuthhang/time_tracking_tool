@@ -6,10 +6,11 @@ WORKDIR /usr/app
 #copy our current ditrect to new folder call app
 COPY . /usr/app/
 
+RUN npm install -g npm
 RUN npm install -g nodemon
 RUN npm install bcrypt
 RUN npm install -g knex
-RUN npm npm install -g npm@9.6.7
+
 
 COPY package.json .
 COPY knexfile.js .
@@ -18,7 +19,6 @@ RUN npm install && npm cache clean --force
 RUN npm install --prefix client
 #Builds React app
 RUN npm run --prefix client build
-
 
 EXPOSE 5000
 
