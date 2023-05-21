@@ -6,7 +6,7 @@ import { login, resetLoginError, googleLogin, resetGoogleLoginError } from '../.
 import { useSelector, dispatch, useDispatch } from 'react-redux';
 // import { signup, sendNewLinkToVerifyUser, resetloginSuccess } from '../../redux/action/UserAction';
 import ReactEndPoint from '../../constant/ReactEndPoint';
-import { GoogleLogin } from 'react-google-login';
+// import { GoogleLogin } from 'react-google-login';
 import GoogleButton from 'react-google-button'
 
 
@@ -100,7 +100,7 @@ const Login = () => {
                                 </div>
                             </div>
                           
-                            <GoogleLogin
+                            {/* <GoogleLogin
                                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                                     render={renderProps => (
                                         <GoogleButton onClick={renderProps.onClick} disabled={renderProps.disabled} className='w-100'>Sign in with Google</GoogleButton>
@@ -109,7 +109,7 @@ const Login = () => {
                                 onSuccess={handleLoginSuccess}
                                 onFailure={handleLoginFailure}
                                 cookiePolicy={'single_host_origin'}
-                            />
+                            /> */}
                             {googleLoginError === 500 && <Alert variant="danger">
                                     User already exist in custom user.
                             </Alert>}
