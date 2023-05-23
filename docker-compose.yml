@@ -29,7 +29,9 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: api
   migrate:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     depends_on:
       - db
     # environment:
@@ -41,10 +43,7 @@ services:
   
 
   client:
-    build: 
-      context: ./client
-      dockerfile: Dockerfile.dev
-
+    build: ./client
     container_name: client_c
     ports:
       - '3000:3000'

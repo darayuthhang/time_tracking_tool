@@ -4,10 +4,12 @@ FROM node:18-alpine
 WORKDIR /usr/app
 #copy source code into image
 #copy our current ditrect to new folder call app
+# RUN mkdir -p /var/lib/docker/tmp/buildkit-mount4223905971/
 
 RUN npm install -g nodemon
 RUN npm install bcrypt
 RUN npm install -g knex
+
 
 COPY package.json .
 COPY knexfile.js .

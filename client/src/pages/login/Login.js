@@ -8,6 +8,7 @@ import { useSelector, dispatch, useDispatch } from 'react-redux';
 import ReactEndPoint from '../../constant/ReactEndPoint';
 // import { GoogleLogin } from 'react-google-login';
 import GoogleButton from 'react-google-button'
+import { GoogleLogin } from '@react-oauth/google';;
 
 
 const Login = () => {
@@ -35,7 +36,8 @@ const Login = () => {
         if(email && password) dispatch(login(email, password))
     }
     const handleLoginSuccess = (response) => {
-        const googleTokenExist = response?.tokenId;
+        console.log(response);
+        const googleTokenExist = response?.credential;
         if (googleTokenExist) {
             dispatch(googleLogin(googleTokenExist))
         } else {
@@ -46,7 +48,11 @@ const Login = () => {
         // handle failed login
         alert("login failure")
     };
- 
+
+    // const testLogin = useGoogleLogin({
+    //     onSuccess: tokenResponse => handleLoginSuccess(tokenResponse),
+    // });
+
     if (loginSuccess || googleLoginSuccess) {
         return (
             <Navigate to={ReactEndPoint.TASK} replace={true} />
@@ -99,7 +105,15 @@ const Login = () => {
                                     <Link to={ReactEndPoint.SIGN_UP}>SIGN UP</Link>
                                 </div>
                             </div>
-                          
+                                {/* <button onClick={() => testLogin()}>
+                                GoogleLogin
+                            </button> */}
+                                <GoogleLogin
+                                    onSuccess={handleLoginSuccess}
+                                    onError={() => {
+                                        console.log('Login Failed');
+                                    }}
+                                />
                             {/* <GoogleLogin
                                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                                     render={renderProps => (

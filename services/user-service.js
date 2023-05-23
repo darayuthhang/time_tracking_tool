@@ -157,6 +157,7 @@ module.exports = class UserService {
         //if google user exist, return true
         //else create google user
         let user = null, userData = {}, userObject = {};
+ 
         try {
             const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
             const ticket = await client.verifyIdToken({

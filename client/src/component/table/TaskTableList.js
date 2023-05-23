@@ -296,7 +296,7 @@ const TaskTableList = ({
                             */} 
                             {taskListData.length > 0 ?
                                 taskListData.map((val, index) =>
-                                    <tr key={index}>
+                                    <tr key={val?.id}>
                                         <th scope="col" >
                                             <div className='d-flex justify-content-center mt-1 '>
                                                 <input
