@@ -9,7 +9,7 @@
     "dev": "npm run migrate && npm run server",
     "project_test": "npx mocha ./test/project.test.js",
     "user_test": "npx mocha ./test/user.test.js",
-    "test":"npx mocha --exit",
+    "test": "npx mocha --exit",
     "migrate": "knex migrate:latest"
   },
   "repository": {
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/darayuthhang/app_1#readme",
   "dependencies": {
+    "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "chai": "^4.3.7",
     "cjs": "^0.0.11",
@@ -32,7 +33,6 @@
     "express": "^4.18.2",
     "express-rate-limit": "^6.7.0",
     "express-validator": "^6.15.0",
-    "google-auth-library": "^8.7.0",
     "i": "^0.3.7",
     "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^3.1.2",

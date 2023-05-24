@@ -35,10 +35,10 @@ export const login = (email, password) => async (dispatch) => {
         dispatch({ type: UserTypes.LOGIN_USER_ERROR, payload: error?.response?.status });
     }
 }
-export const googleLogin = (googleToken) => async (dispatch) => {
+export const googleLogin = (accessToken) => async (dispatch) => {
     try {
         dispatch({ type: UserTypes.GOOGLE_LOGIN_USER_REQUEST });
-        const { data } = await axios.post(BackEndPoint.GOOGLE_LOGIN, { googleToken });
+        const { data } = await axios.post(BackEndPoint.GOOGLE_LOGIN, { googleToken: accessToken });
         logSuccess(data);
         Cookie.saveUser(data?.data);
         dispatch(getAuth())

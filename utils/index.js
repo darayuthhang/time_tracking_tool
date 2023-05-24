@@ -2,8 +2,11 @@ require('dotenv').config();
 const crypto = require('crypto');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const axios = require('axios');
+
 const { APIError, STATUS_CODES } = require("./app-errors");
 let _this = this;
+
 module.exports.GetVerificationCode = () => {
     return crypto.randomBytes(3).toString('hex');
 }
@@ -86,3 +89,17 @@ module.exports.VerifyToken = async (incomingToken, secretToken) => {
 module.exports.isObjectEmpty = (objectName) => {
     return JSON.stringify(objectName) === "{}";
 };
+
+module.exports.getGoogleUserInfo = async (googleToken) => {
+    const url = 'https://www.googleapis.com/oauth2/v3/userinfo';
+    try {   
+        let userInfo = await axios.get(url, {
+            headers: {
+                "Authorization": `Bearer ${googleToken}`
+            }
+        })
+        return userInfo?.data;
+    } catch (error) {
+        return null;
+    }
+}

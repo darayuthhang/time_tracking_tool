@@ -1,14 +1,21 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import styles from './login.module.css';
 import { Link, useNavigate, Navigate } from 'react-router-dom';
-import { Form, Container, Button, Alert, Row, Col } from 'react-bootstrap'
+import { Form, Container, Button, Alert, Row, Col, Stack } from 'react-bootstrap'
 import { login, resetLoginError, googleLogin, resetGoogleLoginError } from '../../redux/action/UserAction';
 import { useSelector, dispatch, useDispatch } from 'react-redux';
 // import { signup, sendNewLinkToVerifyUser, resetloginSuccess } from '../../redux/action/UserAction';
 import ReactEndPoint from '../../constant/ReactEndPoint';
 // import { GoogleLogin } from 'react-google-login';
 import GoogleButton from 'react-google-button'
-import { GoogleLogin } from '@react-oauth/google';;
+// import { GoogleLogin } from '@react-oauth/google';;
+import { 
+    useGoogleOneTapLogin, 
+    useGoogleLogin,
+    GoogleLogin } from '@react-oauth/google';
+
+
 
 
 const Login = () => {
@@ -18,7 +25,9 @@ const Login = () => {
     const dispatch = useDispatch();
     const { loginRequest, loginSuccess, loginError } = useSelector((state) => state.userLoginReducers)
     const { googleLoginError, googleLoginSuccess } = useSelector((state) => state.googleUserLoginReducers)
-    
+    // const { handleGoogle, loading, error } = useFetch(
+    //     "http://localhost:5152/signup"
+    // );
     const onhandleChangeEmail = (e) => {
         setEmail(e.target.value)
         handleResetAllInputToDefault();
@@ -36,22 +45,41 @@ const Login = () => {
         if(email && password) dispatch(login(email, password))
     }
     const handleLoginSuccess = (response) => {
-        console.log(response);
-        const googleTokenExist = response?.credential;
+        const googleTokenExist = response?.access_token;
+        // console.log(response);
         if (googleTokenExist) {
             dispatch(googleLogin(googleTokenExist))
         } else {
             alert("token does not exist")
         }
     };
-    const handleLoginFailure = (response) => {
-        // handle failed login
-        alert("login failure")
-    };
+  
+    // useEffect(() => {
+    //     /* global google */
+    //     if (window.google) {
+    //         google.accounts.id.initialize({
+    //             client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+    //             callback: handleGoogle,
+    //         });
 
-    // const testLogin = useGoogleLogin({
-    //     onSuccess: tokenResponse => handleLoginSuccess(tokenResponse),
-    // });
+    //         google.accounts.id.renderButton(document.getElementById("signUpDiv"), {
+    //             // type: "standard",
+    //             theme: "filled_black",
+    //             // size: "small",
+    //             text: "continue_with",
+    //             shape: "pill",
+    //         });
+
+    //         // google.accounts.id.prompt()
+    //     }
+    // }, [handleGoogle]);
+
+    const login = useGoogleLogin({
+        onSuccess: tokenResponse => handleLoginSuccess(tokenResponse),
+    });
+
+   
+
 
     if (loginSuccess || googleLoginSuccess) {
         return (
@@ -63,7 +91,9 @@ const Login = () => {
                 <Container>
                     <Row className='justify-content-center'>
                         <Col md={5}>
-                            <Form onSubmit={onhandleSubmit} className='border border-2 p-5 rounded'>
+                            <Form onSubmit={onhandleSubmit} className='border border-2 p-5 rounded'
+                             
+                                >
                                 <h3 className='mb-4'>LOGIN</h3>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Label>Email</Form.Label>
@@ -94,39 +124,25 @@ const Login = () => {
                                 >
                                     {loginRequest ? 'Loading' : 'LOGIN'}
                                 </Button>
-                                 <div className=''>
-                                <div className='d-flex justify-content-end mt-3'>
-                                    <Link to={ReactEndPoint.RESET_PASSWORD}>
-                                        <p>Forgot Password?</p>
-                                    </Link>
+                            
+                                <div className=''>
+                                    <div className='d-flex justify-content-end mt-3'>
+                                        <Link to={ReactEndPoint.RESET_PASSWORD}>
+                                            <p>Forgot Password?</p>
+                                        </Link>
+                                    </div>
+                                    <div className='d-flex justify-content-center gap-2'>
+                                        <p>Need an account?</p>
+                                        <Link to={ReactEndPoint.SIGN_UP}>SIGN UP</Link>
+                                    </div>
                                 </div>
-                                <div className='d-flex justify-content-center gap-2'>
-                                    <p>Need an account?</p>
-                                    <Link to={ReactEndPoint.SIGN_UP}>SIGN UP</Link>
-                                </div>
-                            </div>
-                                {/* <button onClick={() => testLogin()}>
-                                GoogleLogin
-                            </button> */}
-                                <GoogleLogin
-                                    onSuccess={handleLoginSuccess}
-                                    onError={() => {
-                                        console.log('Login Failed');
-                                    }}
-                                />
-                            {/* <GoogleLogin
-                                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                                    render={renderProps => (
-                                        <GoogleButton onClick={renderProps.onClick} disabled={renderProps.disabled} className='w-100'>Sign in with Google</GoogleButton>
-                                    )}
-                                // buttonText="Login with Google"
-                                onSuccess={handleLoginSuccess}
-                                onFailure={handleLoginFailure}
-                                cookiePolicy={'single_host_origin'}
-                            /> */}
-                            {googleLoginError === 500 && <Alert variant="danger">
-                                    User already exist in custom user.
-                            </Alert>}
+                             
+                                <Button onClick={() => login()} className="w-100">
+                                    Sign in with Google 🚀{' '}
+                                </Button>
+                                {googleLoginError === 500 && <Alert variant="danger">
+                                        User already exist in custom user.
+                                </Alert>}
                             </Form>
 
                         </Col>

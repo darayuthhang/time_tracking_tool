@@ -7,11 +7,11 @@ const { GetVerificationCode,
     GenerateRefreshToken,
     GenerateAccessToken, 
     GetToken,
-    FormatGoogleUser} = require("../utils/index");
+    FormatGoogleUser,
+    getGoogleUserInfo} = require("../utils/index");
 const logger = require("../utils/error-handler")
 const { APIError, STATUS_CODES } = require("../utils/app-errors");
 const userEmail = require("../utils/userMailer");
-const { OAuth2Client } = require('google-auth-library');
 const { UserRepository, TokenRepository } = require("../database/repository/index"); // {UserResponsetory : require}  ===> Userespo1.userresponse(reuire) => new
 
 module.exports = class UserService {
@@ -157,15 +157,8 @@ module.exports = class UserService {
         //if google user exist, return true
         //else create google user
         let user = null, userData = {}, userObject = {};
- 
         try {
-            const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-            const ticket = await client.verifyIdToken({
-                idToken: googleToken,
-                audience: process.env.GOOGLE_CLIENT_ID,
-            });
-           
-            const payload = ticket.getPayload();
+            let payload = await getGoogleUserInfo(googleToken);
             const googleId = payload.sub; 
             /**
            * @Description if google email exist in customer user, 
