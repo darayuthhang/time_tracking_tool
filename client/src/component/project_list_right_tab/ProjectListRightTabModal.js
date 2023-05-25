@@ -7,7 +7,9 @@ const ProjectListRightTabModal = ({
     bodyText,
     onhandleUpdateProject,
     onhandleChangeProjectDescription,
-    onhandleChangeProject
+    onhandleChangeProject,
+    projectName,
+    projectDescription
 
 }) => {
     return (
@@ -30,7 +32,9 @@ const ProjectListRightTabModal = ({
                             <Form.Control
                                 aria-label="Username"
                                 aria-describedby="basic-addon1"
+                                value={projectName}
                                 onChange={onhandleChangeProject}
+
                             />
                         </InputGroup>
                         {/* {projectError && <div className='text-danger'>Project cannot be empty.</div>} */}
@@ -41,6 +45,7 @@ const ProjectListRightTabModal = ({
                             <Form.Control
                                 as="textarea"
                                 rows={3}
+                                value={projectDescription}
                                 onChange={onhandleChangeProjectDescription}
                             />
                         </Form.Group>
