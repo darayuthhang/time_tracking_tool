@@ -39,19 +39,6 @@ const TaskTableList = ({
     const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
     const { taskListDeleteRequest, taskListDeleteSuccess } = useSelector((state) => state.taskListDeleteReducers)
         
-
-    //         /**
-    //          * @Description read in the morning
-    //          * Update api only  when it is true
-    //          *  Consequently, a state update inside the onHandleOutsideClickForTask 
-    //          * function triggered by a mouse-down event will
-    //          *  not trigger a re-render of the component.
-    //             In this case, clicking the mouse down will call the onHandleOutsideClickForTask 
-    //             function, which updates the state using setIsEditTask(false).
-    //             However, since the effect is not re-executed, 
-    //             the component will not re-render, and the UI will not reflect the updated state.
-    //                         */
-          
    /**
     * @description 
     *   - useEffect once after mount(react app dom add to dom)
