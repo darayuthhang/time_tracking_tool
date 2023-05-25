@@ -50,20 +50,7 @@ module.exports = class TaskService{
     async updateTask(projectId, taskId, requestBody = {}){
         logger.debug(ApiServiceMessage(this.taskService, "updateTask"))
         if (isObjectEmpty(requestBody)) throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Request body is empty');
-        /**
-         * @This show that each time user click
-         * update button, it will update column updated_At time stamp too
-         */
-        /**
-         *  {
-back_end_c                    |   taskName: 'warlock qwewqe',
-back_end_c                    |   taskDescription: 'add new task',
-back_end_c                    |   taskDate: '05/10/2023',
-back_end_c                    |   projectId: '58816dcc-55aa-450b-8b38-66657d4b05ce',
-back_end_c                    |   taskStatus: 'Done'
-back_end_c                    | }
-         */
-       
+    
         try {
             let taskToUpdate = {
                 updated_at: new Date()
@@ -81,8 +68,6 @@ back_end_c                    | }
                 taskToUpdate.task_date = requestBody.taskDate;
             }
             await this.taskRepository.updateTask(projectId, taskId, taskToUpdate);
-          
-          
         } catch (error) {
             logger.debug(error.message)
             if (error instanceof APIError) {

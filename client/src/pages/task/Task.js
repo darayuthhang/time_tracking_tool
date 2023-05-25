@@ -4,13 +4,14 @@ import {
     Row,Col,Nav, Container, Modal, InputGroup, Form,
     Button, Tab, Breadcrumb
 } from 'react-bootstrap';
-import TaskTableList from '../../component/table/TaskTableList';
+import TaskTableList from '../../component/sub_project_list_right_tab/TaskTableList';
 import './task.css';
 import styles from './task.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { createProject, resetStateCreateSuccess } from '../../redux/action/ProjectAction';
 import Cookie from '../../uti/Cookie';
 import { projectList } from '../../redux/action/ProjectAction';
+import ProjectListRightTab from '../../component/project_list_right_tab/ProjectListRightTab';
 
 
 const Task = () => {
@@ -19,8 +20,7 @@ const Task = () => {
     const [projectName, setprojectName] = useState("");
     const [projectError, setProjectError] = useState(false);
     const [projectDescription, setProjectDescription] = useState("");
-    //const [activeTab, setActiveTab] = useState("");
-    const [projectId, setProjectId] = useState("");
+    const [projectId, setProjectId] = useState("first"); //this projectTab iD
  
     const dispatch = useDispatch();
 
@@ -87,32 +87,25 @@ const Task = () => {
     const onSelectActiveTab = (key) => {
         setProjectId(key);
     }
-   
     return (
-        <div 
-       
-            style={{height: "100vh"}}
-        //    style={{height: "100vh"}}
-            // style={{height: '100vh'}}
-        // style={{ position: 'absolute', left: '0px', height: '100%', width: '100%', overflow: 'hidden'}}
-        >
+        <div style={{height: "100vh"}}>
             <Tab.Container id="left-tabs-example" 
                 className=""
                 onSelect={(selectedKey) => onSelectActiveTab(selectedKey)}
+                activeKey={projectId}
             >
                 <Row className={`h-100`} >
-                    <Col  md={2} className={`left-tab-container ${styles.side_bar} `}>
+                    <Col  md={2}  className={`left-tab-container ${styles.side_bar} `}>
                         <Nav variant="pills" className="flex-column" >
                             <Nav.Item >
                                 <Nav.Link eventKey="first" style={{ color: 'black' }} className=''>
-                                    <div className='d-flex gap-4'>
-                                        <i className="bi bi-airplane-engines"></i>
-                                        
-                                        <div className={`mt-2 ${styles.side_bar_font_size}`}>Projects</div>
+                                    <div className='d-flex'>
+                                        <div className={`mt-1 ${styles.side_bar_font_size}`}>Projects</div>
                                         <div
                                             onClick={onhandleShowAddProject}
                                             className={`ms-auto ${styles.plus_sign}`}>
-                                            +</div>
+                                            +
+                                        </div>
                                     </div>
                                 </Nav.Link>
                             </Nav.Item>
@@ -120,7 +113,9 @@ const Task = () => {
                                 projectListData.map((val, index) => 
                                     <Nav.Item key={val?.id}  >
                                         <Nav.Link 
-                                             eventKey={val?.id} style={{ color: 'black' }} 
+                                            // eventKey="second"
+                                            eventKey={val?.id.toString()} 
+                                            style={{ color: 'black' }} 
                                             className={`${styles.side_bar_font_size}`}
                                             // className= {`lh-base ${styles["font-size-heading-side-bar"]}`}
                                              >
@@ -131,21 +126,24 @@ const Task = () => {
                             }
                         </Nav>
                     </Col>
-                    <Col md={10} className={` h-100 right-tab-container  ${styles.right_tab_bar} is-clicked `}>
-                            <Tab.Content className='h-100 '>
-                                <Tab.Pane className='' eventKey="first">First tab content</Tab.Pane>
+                    <Col md={10}  className={`h-100 right-tab-container  ${styles.right_tab_bar}`}>
+                        <Tab.Content className='h-100' >
+                                <Tab.Pane className='' eventKey="first">
+                                    <ProjectListRightTab 
+                                        onSelectActiveTab={onSelectActiveTab}
+                                        projectListData={projectListData}
+                                    />
+                                </Tab.Pane>
                                 {projectListData.length > 0 &&
                                     projectListData.map((val, index) =>
                                         <Tab.Pane 
-                                        key={val?.id} 
-                                        eventKey={val?.id} 
-                                        className="h-100"
-                                        // className="border border-danger"
+                                            key={val?.id} 
+                                            eventKey={val?.id.toString()} 
+                                            className="h-100"
                                         >
                                             <TaskTableList 
                                                 projectNameHeading={val?.project_name}
                                                 projectId={projectId}
-                                             
                                             />
                                         </Tab.Pane>
                                     )
@@ -169,7 +167,6 @@ const Task = () => {
                                     aria-describedby="basic-addon1"
                                     onChange={onhandleChangeProject}
                                 />
-                                
                             </InputGroup>
                             {projectError && <div className='text-danger'>Project cannot be empty.</div>}
                         </div>

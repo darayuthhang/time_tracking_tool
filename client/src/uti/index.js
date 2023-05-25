@@ -29,3 +29,10 @@ export const convertDateFormatToISOformat = (input = "") => {
     let newFormat = format[2] + "-" + format[0] + "-" + format[1];
     return newFormat
 }
+/**
+ * @description FORMAT mm dd, year (May 14, 2022)
+ */
+export const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" }
+    return new Date(dateString).toLocaleDateString(undefined, options)
+}

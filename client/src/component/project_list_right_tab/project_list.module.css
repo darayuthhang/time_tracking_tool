@@ -1,0 +1,39 @@
+:root {
+    --bg-color-weak-gold:#faedc8;
+    --bg-color-weak-pink: #f9dfc8;
+    --bg-color-weak-green: #c8f9cd;
+}
+.ul{
+    list-style-type: none;
+}
+.bullet-project-container{
+    border-radius: 10px;
+    cursor: pointer;
+}
+.bullet-project-container:hover{
+    background-color: #dfdfdf;
+}
+.pencil{
+    cursor: pointer;
+}
+.trash{
+    cursor: pointer;
+}
+.trash:hover{
+    color: #dfdfdf;
+}
+.pencil:hover{
+    color: #dfdfdf;
+}
+.date-format{
+    font-size: 14px;
+}
+.last-update{
+    font-size: 12px;
+}
+.card-bg{
+    background-color: #faedc8;
+}
+.card-header {
+    background-color: var(--bg-color-weak-green);
+}

@@ -51,29 +51,25 @@ const TaskTableList = ({
     //             the component will not re-render, and the UI will not reflect the updated state.
     //                         */
           
-   
+   /**
+    * @description 
+    *   - useEffect once after mount(react app dom add to dom)
+    *     it means when user refresh the page, that when the react mount.         
+    */
     useEffect(() => {   
-        console.log('useEffect');
-
-        /**
-         * @This is best practice do not change
-         */
         if (taskSuccess) {
             //reset task success
             dispatch(resetTaskSuccess());
         }
         if (taskListDeleteSuccess) {
-            // dispatch(reset)
-            // setTasksIds([]);
-            // if(taskDate === "") setTaskDate()
-            
             dispatch(resetTaskListSuccess());
         }
         dispatch(getTaskList(projectId));
         return () => {
            
         }
-    }, [taskSuccess, projectId, taskListDeleteSuccess])
+    }, [taskSuccess, projectId, taskListDeleteSuccess]
+    )
 
     /**
      * @description
@@ -144,7 +140,6 @@ const TaskTableList = ({
         setStatus(val);
     }
     const onhandleChangeTick = (e) => {
-      
         const { checked, value } = e.target;
         if (checked === false) {
             const newTask = tasksIds.filter((val, index) => val != value)
@@ -240,11 +235,9 @@ const TaskTableList = ({
    
     return (
         <div 
-            className={`h-100 fs-5 p-5 ${styles['task-table-list']}`}
-            onClick={onClickOutsideTable}
-       
-            >
-            <Container>
+            className={`h-100 p-5 `}
+            onClick={onClickOutsideTable}>
+            <Container className={`${styles["sub-project-list-container"]}`}>
                 <TableModal
                     show={showDeleteModal}
                     handleClose={handleCloseDeleteModal}
@@ -252,19 +245,13 @@ const TaskTableList = ({
                     bodyText="hello "
                     onhandleDeleteTask={onhandleDeleteTask}
                 />
-                <div className='d-flex gap-4 mb-5'>
+                <div className='d-flex mb-5'>
                     <div className='d-flex align-items-center'>
                         <i className="bi bi-book"></i>
                     </div>
-                    <h1 className={`${styles["project-name-heading"]} fw-bold`}>
-                        <span >{projectNameHeading}</span>
-                    </h1>
+                    <h5 className='fw-bold ms-2'>{projectNameHeading}</h5>
                 </div>
-
-                <Breadcrumb className={`${styles['all-task-texts']} `}
-
-
-                >
+                <Breadcrumb className={`${styles['all-task-texts']} `}>
                     <Breadcrumb.Item href="#">All tasks</Breadcrumb.Item>
                     <Breadcrumb.Item active>This week</Breadcrumb.Item>
                     {tasksIds.length > 0 && taskListData.length > 0 &&
@@ -276,8 +263,6 @@ const TaskTableList = ({
                         </div>
                     }
                 </Breadcrumb>
-
-
                 <div className={`table-responsive card  p-3 ${styles['all-task-texts']} `}>
                     <table className="table table-bordered rounded rounded-3 text-center  ">
                         <thead>

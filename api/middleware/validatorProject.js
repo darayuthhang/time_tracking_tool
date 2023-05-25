@@ -21,7 +21,17 @@ const validationUserIdcodeRules = () => {
         param('userId').isUUID().withMessage('UserId is not uuid').trim()
     ]
 }
-
+const validationUserAndProjectIdcodeRules = () => {
+    logger.debug(MIDDLEWARE + "validationUserIdcodeRules")
+    return [
+        param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
+        param('userId').isUUID().withMessage('userId is not uuid').trim(),
+        body('projectName')
+            .notEmpty()
+            .withMessage('Project name cannot be empty')
+            .trim(),
+    ]
+}
 const validateProjectData = (req, res, next) => {
     logger.debug(MIDDLEWARE + "validateUserData")
     const errors = validationResult(req);
@@ -41,5 +51,6 @@ const validateProjectData = (req, res, next) => {
 module.exports = {
     validationProjectcodeRules,
     validateProjectData,
-    validationUserIdcodeRules
+    validationUserIdcodeRules,
+    validationUserAndProjectIdcodeRules
 };

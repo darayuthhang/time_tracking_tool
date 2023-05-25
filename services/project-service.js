@@ -37,4 +37,17 @@ module.exports = class ProjectService{
             }
         }
     }
+    async updateProject({projectId, userId}, {projectName}){
+        logger.debug(ApiServiceMessage(this.projectService, "updateProject"))
+        try {
+            await this.projectRepository.updateProject(userId, projectId, projectName)
+        } catch (error) {
+            logger.debug(error.message)
+            if (error instanceof APIError) {
+                throw new APIError('API Error', error?.statusCode, error?.message)
+            } else {
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot get project')
+            }
+        }
+    }
 }

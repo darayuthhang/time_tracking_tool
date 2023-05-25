@@ -50,36 +50,14 @@ const Login = () => {
         if (googleTokenExist) {
             dispatch(googleLogin(googleTokenExist))
         } else {
-            alert("token does not exist")
+            console.log("Google token does not exist. ");
         }
     };
   
-    // useEffect(() => {
-    //     /* global google */
-    //     if (window.google) {
-    //         google.accounts.id.initialize({
-    //             client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-    //             callback: handleGoogle,
-    //         });
-
-    //         google.accounts.id.renderButton(document.getElementById("signUpDiv"), {
-    //             // type: "standard",
-    //             theme: "filled_black",
-    //             // size: "small",
-    //             text: "continue_with",
-    //             shape: "pill",
-    //         });
-
-    //         // google.accounts.id.prompt()
-    //     }
-    // }, [handleGoogle]);
 
     const login = useGoogleLogin({
         onSuccess: tokenResponse => handleLoginSuccess(tokenResponse),
     });
-
-   
-
 
     if (loginSuccess || googleLoginSuccess) {
         return (
@@ -91,9 +69,7 @@ const Login = () => {
                 <Container>
                     <Row className='justify-content-center'>
                         <Col md={5}>
-                            <Form onSubmit={onhandleSubmit} className='border border-2 p-5 rounded'
-                             
-                                >
+                            <Form onSubmit={onhandleSubmit} className='border border-2 p-5 rounded'>
                                 <h3 className='mb-4'>LOGIN</h3>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Label>Email</Form.Label>

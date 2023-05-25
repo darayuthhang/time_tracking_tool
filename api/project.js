@@ -1,22 +1,26 @@
 const apiVersion = require("../constant/api_version");
 const logger = require("../utils/error-handler");
 const { ApiRouteMessage } = require("../constant/message")
-const { API_VERSION } = apiVersion;
+
 const {ProjectService} = require('../services/index');
 const { APIError, STATUS_CODES } = require("../utils/app-errors");
+const { API_VERSION } = apiVersion;
 const UserAuth = require('./middleware/auth')
 const {
     validationProjectcodeRules,
     validateProjectData,
-    validationUserIdcodeRules } = require('./middleware/validatorProject');
+    validationUserIdcodeRules,
+    validationUserAndProjectIdcodeRules } = require('./middleware/validatorProject');
 module.exports = (app) => {
     
     const projectService = new ProjectService();
-
+    
     /**
      * POST - CREATE /api/v1/{userId}/projects --> collection of project
      * GET  - LIST   /api/v1/{userId}/projects 
-     * GET  - SINGLE /api/v1/{userId}/projects/:projectId 
+     * GET  - SINGLE /api/v1/{userId}/project/:projectId 
+     * PUT  - SINGLE /api/v1/{userId}/project/:projectId 
+     * DELETE - SINGLE /api/v1/{userId}/project/:projectId 
      * DELETE  - DELETE /api/v1/{userId}/projects/:projectId 
      * PUT  - UPDATE /api/v1/{userId}/projects/:projectId 
      */
@@ -46,5 +50,16 @@ module.exports = (app) => {
             next(error);
         }
        
+    })
+    // * PUT  - SINGLE /api/v1/{userId}/project/:projectId 
+    app.put(`${API_VERSION}/:userId/project/:projectId`, validationUserAndProjectIdcodeRules(), validateProjectData, async (req, res, next) => {
+        logger.debug(ApiRouteMessage(`${API_VERSION}/:userId/project/:projectId `, "PUT"))
+        try {
+            await projectService.updateProject(req.params, req.body);
+            return res.status(200).json({success: true})
+        } catch (error) {
+            logger.debug(error.message)
+            next(error);
+        }
     })
 }
