@@ -6,6 +6,7 @@ import {
     Dropdown, Row, Col,
     Button, Container
 } from 'react-bootstrap';
+import { validate as uuidValidate } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux';
 import { createTask, deleteTaskList, getTaskList, resetTaskListSuccess, resetTaskSuccess, updateTask, updateTaskListState } from '../../redux/action/TaskAction';
 import TableModal from './TableModal';
@@ -64,7 +65,7 @@ const TaskTableList = ({
         if (taskListDeleteSuccess) {
             dispatch(resetTaskListSuccess());
         }
-        dispatch(getTaskList(projectId));
+        if (uuidValidate(projectId)) dispatch(getTaskList(projectId));
         return () => {
            
         }

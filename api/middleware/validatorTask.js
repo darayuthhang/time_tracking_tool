@@ -52,7 +52,7 @@ const validationProjectIdAndTaskscodeRules = () => {
     ]
 }
 const validateTaskData = (req, res, next) => {
-    logger.debug(MIDDLEWARE + "validateUserData")
+    logger.debug(MIDDLEWARE + "validateTaskData")
     const errors = validationResult(req);
 
     //there is no error.

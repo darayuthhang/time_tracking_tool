@@ -51,7 +51,8 @@ module.exports = class ProjectRepository {
                 .update({ project_name: projectName })
                 .where({
                     user_id: userId,
-                    project_id: projectId
+                    project_id: projectId,
+                    updated_at: new Date()
                 })
         } catch (error) {
             throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to Update task')

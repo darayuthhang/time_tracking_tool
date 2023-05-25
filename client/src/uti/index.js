@@ -36,3 +36,23 @@ export const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" }
     return new Date(dateString).toLocaleDateString(undefined, options)
 }
+
+export const getLastUpdateAgo = (timestamp) => {
+    const currentTime = new Date().getTime();
+    const targetTime = new Date(timestamp).getTime();
+    const diffInMilliseconds = currentTime - targetTime;
+    const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+
+    if (diffInSeconds < 60) {
+        return `${diffInSeconds} seconds ago`;
+    } else if (diffInSeconds < 3600) {
+        const diffInMinutes = Math.floor(diffInSeconds / 60);
+        return `${diffInMinutes} minutes ago`;
+    } else if (diffInSeconds < 86400) {
+        const diffInHours = Math.floor(diffInSeconds / 3600);
+        return `${diffInHours} hours ago`;
+    } else {
+        const diffInDays = Math.floor(diffInSeconds / 86400);
+        return `${diffInDays} days ago`;
+    }
+};

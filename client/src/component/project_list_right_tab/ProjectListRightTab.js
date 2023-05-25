@@ -5,8 +5,8 @@ import {Container,
     Col, 
     Row,
     Badge} from 'react-bootstrap'
-import { Link } from 'react-router-dom';
-import { formatDate } from '../../uti/index'
+
+import { formatDate, getLastUpdateAgo } from '../../uti/index'
 import styles from './project_list.module.css';
 const ProjectListRightTab = ({ 
     onSelectActiveTab,
@@ -25,7 +25,7 @@ const ProjectListRightTab = ({
                                         <Card.Header className={`${styles['']}`}>
                                         <div className='d-flex'>
                                             <Card.Title className='fw-bold'>
-                                                {val.project_name}
+                                                {val?.project_name}
                                             </Card.Title>
                     
                                         </div>
@@ -35,16 +35,15 @@ const ProjectListRightTab = ({
                                                 <textarea
                                                     readOnly
                                                     rows="1"
-                                                    value={val.project_description}
+                                                    value={val?.project_description}
                                                     id="floatingTextarea">
                                                 </textarea>
                                          
                                             </Card.Text>
                                             <Card.Text className={`ms-auto ${styles['last-update']} text-secondary `}>
-                                                Last updated 3 mins ago
+                                                Last updated {getLastUpdateAgo(val?.updated_at)}
                                             </Card.Text>
-                                            <div className={` ${styles['date-format']} `}
-                                            >
+                                            <div className={` ${styles['date-format']} `}>
                                                 <Badge bg="primary"> {formatDate(val?.created_at)}</Badge>
                                             </div>
                                             <div className='d-flex gap-2 align-items-center justify-content-end'>

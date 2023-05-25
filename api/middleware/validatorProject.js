@@ -33,7 +33,7 @@ const validationUserAndProjectIdcodeRules = () => {
     ]
 }
 const validateProjectData = (req, res, next) => {
-    logger.debug(MIDDLEWARE + "validateUserData")
+    logger.debug(MIDDLEWARE + "validateProjectData")
     const errors = validationResult(req);
 
     //there is no error.
