@@ -26,7 +26,7 @@ module.exports = class ProjectRepository {
             });
             return projects;
         } catch (error) {
-            throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to Create Project')
+            throw new APIError('API Error', STATUS_CODES.NOT_FOUND, `Unable to CREATE project:${error.message}`)
         }
     }
     async getProjectByUserId(userId) {
@@ -41,21 +41,21 @@ module.exports = class ProjectRepository {
 
             return projects;
         } catch (error) {
-            throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to getProjectByUserId')
+            throw new APIError('API Error', STATUS_CODES.NOT_FOUND, `Unable to GET project:${error.message}`)
         }
     }
-    async updateProject(userId, projectId, projectName) {
+    async updateProject(userId, projectId, project) {
         logger.debug(ApiRepositoryMessage(this.project, "updateProject"))
         try {
-            return await db(TABLE_TASKS)
-                .update({ project_name: projectName })
+            return await db(TABLE_PROJECTS)
+                .update(project)
                 .where({
                     user_id: userId,
-                    project_id: projectId,
-                    updated_at: new Date()
+                    id: projectId
                 })
         } catch (error) {
-            throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to Update task')
+            
+            throw new APIError('API Error', STATUS_CODES.NOT_FOUND, `Unable to Update project:${error.message}`)
         }
     }
 }

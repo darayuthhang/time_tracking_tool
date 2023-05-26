@@ -11,8 +11,6 @@ export function projectReducers(state = {
             return { ...state, projectRequest: true };
         case ProjectTypes.CREATE_PROJECTS_SUCCESS:
             return { ...state, projectSuccess: true, projectRequest: false };
-        // case UserTypes.GOOGLE_LOGIN_USER_ERROR:
-        //     return { ...state, projectError: action.payload, projectRequest: false };
         case ProjectTypes.CREATE_PROJECTS_ERROR:
             return { ...state, projectError: null };
         case ProjectTypes.RESET_CREATE_PROJECT_SUCCESS:
@@ -21,6 +19,23 @@ export function projectReducers(state = {
     }
 }
 
+export function projectUpdateReducers(state = {
+    projectUpdateRequest: false,
+    projectUpdateSuccess: false,
+    projectUpdateError: null
+}, action) {
+    switch (action.type) {
+        case ProjectTypes.PROJECT_UPDATE_REQUEST:
+            return { ...state, projectUpdateRequest: true };
+        case ProjectTypes.PROJECT_UPDATE_SUCCESS:
+            return { ...state, projectUpdateSuccess: true, projectUpdateRequest: false };
+        case ProjectTypes.PROJECT_UPDATE_ERROR:
+            return { ...state, projectUpdateError: action.payload };
+        // case ProjectTypes.RESET_CREATE_PROJECT_SUCCESS:
+        //     return { ...state, projectUpdateSuccess: false };
+        default: return state;
+    }
+}
 
 export function projectListReducers(state = {
     projectListRequest: false,

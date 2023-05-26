@@ -37,10 +37,19 @@ module.exports = class ProjectService{
             }
         }
     }
-    async updateProject({projectId, userId}, {projectName}){
+    async updateProject({projectId, userId}, requestBody){
         logger.debug(ApiServiceMessage(this.projectService, "updateProject"))
         try {
-            await this.projectRepository.updateProject(userId, projectId, projectName)
+            let projectToUpdate = {
+                updated_at: new Date()
+            };
+            if (requestBody?.projectName) {
+                projectToUpdate.project_name = requestBody.projectName;
+            }
+            if (requestBody?.projectDescription){
+                projectToUpdate.project_description = requestBody.projectDescription;
+            }
+            await this.projectRepository.updateProject(userId, projectId, projectToUpdate)
         } catch (error) {
             logger.debug(error.message)
             if (error instanceof APIError) {

@@ -132,6 +132,7 @@ const Task = () => {
                                     <ProjectListRightTab 
                                         onSelectActiveTab={onSelectActiveTab}
                                         projectListData={projectListData}
+                                        userId={user?.userId}
                                     />
                                 </Tab.Pane>
                                 {projectListData.length > 0 &&

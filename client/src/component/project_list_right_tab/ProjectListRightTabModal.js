@@ -34,7 +34,6 @@ const ProjectListRightTabModal = ({
                                 aria-describedby="basic-addon1"
                                 value={projectName}
                                 onChange={onhandleChangeProject}
-
                             />
                         </InputGroup>
                         {/* {projectError && <div className='text-danger'>Project cannot be empty.</div>} */}

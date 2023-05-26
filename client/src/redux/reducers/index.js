@@ -6,7 +6,8 @@ import {
 import { authReducers } from './AuthReducers';
 import { 
     projectReducers,
-    projectListReducers } from './ProjectReducers';
+    projectListReducers,
+    projectUpdateReducers } from './ProjectReducers';
 import { 
     taskReducers,
     taskListReducers,
@@ -24,6 +25,7 @@ const allReducers = combineReducers({
     taskReducers,
     taskListReducers,
     taskListDeleteReducers,
-    taskUpdateReducers
+    taskUpdateReducers,
+    projectUpdateReducers
 })
 export default allReducers;

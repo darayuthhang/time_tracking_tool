@@ -7,39 +7,52 @@ import {
     Row,
     Badge
 } from 'react-bootstrap'
-
+import { useSelector, useDispatch } from 'react-redux';
+import { updateProject } from '../../redux/action/ProjectAction';
 import { formatDate, getLastUpdateAgo } from '../../uti/index'
 import ProjectListRightTabModal from './ProjectListRightTabModal';
 import styles from './project_list.module.css';
 const ProjectListRightTab = ({
     onSelectActiveTab,
-    projectListData
+    projectListData,
+    userId
 }
 ) => {
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [projectName, setProjectName] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
+    const [projectId, setProjectId] = useState("");
+    /**
+     * @Redux dispatch
+     */
+    const dispatch = useDispatch();
 
     /**
      * @Description 
      *  - @Modal update project
+     * 
+     * @Todo handle error
      */
     const onhandleUpdateProject = () => {
-        setShowUpdateModal(true);
+        setShowUpdateModal(false);//close modal
+        dispatch(updateProject(userId, projectId, projectName, projectDescription))
     }
-    const onShowUpdateProjectModal = (projectName, projectDescription) => {
+    const onShowUpdateProjectModal = (e, projectId, projectName, projectDescription) => {
+        e.stopPropagation();
         setProjectName(projectName);
         setProjectDescription(projectDescription);
+        setProjectId(projectId)
         setShowUpdateModal(true);
     }
     const handleCloseUpdateModal = () => {
         setShowUpdateModal(false)
     };
     const onhandleChangeProjectDescription = (e) => {
-        setProjectName(e.target.value)
+        setProjectDescription(e.target.value);
     }
     const onhandleChangeProject = (e) => {
-        setProjectDescription(e.target.value);
+        setProjectName(e.target.value)
+       
     }
 
     return (
@@ -58,12 +71,16 @@ const ProjectListRightTab = ({
             }
 
             <Container className=''>
-                <h5 className='fw-bold  '>Projects</h5>
+                <h5 className='fw-bold'>Projects</h5>
                 <Row className='mt-5'>
                     {projectListData.length > 0 &&
                         projectListData.map((val, index) =>
-                            <Col md={3}>
-                                <Card className={`mb-3 ${styles["card-bg"]}`} style={{ width: '18rem' }} >
+                            <Col
+                                
+                                md={3} onClick={() => onSelectActiveTab(val?.id)}>
+                                <Card
+                                    key={val?.id}  
+                                    className={`mb-3 ${styles["card-bg"]}`} style={{ width: '18rem' }} >
                                     <Card.Header className={`${styles['']}`}>
                                         <div className='d-flex'>
                                             <Card.Title className='fw-bold'>
@@ -91,7 +108,7 @@ const ProjectListRightTab = ({
                                             <i className={`${styles['trash']} bi bi-trash`}></i>
                                             <i
                                                 className={`${styles['pencil']} bi bi-pencil`}
-                                                onClick={(e) => onShowUpdateProjectModal(val?.project_name, val?.project_description)}
+                                                onClick={(e) => onShowUpdateProjectModal(e, val?.id, val?.project_name, val?.project_description)}
                                             ></i>
                                         </div>
                                     </Card.Body>
