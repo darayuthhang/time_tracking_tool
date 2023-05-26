@@ -59,4 +59,17 @@ module.exports = class ProjectService{
             }
         }
     }
+    async deleteProject({userId, projectId}) {
+        logger.debug(ApiServiceMessage(this.projectService, "deleteProject"))
+        try {
+            await this.projectRepository.deleteProject(userId, projectId);
+        } catch (error) {
+            logger.debug(error.message)
+            if (error instanceof APIError) {
+                throw new APIError('API Error', error?.statusCode, error?.message)
+            } else {
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot delete project')
+            }
+        }
+    }
 }

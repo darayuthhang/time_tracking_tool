@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 const ProjectListRightTabModal = ({
     show,
     handleClose,
@@ -12,6 +13,9 @@ const ProjectListRightTabModal = ({
     projectDescription
 
 }) => {
+    const { 
+        projectUpdateRequest,
+        projectUpdateError } = useSelector((state) => state.projectUpdateReducers);
     return (
         <div>
             <Modal
@@ -48,13 +52,24 @@ const ProjectListRightTabModal = ({
                                 onChange={onhandleChangeProjectDescription}
                             />
                         </Form.Group>
+                        {projectUpdateError &&
+                            <div className='text-danger'>
+                                Sorry, we couldn't update the project at the moment. Please try again later.
+                            </div>
+                        }
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="light" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={onhandleUpdateProject}>Update</Button>
+                    <Button variant="primary" onClick={onhandleUpdateProject}>
+                        {projectUpdateRequest ?
+                            "Loading"
+                        :
+                            "Update"
+                        }
+                    </Button>
                 </Modal.Footer>
             </Modal>
         </div>

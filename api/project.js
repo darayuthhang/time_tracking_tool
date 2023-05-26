@@ -10,7 +10,8 @@ const {
     validationProjectcodeRules,
     validateProjectData,
     validationUserIdcodeRules,
-    validationUserAndProjectIdcodeRules } = require('./middleware/validatorProject');
+    validationUserAndProjectIdcodeRules,
+    validationUserAndProjectIdProjectNamecodeRules } = require('./middleware/validatorProject');
 module.exports = (app) => {
     
     const projectService = new ProjectService();
@@ -31,8 +32,6 @@ module.exports = (app) => {
         //user id
         try {
             let projectData = await projectService.createProject(projectName, projectDescription, userId)
-            // const data = await openAiService.generatePrompt(input);
-            //return res.status(200).json({ success: true, data })
             return res.status(200).json({ success: true, message: "success", data:projectData})
         } catch (error) {
             logger.debug(error.message)
@@ -49,14 +48,24 @@ module.exports = (app) => {
             logger.debug(error.message)
             next(error);
         }
-       
     })
     // * PUT  - SINGLE /api/v1/{userId}/project/:projectId 
-    app.put(`${API_VERSION}/:userId/project/:projectId`, validationUserAndProjectIdcodeRules(), validateProjectData, async (req, res, next) => {
+    app.put(`${API_VERSION}/:userId/project/:projectId`, UserAuth, validationUserAndProjectIdProjectNamecodeRules(), validateProjectData, async (req, res, next) => {
         logger.debug(ApiRouteMessage(`${API_VERSION}/:userId/project/:projectId `, "PUT"))
         try {
             await projectService.updateProject(req.params, req.body);
             return res.status(200).json({success: true})
+        } catch (error) {
+            logger.debug(error.message)
+            next(error);
+        }
+    })
+    // * Delete  - SINGLE /api/v1/{userId}/project/:projectId 
+    app.delete(`${API_VERSION}/:userId/project/:projectId`, UserAuth, validationUserAndProjectIdcodeRules(), validateProjectData, async (req, res, next) => {
+        logger.debug(ApiRouteMessage(`${API_VERSION}/:userId/project/:projectId `, "DELETE"))
+        try {
+            await projectService.deleteProject(req.params);
+            return res.status(200).json({ success: true })
         } catch (error) {
             logger.debug(error.message)
             next(error);

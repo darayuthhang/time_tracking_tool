@@ -31,8 +31,30 @@ export function projectUpdateReducers(state = {
             return { ...state, projectUpdateSuccess: true, projectUpdateRequest: false };
         case ProjectTypes.PROJECT_UPDATE_ERROR:
             return { ...state, projectUpdateError: action.payload };
-        // case ProjectTypes.RESET_CREATE_PROJECT_SUCCESS:
-        //     return { ...state, projectUpdateSuccess: false };
+        case ProjectTypes.RESET_STATE_PROJECT_UPDATE_SUCCESS:
+            return { ...state, projectUpdateSuccess: action.payload };
+        case ProjectTypes.RESET_STATE_PROJECT_UPDATE_ERROR:
+            return { ...state, projectUpdateError: action.payload };
+        default: return state;
+    }
+}
+
+export function projectDeleteReducers(state = {
+    projectDeleteRequest: false,
+    projectDeleteSuccess: false,
+    projectDeleteError: null
+}, action) {
+    switch (action.type) {
+        case ProjectTypes.PROJECT_DELETE_REQUEST:
+            return { ...state, projectDeleteRequest: true };
+        case ProjectTypes.PROJECT_DELETE_SUCCESS:
+            return { ...state, projectDeleteSuccess: true, projectDeleteRequest: false };
+        case ProjectTypes.PROJECT_DELETE_ERROR:
+            return { ...state, projectDeleteError: action.payload };
+        case ProjectTypes.RESET_STATE_PROJECT_DELETE_SUCCESS:
+            return { ...state, projectDeleteSuccess: action.payload };
+        case ProjectTypes.RESET_STATE_PROJECT_DELETE_ERROR:
+            return { ...state, projectDeleteError: action.payload };
         default: return state;
     }
 }

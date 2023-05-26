@@ -31,10 +31,21 @@ export const updateProject = (userId, projectId, projectName, projectDescription
             projectDescription
         });
         logSuccess(data)
-        dispatch({ type: ProjectTypes.PROJECT_UPDATE_SUCCESS, payload: data })
+        dispatch({ type: ProjectTypes.PROJECT_UPDATE_SUCCESS })
     } catch (error) {
         logError(error)
         dispatch({ type: ProjectTypes.PROJECT_UPDATE_ERROR, payload: error.message })
+    }
+}
+export const deleteProject = (userId, projectId) => async (dispatch) => {
+    try {
+        dispatch({ type: ProjectTypes.PROJECT_DELETE_REQUEST })
+        const { data } = await axios.delete(`${API_VERSION}/${userId}/project/${projectId}`);
+        logSuccess(data)
+        dispatch({ type: ProjectTypes.PROJECT_DELETE_SUCCESS})
+    } catch (error) {
+        logError(error)
+        dispatch({ type: ProjectTypes.PROJECT_DELETE_ERROR, payload: error.message })
     }
 }
 
@@ -54,5 +65,23 @@ export const resetStateCreateSuccess  = () => {
     return{
         type: ProjectTypes.RESET_CREATE_PROJECT_SUCCESS,
         payload:""
+    }
+}
+export const resetStateProjectUpdateSucess = (boolean) => {
+    return {
+        type: ProjectTypes.RESET_STATE_PROJECT_UPDATE_SUCCESS,
+        payload: boolean
+    }
+}
+export const resetStateProjectUpdateError = (boolean) => {
+    return {
+        type: ProjectTypes.RESET_STATE_PROJECT_UPDATE_ERROR,
+        payload: boolean
+    }
+}
+export const resetStateProjectDeleteSuccess = (boolean) => {
+    return {
+        type: ProjectTypes.RESET_STATE_PROJECT_DELETE_SUCCESS,
+        payload: boolean
     }
 }

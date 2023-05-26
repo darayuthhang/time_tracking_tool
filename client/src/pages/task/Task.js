@@ -12,6 +12,9 @@ import { createProject, resetStateCreateSuccess } from '../../redux/action/Proje
 import Cookie from '../../uti/Cookie';
 import { projectList } from '../../redux/action/ProjectAction';
 import ProjectListRightTab from '../../component/project_list_right_tab/ProjectListRightTab';
+import MemoizedProjectListRightTab from '../../component/project_list_right_tab/ProjectListRightTab';
+
+
 
 
 const Task = () => {
@@ -38,16 +41,6 @@ const Task = () => {
         
       }
     }, [projectSuccess])
-    // useEffect(() => {
-    //     document.addEventListener("mousedown", onhandleOutSideClick)
-
-    //     return () => {
-    //         document.removeEventListener("mousedown", onhandleOutSideClick)
-    //     }
-    // }, [])
-    // const onhandleOutSideClick = () => {
-    //     console.log("outsideclick for project");
-    // }
     /**
      * 
      * @Description onhandleAddProject() is handle sending post request to back-end.
@@ -87,15 +80,16 @@ const Task = () => {
     const onSelectActiveTab = (key) => {
         setProjectId(key);
     }
+   
     return (
         <div style={{height: "100vh"}}>
             <Tab.Container id="left-tabs-example" 
-                className=""
+                className="border border-primary"
                 onSelect={(selectedKey) => onSelectActiveTab(selectedKey)}
                 activeKey={projectId}
             >
-                <Row className={`h-100`} >
-                    <Col  md={2}  className={`left-tab-container ${styles.side_bar} `}>
+                <Row className={`h-100 `} >
+                    <Col md={2} className={`left-tab-container ${styles.side_bar} `}>
                         <Nav variant="pills" className="flex-column" >
                             <Nav.Item >
                                 <Nav.Link eventKey="first" style={{ color: 'black' }} className=''>
@@ -111,7 +105,9 @@ const Task = () => {
                             </Nav.Item>
                             {projectListData.length > 0 && 
                                 projectListData.map((val, index) => 
-                                    <Nav.Item key={val?.id}  >
+                                    <Nav.Item 
+                                        className=''
+                                        key={val?.id}  >
                                         <Nav.Link 
                                             // eventKey="second"
                                             eventKey={val?.id.toString()} 
@@ -126,21 +122,20 @@ const Task = () => {
                             }
                         </Nav>
                     </Col>
-                    <Col md={10}  className={`h-100 right-tab-container  ${styles.right_tab_bar}`}>
-                        <Tab.Content className='h-100' >
-                                <Tab.Pane className='' eventKey="first">
-                                    <ProjectListRightTab 
+                    <Col md={10} className={`right-tab-container  ${styles.right_tab_bar}`}>
+                        <Tab.Content >
+                            <Tab.Pane  eventKey="first">
+                                    <MemoizedProjectListRightTab 
                                         onSelectActiveTab={onSelectActiveTab}
-                                        projectListData={projectListData}
                                         userId={user?.userId}
-                                    />
+                                    />  
                                 </Tab.Pane>
                                 {projectListData.length > 0 &&
                                     projectListData.map((val, index) =>
                                         <Tab.Pane 
                                             key={val?.id} 
                                             eventKey={val?.id.toString()} 
-                                            className="h-100"
+                                            // className="h-100"
                                         >
                                             <TaskTableList 
                                                 projectNameHeading={val?.project_name}
@@ -152,6 +147,7 @@ const Task = () => {
                             </Tab.Content>
                     </Col>
                 </Row>
+            
                 <Modal 
                     className='h-100'
                     show={showProject} 

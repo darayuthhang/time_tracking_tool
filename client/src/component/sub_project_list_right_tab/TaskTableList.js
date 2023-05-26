@@ -223,7 +223,7 @@ const TaskTableList = ({
    
     return (
         <div 
-            className={`h-100 p-5 `}
+            className={` p-5 `}
             onClick={onClickOutsideTable}>
             <Container className={`${styles["sub-project-list-container"]}`}>
                 <TableModal
