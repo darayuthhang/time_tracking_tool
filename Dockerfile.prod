@@ -7,7 +7,6 @@ WORKDIR /usr/app
 COPY . /usr/app/
 
 RUN npm install -g npm
-RUN npm install -g nodemon
 RUN npm install bcrypt
 RUN npm install -g knex
 
