@@ -27,7 +27,7 @@ module.exports = class UserService {
         if (process.env.NODE_ENV === 'local') {
             this.url = "http://localhost:3000"
         } else {
-            this.url = ""
+            this.url = "https://time-tracking-tool.herokuapp.com"
         }
     }
     async createUser({ email, firstName, lastName, password }) {
