@@ -13,3 +13,7 @@
     font-weight: 600;
 }
 
+.row{
+    position: relative;
+    width: 100%;
+}

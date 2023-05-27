@@ -38,9 +38,29 @@
     margin: 0;
     border:0;
     width: 100%;
+ 
 }
-.textarea:focus{
+.textarea:focus {
     outline: none;
+    cursor: pointer;
+}
+.textarea{
+    resize: none;
+}
+.textarea:hover{
+    /* background-color: #dfdfdf; */
+}
+.textarea_edit{
+    margin: 0;
+    border: 0;
+    width: 100%;
+}
+.textarea_edit:focus {
+    outline: none;
+}
+.textarea_edit::-webkit-resizer{
+    border-style: solid;
+    border-color: transparent rgb(14, 13, 13) rgb(14, 13, 13) transparent;
 }
 .textarea::-webkit-resizer {
     /* border-width: 8px; */
@@ -111,11 +131,28 @@
 .all-task-texts{
     font-size: 15px;
 }
+.border-table{
+    font-size: 15px;
+    /* min-height: 300px;
+    overflow-y: scroll; */
+}
 .task-col{
+ 
     cursor: pointer;
 }
 .task-col:hover{
     background-color: #dfdfdf;
+}
+.wrapper{
+    position: absolute;
+    height: 100%;
+    width: calc(100% - 17.2%);
+   
+}
+.sub-project-list-container{
+    /* height: 600px; */
+    min-height: 100vh;
+    height: auto;
 }
 /* iPhone 6/7/8 and X */
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {

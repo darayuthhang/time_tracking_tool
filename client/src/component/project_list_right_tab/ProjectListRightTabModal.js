@@ -30,7 +30,7 @@ const ProjectListRightTabModal = ({
                 </Modal.Header>
                 
                 <Modal.Body>
-                    <div className="mb-3">
+                    <div className="mb-3 h-100">
                         <label className='fw-bold'>Name</label>
                         <InputGroup size="sm" >
                             <Form.Control

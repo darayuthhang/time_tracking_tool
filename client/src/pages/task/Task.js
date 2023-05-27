@@ -13,6 +13,7 @@ import Cookie from '../../uti/Cookie';
 import { projectList } from '../../redux/action/ProjectAction';
 import ProjectListRightTab from '../../component/project_list_right_tab/ProjectListRightTab';
 import MemoizedProjectListRightTab from '../../component/project_list_right_tab/ProjectListRightTab';
+import { useRef } from 'react';
 
 
 
@@ -24,7 +25,8 @@ const Task = () => {
     const [projectError, setProjectError] = useState(false);
     const [projectDescription, setProjectDescription] = useState("");
     const [projectId, setProjectId] = useState("first"); //this projectTab iD
- 
+  
+
     const dispatch = useDispatch();
 
     //const {user} = useSelector((state) => state.authReducers);
@@ -82,14 +84,17 @@ const Task = () => {
     }
    
     return (
-        <div style={{height: "100vh"}}>
-            <Tab.Container id="left-tabs-example" 
-                className="border border-primary"
+        <div 
+        style={{height: "100vh"}} 
+        className=''>
+            <Tab.Container 
+                id="left-tabs-example" 
+                className=""
                 onSelect={(selectedKey) => onSelectActiveTab(selectedKey)}
                 activeKey={projectId}
             >
-                <Row className={`h-100 `} >
-                    <Col md={2} className={`left-tab-container ${styles.side_bar} `}>
+                <Row className={`h-100`} >
+                    <Col md={2} className={`  left-tab-container ${styles["side_bar"]}`}>
                         <Nav variant="pills" className="flex-column" >
                             <Nav.Item >
                                 <Nav.Link eventKey="first" style={{ color: 'black' }} className=''>
@@ -102,11 +107,11 @@ const Task = () => {
                                         </div>
                                     </div>
                                 </Nav.Link>
-                            </Nav.Item>
+                            </Nav.Item >
                             {projectListData.length > 0 && 
                                 projectListData.map((val, index) => 
                                     <Nav.Item 
-                                        className=''
+                                        
                                         key={val?.id}  >
                                         <Nav.Link 
                                             // eventKey="second"
@@ -122,9 +127,11 @@ const Task = () => {
                             }
                         </Nav>
                     </Col>
-                    <Col md={10} className={`right-tab-container  ${styles.right_tab_bar}`}>
-                        <Tab.Content >
-                            <Tab.Pane  eventKey="first">
+                    <Col 
+                        md={10} 
+                        className={` right-tab-container  ${styles.right_tab_bar}`}>
+                        <Tab.Content className=''>
+                            <Tab.Pane className='' eventKey="first">
                                     <MemoizedProjectListRightTab 
                                         onSelectActiveTab={onSelectActiveTab}
                                         userId={user?.userId}
@@ -133,13 +140,16 @@ const Task = () => {
                                 {projectListData.length > 0 &&
                                     projectListData.map((val, index) =>
                                         <Tab.Pane 
+                                            className=""
                                             key={val?.id} 
                                             eventKey={val?.id.toString()} 
+                                     
                                             // className="h-100"
                                         >
                                             <TaskTableList 
                                                 projectNameHeading={val?.project_name}
                                                 projectId={projectId}
+                                               
                                             />
                                         </Tab.Pane>
                                     )

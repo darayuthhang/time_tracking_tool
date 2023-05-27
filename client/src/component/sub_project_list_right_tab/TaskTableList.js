@@ -15,6 +15,7 @@ import { defaultDate, convertDateFormatToISOformat } from '../../uti';
 const TaskTableList = ({ 
     projectNameHeading, 
     projectId,
+  
      }) => {
     const DONE = "Done";
     const PROGRESS = "Progress";
@@ -32,6 +33,10 @@ const TaskTableList = ({
     const [editIndex, setEditIndex] = useState(0);
     const [isDateEmpty, setIsDateEmpty] = useState(false);
     /**
+     * @REF
+     */
+    const rightTableColRef = useRef();
+    /**
      * @REDUX STATE
      */
     const dispatch = useDispatch();
@@ -44,7 +49,12 @@ const TaskTableList = ({
     *   - useEffect once after mount(react app dom add to dom)
     *     it means when user refresh the page, that when the react mount.         
     */
-    useEffect(() => {   
+    useEffect(() => { 
+        // const targetElement = document.getElementById('target-element');
+
+        // targetElement.addEventListener('click', handleClick);
+       
+        //document.addEventListener("click", onClickOutsideTable)
         if (taskSuccess) {
             //reset task success
             dispatch(resetTaskSuccess());
@@ -54,7 +64,8 @@ const TaskTableList = ({
         }
         if (uuidValidate(projectId)) dispatch(getTaskList(projectId));
         return () => {
-           
+        
+            //document.removeEventListener("click", onClickOutsideTable)
         }
     }, [taskSuccess, projectId, taskListDeleteSuccess]
     )
@@ -72,7 +83,8 @@ const TaskTableList = ({
      * @description
      *  - @AddTask
      */
-    const onhandleAddTask = () => {
+    const onhandleAddTask = (e) => {
+        e.stopPropagation();
         /**
          * @description
          * - Taskname do not need to show empty since we already lock
@@ -131,6 +143,7 @@ const TaskTableList = ({
         const { checked, value } = e.target;
         if (checked === false) {
             const newTask = tasksIds.filter((val, index) => val != value)
+          
             setTasksIds(newTask);
         } else {
             setTasksIds([...tasksIds, value]);
@@ -208,24 +221,18 @@ const TaskTableList = ({
         }
         //if edit task is true, we will send api
         if(isEditTask){
-            /**
-             * send the same object data to 
-             * back-end because back-end will handle
-             * which one to update
-             * @Todo send data to back-end
-             */
             setIsEditTask(false)
             dispatch(updateTask(projectId, taskId, newTask))
-            // dispatch(updateTas)
-           
         }
     }
    
     return (
         <div 
-            className={` p-5 `}
-            onClick={onClickOutsideTable}>
-            <Container className={`${styles["sub-project-list-container"]}`}>
+            className={`p-3 ${styles["sub-project-list-container"]}`}
+            onClick={onClickOutsideTable}
+            >
+            {/* <Container className={`${styles["sub-project-list-container"]} p-5 border border-danger `}> */}
+            <div className='container '>    
                 <TableModal
                     show={showDeleteModal}
                     handleClose={handleCloseDeleteModal}
@@ -242,17 +249,17 @@ const TaskTableList = ({
                 <Breadcrumb className={`${styles['all-task-texts']} `}>
                     <Breadcrumb.Item href="#">All tasks</Breadcrumb.Item>
                     <Breadcrumb.Item active>This week</Breadcrumb.Item>
-                    {tasksIds.length > 0 && taskListData.length > 0 &&
+                    {tasksIds.length > 0 &&
                         <div className={`${styles.trash} ms-auto`} onClick={handleShowDeleteModal}>
                             <div className={`text-center`}>
                                 <i className={`bi bi-trash`}></i>
                             </div>
-                            <div className='fw-bold' >Delete</div>
+                            <div className='fw-bold'>Delete</div>
                         </div>
                     }
                 </Breadcrumb>
-                <div className={`table-responsive card  p-3 ${styles['all-task-texts']} `}>
-                    <table className="table table-bordered rounded rounded-3 text-center  ">
+                <div className={` table-responsive card  p-3 ${styles['border-table']} `}>
+                    <table className=" table table-bordered rounded rounded-3    ">
                         <thead>
                             <tr>
                                 <th scope="col" className={`${styles.tick_box_heading}`}>
@@ -270,12 +277,12 @@ const TaskTableList = ({
                             {taskListData.length > 0 ?
                                 taskListData.map((val, index) =>
                                     <tr key={val?.id}>
-                                        <th scope="col" >
+                                        <th scope="col" onClick={(e) => { e.stopPropagation() }}
+                                        >
                                             <div className='d-flex justify-content-center mt-1 '>
                                                 <input
                                                     type="checkbox"
                                                     value={val?.id}
-
                                                     onChange={onhandleChangeTick}
                                                 />
                                             </div>
@@ -286,7 +293,7 @@ const TaskTableList = ({
                                             >
                                                 <textarea
                                                     rows="1"
-                                                    className={`${styles.textarea} p-2`}
+                                                    className={`${styles.textarea_edit} p-2`}
                                                     placeholder="Task name"
                                                     value={val?.task_name}
                                                    
@@ -298,17 +305,17 @@ const TaskTableList = ({
                                             :
                                             <td
                                                 onClick={(e) => onhandleClickEditTask(e, index)}
-
-                                                className={`${styles['task-col']}`}>
-                                                <div>
+                                                className={` text-break ${styles['task-col']}`}
+                                                >
+                                                <div >
                                                     {val?.task_name}
                                                 </div>
-
                                             </td>
                                         }
                                         {isEditTask && editIndex === index ?
                                             <td
                                                 onClick={(e) => { e.stopPropagation() }}
+                                                
                                             >
                                                 <textarea
                                                     rows="1"
@@ -324,7 +331,8 @@ const TaskTableList = ({
                                             <td
                                                 onClick={(e) => onhandleClickEditTask(e, index)}
                                                 // onClick={(e) => onhandleClickEditTask(e, index)}
-                                                className={`${styles['task-col']}`}>
+                                                className={`text-break ${styles['task-col']}`}
+                                                >
                                                 <div>
                                                     {val?.task_description}
                                                 </div>
@@ -404,7 +412,7 @@ const TaskTableList = ({
                                             />
                                         </div>
                                     </th>
-                                    <td className={` p-0`}>
+                                    <td className={`p-0`}>
                                         <div className='d-flex align-items-center mt-2'>
                                             <textarea
                                                 rows="1"
@@ -467,7 +475,7 @@ const TaskTableList = ({
                     </table>
                     <Row>
                         <Col md={9}>
-                            <div className={`${styles.add_task_plus_sign} d-flex gap-2 ${IS_CLCIKED}`} onClick={switchShowFillInput}>
+                            <div className={`${styles.add_task_plus_sign} d-flex gap-2 `} onClick={switchShowFillInput}>
                                 <div className={` ms-3 fw-bold`} >+</div>
                                 <p>Create new TaskList</p>
                             </div>
@@ -488,8 +496,9 @@ const TaskTableList = ({
                         </Col>
                     </Row>
                 </div >
-            </Container>
-          
+            </div>
+            {/* </Container>
+           */}
         </div>
 
 

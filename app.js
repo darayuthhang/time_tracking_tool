@@ -8,7 +8,7 @@ const StartServer = async () => {
 
     const app = express();
 
-    // await databaseConnection();
+    await databaseConnection();
     await expressApp(app);
     const PORT = process.env.PORT || 5000;
     if (process.env.NODE_ENV !== 'local') {
