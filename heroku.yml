@@ -1,3 +1,6 @@
 build:
   docker:
     web: Dockerfile.prod 
+release:
+  command:
+    - npm run migrate
