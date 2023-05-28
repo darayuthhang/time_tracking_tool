@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "npm run migrate && node app.js",
     "server": "NODE_ENV='local' nodemon app.js | pino-pretty",
     "dev": "npm run migrate && npm run server",
     "project_test": "npx mocha ./test/project.test.js",
