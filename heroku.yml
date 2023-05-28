@@ -7,7 +7,7 @@ build:
     web: Dockerfile.prod 
 
 release:
-  image: postgres
+  image: worker
   command:
-    - npm run migrate
+    - ./deployment-tasks.sh
 
