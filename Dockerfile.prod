@@ -14,7 +14,6 @@ RUN npm install bcrypt
 RUN npm install -g knex
 
 RUN npm install && npm cache clean --force
-RUN npm run migrate
 #Installs packages for React app
 RUN npm install --prefix client
 #Builds React app
