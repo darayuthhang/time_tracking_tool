@@ -205,7 +205,7 @@ module.exports = class UserService {
             if (error instanceof Error) {
                 throw new APIError('API Error', error.statusCode, error.message)
             } else {
-                throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Invalid link.')
+                throw new APIError('API Error', STATUS_CODES.NOT_FOUND, `Invalid link.${error.message}`)
             }
             // res.status(401).json({ success: false });
         }

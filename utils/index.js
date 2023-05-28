@@ -100,6 +100,6 @@ module.exports.getGoogleUserInfo = async (googleToken) => {
         })
         return userInfo?.data;
     } catch (error) {
-        return null;
+        throw Error(error.message)
     }
 }
