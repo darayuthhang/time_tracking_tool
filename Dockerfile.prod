@@ -4,7 +4,7 @@ FROM node:18-alpine
 WORKDIR /usr/app
 #copy source code into image
 #copy our current ditrect to new folder call app
-COPY . /usr/app/
+# COPY . /usr/app/
 
 COPY package.json .
 
@@ -21,7 +21,7 @@ RUN npm install --prefix client
 #Builds React app
 RUN npm run --prefix client build
 
-
+COPY . .
 
 EXPOSE 5000
 
