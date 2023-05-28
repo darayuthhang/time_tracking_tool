@@ -17,7 +17,6 @@ const instance = axios.create({
 // instance.interceptors.request...
 instance.interceptors.request.use(
     (config) => {
-        console.log("Interceptor Request.");
         const token = Cookie.getTokens();
 
         if (token) {
@@ -31,7 +30,6 @@ instance.interceptors.request.use(
 );
 instance.interceptors.response.use(
     (res) => {
-        console.log("Interceptor Response.");
         return res;
     },
     async (err) => {
