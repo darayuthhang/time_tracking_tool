@@ -12,7 +12,7 @@
 
   - Second target --> For businesses, App can be useful for managing and monitoring the productivity of remote teams and contractors. The app allows managers to track their team's work hours, analyze their productivity and efficiency, and generate reports for billing, payroll, or project management purposes.
 
-  Overall, App can benefit a wide range of users, including individuals, small businesses, and larger enterprises who want to improve their time management and productivity.
+  Overall, App can benefit a wide range of users, including individuals, small businesses, and larger enterprises who want to improve their time management and productivitys.
 
 # Project Structure
 <img src="/assets/app_1_project_structure.png" alt="Alt text" title="Optional title">
