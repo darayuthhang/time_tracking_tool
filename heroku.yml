@@ -7,7 +7,5 @@ build:
     web: Dockerfile.prod 
 
 release:
-  image: myapp:1.0
-  command:
-    - ./deployment-tasks.sh
-
+   command:
+    - npm run migrate --env development
