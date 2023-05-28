@@ -46,9 +46,7 @@ const Login = () => {
     }
     const handleLoginSuccess = (response) => {
         const googleTokenExist = response?.access_token;
-        // console.log(response);
-        console.log("GOOGLE TOKEN");
-        console.log(googleTokenExist);
+     
         if (googleTokenExist) {
             dispatch(googleLogin(googleTokenExist))
         } else {
