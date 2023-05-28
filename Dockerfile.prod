@@ -7,15 +7,14 @@ WORKDIR /usr/app
 COPY . /usr/app/
 
 COPY package.json .
+COPY knexfile.js .
 
 RUN npm install -g npm
 RUN npm install bcrypt
 RUN npm install -g knex
 
-
-COPY knexfile.js .
 RUN npm install && npm cache clean --force
-RUN knex migrate:latest --env production
+RUN npm run migrate
 #Installs packages for React app
 RUN npm install --prefix client
 #Builds React app
