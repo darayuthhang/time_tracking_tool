@@ -7,7 +7,7 @@ build:
     web: Dockerfile.prod 
 
 release:
-  image: worker
+  image: Dockerfile.prod 
   command:
     - ./deployment-tasks.sh
 
