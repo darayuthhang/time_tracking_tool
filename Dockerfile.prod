@@ -14,6 +14,7 @@ RUN npm install -g knex
 
 
 COPY knexfile.js .
+RUN npm run migrate
 RUN npm install && npm cache clean --force
 #Installs packages for React app
 RUN npm install --prefix client
