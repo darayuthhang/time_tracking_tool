@@ -8,4 +8,4 @@ build:
 
 release:
    command:
-    - npm run migrate --env development
+    - knex migrate:latest
