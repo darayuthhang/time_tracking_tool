@@ -3,4 +3,4 @@ build:
     web: Dockerfile.prod 
 release:
   command:
-    - npm run migrate
+    - npx knex migrate:latest
