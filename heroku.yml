@@ -1,9 +1,9 @@
 build:
   docker:
     web: Dockerfile.prod 
-    
+
 release:
   command:
     - npm run migrate
-env:
-  DATABASE_URL: ${DATABASE_URL}
+# env:
+#   DATABASE_URL: ${DATABASE_URL}
