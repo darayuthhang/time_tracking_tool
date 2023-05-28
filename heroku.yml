@@ -9,3 +9,4 @@ build:
 release:
   command:
     - npm run migrate
+  image: worker
