@@ -2,6 +2,7 @@
 require('dotenv').config();
 const winston = require('winston');
 const logger = winston.createLogger({
+    //we can log error, and message if level is ifno
     level: process.env.NODE_ENV !== 'local' ? 'info' : 'debug',
     format: winston.format.combine(
         winston.format.timestamp(),
@@ -9,8 +10,8 @@ const logger = winston.createLogger({
     ),
     transports: [
         new winston.transports.Console(),
-        new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
-        new winston.transports.File({ filename: 'logs/combined.log' })
+        // new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+        // new winston.transports.File({ filename: 'logs/combined.log' })
     ],
     exceptionHandlers: [
         // new winston.transports.File({ filename: 'logs/exceptions.log' })

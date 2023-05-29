@@ -137,7 +137,6 @@
     overflow-y: scroll; */
 }
 .task-col{
- 
     cursor: pointer;
 }
 .task-col:hover{
@@ -153,6 +152,34 @@
     /* height: 600px; */
     min-height: 100vh;
     height: auto;
+}
+.progress-column{
+    position: relative;
+    min-height: 100%;
+}
+
+.sub-progress-column{
+    position:absolute;
+    min-height: 100%;
+    min-width: 100%;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+
+}
+.date-column {
+    position: relative;
+    min-height: 100%;
+}
+.sub-date-column{
+    position: absolute;
+    min-height: 100%;
+    min-width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 /* iPhone 6/7/8 and X */
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {

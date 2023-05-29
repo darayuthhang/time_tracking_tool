@@ -22,6 +22,7 @@ const TaskTableList = ({
     const IS_CLCIKED = "is-clicked";
     
     const [tasksIds, setTasksIds] = useState([]);
+    const [trackDeleteIds, setTrackDeleteIds] = useState([]);
     const [taskName, setTasktName] = useState("");
     const [taskDate, setTaskDate] = useState(defaultDate());
     const [taskDescription, setTaskDescription] = useState("");
@@ -31,7 +32,8 @@ const TaskTableList = ({
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isEditTask, setIsEditTask] = useState(false);
     const [editIndex, setEditIndex] = useState(0);
-    const [isDateEmpty, setIsDateEmpty] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
+    // const [trackChecked, setTrackChecked] = useState([]);
     /**
      * @REF
      */
@@ -61,6 +63,9 @@ const TaskTableList = ({
         }
         if (taskListDeleteSuccess) {
             dispatch(resetTaskListSuccess());
+            let newTask = [...trackDeleteIds];
+            //remove items from newTask from TaskIds.
+            if (tasksIds.length > 0) setTasksIds(tasksIds.filter(e => !newTask.includes(e)))
         }
         if (uuidValidate(projectId)) dispatch(getTaskList(projectId));
         return () => {
@@ -81,7 +86,7 @@ const TaskTableList = ({
     }
     /**
      * @description
-     *  - @AddTask
+     *  - @AddTask - add task
      */
     const onhandleAddTask = (e) => {
         e.stopPropagation();
@@ -114,9 +119,13 @@ const TaskTableList = ({
     const handleShowDeleteModal = () => {
         setShowDeleteModal(true)
     };
-
+    /**
+       * @description
+       *   - @DeleteTask Delete tasks in Bulk(array)
+       */
     const onhandleDeleteTask = () => {
         handleCloseDeleteModal();
+        if (tasksIds.length > 0 )setTrackDeleteIds([...tasksIds]);
         dispatch(deleteTaskList(projectId, tasksIds))
     }
     const onhandleChangeTaskName = (e) => {
@@ -139,15 +148,27 @@ const TaskTableList = ({
         updateStateStatusDone(val);
         setStatus(val);
     }
+    /**
+    * @Description
+    *  - @onhandleChangeTick tick box
+    */
     const onhandleChangeTick = (e) => {
         const { checked, value } = e.target;
         if (checked === false) {
-            const newTask = tasksIds.filter((val, index) => val != value)
-          
+    
+            /**
+             * 1. track and untrack -- done
+             * 2. track all lot of items, and untrack one by one -- done
+             * 3. all item exist, click track one of item and delete
+             * 
+             */
+            const newTask = tasksIds.filter((val, index) => val != value);
             setTasksIds(newTask);
         } else {
+            console.log("ticked");
             setTasksIds([...tasksIds, value]);
         }
+        setIsChecked(true);
     }
     /**
      * @Description
@@ -161,20 +182,6 @@ const TaskTableList = ({
     const onhandleCloseInputFill = () => {
         setShowInputFill(false);
     }
-
-
-    /**
-     * We can’t use the above function directly in a functional component 
-     * because on component re-rendering debounce 
-     * will be executed again and we will get a new function.
-     * 
-     * Here on every re-render useCallback 
-     * will give the same debounce function, which was created during the first render.
-
- */
-    
-    //const debounceOnEditChange = React.useCallback(debounce((e, index) => onhandleEditChangeTaskName(e, index), 400), []);
-    
     /**
      * 
      * @Description
@@ -209,6 +216,11 @@ const TaskTableList = ({
         setIsEditTask(true);
         setEditIndex(index);
     }
+    /**
+     * 
+     * @Description
+     *  - @onClickOutsideTable update task
+     */
     const onClickOutsideTable = () => {
         // send update to api 
         const taskId = taskListData[editIndex]?.id
@@ -315,7 +327,6 @@ const TaskTableList = ({
                                         {isEditTask && editIndex === index ?
                                             <td
                                                 onClick={(e) => { e.stopPropagation() }}
-                                                
                                             >
                                                 <textarea
                                                     rows="1"
@@ -355,22 +366,31 @@ const TaskTableList = ({
                                                         className={`${styles['dropdown-menu']}`}>
                                                         <Dropdown.Item
                                                             eventKey={val?.task_status === PROGRESS ? DONE : PROGRESS}
-                                                            className={val?.task_status !== DONE ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
+                                                            className={
+                                                                `${val?.task_status !== DONE ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}`
+                                                            }
                                                         >
                                                             {val?.task_status === PROGRESS ? DONE : PROGRESS}
                                                         </Dropdown.Item>
-                                                        
                                                     </Dropdown.Menu>
                                                 </Dropdown>
                                             </td>
                                             :
                                             <td
-                                                className={`d-flex justify-content-center ${styles['task-col']}`}
+                                             
+                                                className={`${styles['task-col']} ${styles['progress-column']} `}
                                                 onClick={(e) => onhandleClickEditTask(e, index)}
                                             >
-                                                <div className={val.task_status === PROGRESS ? `badge bg-danger` : `badge bg-success`}>
-                                                    {val?.task_status}
+                                                <div 
+                                                className={`d-flex align-items-center justify-content-center
+                                                ${styles['sub-progress-column']}`}
+                                                >
+                                                    <div
+                                                        className={`${val.task_status === PROGRESS ? `badge bg-danger` : `badge bg-success`}`}>
+                                                        {val?.task_status}
+                                                    </div>
                                                 </div>
+                                                
                                             </td>
                                         }
 
@@ -387,10 +407,15 @@ const TaskTableList = ({
                                                 />
                                             </td>
                                             :
-                                            <td className={`${styles['task-col']}`}
+                                            <td className={`${styles['task-col']} ${styles['date-column']} `}
                                                 onClick={(e) => onhandleClickEditTask(e, index)}
                                             >
-                                                {val?.task_date}
+                                                
+                                                <div className={`d-flex align-items-center justify-content-center
+                                                ${styles['sub-date-column']}`}>
+                                                    {val?.task_date}
+                                                </div>
+                                          
                                             </td>
                                         }
                                     </tr>
@@ -437,7 +462,7 @@ const TaskTableList = ({
                                             </textarea>
                                         </div>
                                     </td>
-                                    <td className=''>
+                                    <td className={`d-flex justify-content-center ${styles['task-col']}`}>
                                         <Dropdown onSelect={onhandleSelectDropDown}>
                                             <Dropdown.Toggle
                                                 className={`${styles['dropdown-toggle']}`}
