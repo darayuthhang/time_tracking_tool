@@ -11,16 +11,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createTask, deleteTaskList, getTaskList, resetTaskListSuccess, resetTaskSuccess, updateTask, updateTaskListState } from '../../redux/action/TaskAction';
 import TableModal from './TableModal';
 import { defaultDate, convertDateFormatToISOformat } from '../../uti';
+import { 
+    PROGRESS,
+    DONE,
+    ENTER } from '../../constant';
 
 const TaskTableList = ({ 
     projectNameHeading, 
     projectId,
   
      }) => {
-    const DONE = "Done";
-    const PROGRESS = "Progress";
+
     const IS_CLCIKED = "is-clicked";
-    
+  
+
+
     const [tasksIds, setTasksIds] = useState([]);
     const [trackDeleteIds, setTrackDeleteIds] = useState([]);
     const [taskName, setTasktName] = useState("");
@@ -88,6 +93,21 @@ const TaskTableList = ({
      * @description
      *  - @AddTask - add task
      */
+    const addTask = () => {
+        const newTask = {
+            taskName,
+            taskDescription,
+            taskDate,
+            projectId,
+            taskStatus: status
+        }
+        dispatch(createTask(newTask))
+        resetOnChangeStateToDefault();
+    }
+    /**
+   * @description 
+   *  - @onhandleAddTask
+   */
     const onhandleAddTask = (e) => {
         e.stopPropagation();
         /**
@@ -99,15 +119,16 @@ const TaskTableList = ({
          * 
          * */
      
-        const newTask = {
-            taskName,
-            taskDescription,
-            taskDate,
-            projectId,
-            taskStatus:status 
+        addTask();
+    }
+    /**
+     * @description 
+     *  - @PressKeyToADDtask
+     */
+    const onPressKeyToAddTask = (code) => {
+        if (code === ENTER && taskName) {
+            addTask();
         }
-        dispatch(createTask(newTask))
-        resetOnChangeStateToDefault();
     }
     /**
      * @description
@@ -128,14 +149,35 @@ const TaskTableList = ({
         if (tasksIds.length > 0 )setTrackDeleteIds([...tasksIds]);
         dispatch(deleteTaskList(projectId, tasksIds))
     }
+
+    /**
+     * @description
+     *   - @onHandleChange Task name
+     */
     const onhandleChangeTaskName = (e) => {
         setTasktName(e.target.value);
+        onPressKeyToAddTask(e.code);
+        /**
+         * @Todo
+         *  - we are handling shift enter later 
+         */
+        // if(e.code === SHIFT_LEFT 
+        //     && e.code === ENTER){
+        //         console.log("Shift left enter");
+        //     }
+        // else if(e.code === ENTER){
+        //     console.log("enter");
+        // }
+    
+       
     }
     const onhandleChangetaskDescriptionName = (e) => {
         setTaskDescription(e.target.value);
+        onPressKeyToAddTask(e.code);
     }
     const onhandleChangeDate = (e) => {
         setTaskDate(e.target.value);
+        onPressKeyToAddTask(e.code);
     }
     const updateStateStatusDone = (val) => {
         if (val === DONE) {
@@ -189,6 +231,7 @@ const TaskTableList = ({
      */
     const onhandleEditChangeTaskName = (e, index) => {
         const {value} = e.target;
+      
         setTasktName(value)
         taskListData[index].task_name = value;
         dispatch(updateTaskListState(taskListData))
@@ -445,6 +488,8 @@ const TaskTableList = ({
                                                 placeholder="Task name"
                                                 value={taskName}
                                                 onChange={onhandleChangeTaskName}
+                                                // onKeyDown={onhandleChangeTaskName}
+                                                onKeyUp={onhandleChangeTaskName}
                                                 id="floatingTextarea">
                                             </textarea>
                                         </div>
@@ -458,6 +503,7 @@ const TaskTableList = ({
                                                 value={taskDescription}
                                                 placeholder="Leave your comment"
                                                 onChange={onhandleChangetaskDescriptionName}
+                                                onKeyUp={onhandleChangetaskDescriptionName}
                                                 id="floatingTextarea">
                                             </textarea>
                                         </div>
@@ -490,6 +536,7 @@ const TaskTableList = ({
                                             className='border-0 mt-2'
                                             value={taskDate}
                                             onChange={onhandleChangeDate}
+                                            onKeyUp={onhandleChangeDate}
                                         />
                                         {/* {isDateEmpty && <div className='text-danger'>Input date cannot be empty</div>} */}
                                     </td>
@@ -513,6 +560,7 @@ const TaskTableList = ({
                                         variant="danger"
                                         disabled={taskRequest || !taskName}
                                         onClick={onhandleAddTask}
+                                        
                                     >
                                         {taskRequest ? 'Loading…' : 'Add task'}
                                     </Button>

@@ -61,6 +61,11 @@ const Task = () => {
         resetProjectToEmpty();
     }
     const onhandleShowAddProject = (e) => {
+        const LENGTH_PROJECTS = 2;
+        if (projectListData.length === LENGTH_PROJECTS){
+            alert("Please upgrade to pro");
+            return;
+        }
         setShowProject(true);
         resetProjectToEmpty();
     }
@@ -110,8 +115,7 @@ const Task = () => {
                             </Nav.Item >
                             {projectListData.length > 0 && 
                                 projectListData.map((val, index) => 
-                                    <Nav.Item 
-                                        
+                                    <Nav.Item  
                                         key={val?.id}  >
                                         <Nav.Link 
                                             // eventKey="second"
