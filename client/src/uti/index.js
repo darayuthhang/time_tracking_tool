@@ -56,3 +56,4 @@ export const getLastUpdateAgo = (timestamp) => {
         return `${diffInDays} days ago`;
     }
 };
+
