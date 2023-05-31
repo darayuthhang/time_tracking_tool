@@ -20,6 +20,7 @@ const VerifyUser = () => {
     const [codeError, setCodeError] = useState("");
     const [validateCodeError, setValidateCodeError] = useState("");
     const [successVerifyLoading, setsuccessVerifyLoading] = useState(false);
+    const [successVerifyResentLoading, setsuccessVerifyResentLoading] = useState(false);
     const { email } = useSelector((state) => state.userSignUpReducers)
 
     const navigate = useNavigate();
@@ -80,13 +81,15 @@ const VerifyUser = () => {
                 setValidateCodeError("Verifcation code not match")
             }
             logError(error, error.message)
-            setsuccessVerifyLoading(true);
+            setsuccessVerifyLoading(false);
 
         }
     }
     const apiPostMethodOtp = async () => {
+        setsuccessVerifyResentLoading(true)
         try {
             let response = await axios.post(BackEndPoint.RESENT_OTP, { email })
+            setsuccessVerifyResentLoading(false)
             logSuccess(response)
         } catch (error) {
             if (error?.response?.status === 404) {
@@ -94,6 +97,7 @@ const VerifyUser = () => {
             } else if (error?.response?.status === 500) {
                 setValidateCodeError("Verifcation code not match")
             }
+            setsuccessVerifyResentLoading(false)
             logError(error, error.message)
         }
     }
@@ -122,6 +126,8 @@ const VerifyUser = () => {
     const resetStateToDefault = () => {
         setCodeError("")
         setValidateCodeError("");
+        // setsuccessVerifyLoading(false);
+        // setsuccessVerifyResentLoading(false);
     }
     return (
         <div style={{ height: '100vh' }} className='d-flex align-items-center'>
@@ -208,7 +214,9 @@ const VerifyUser = () => {
                                 <div>
                                     Didn't you receive any code?
                                 </div>
-                                <a href="#" onClick={onhandleHandleResentOtp}>Resend New Code</a>
+                                <a href="#" onClick={onhandleHandleResentOtp}>
+                                    {successVerifyResentLoading ? "Loading" : "Resend New Code"}
+                                    </a>
                             </div>
                         </Form>
                     </Col>

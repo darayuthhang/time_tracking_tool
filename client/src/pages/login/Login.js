@@ -79,7 +79,7 @@ const Login = () => {
                                         onChange={onhandleChangeEmail}
                                         required
                                     />
-                                    {loginError === 500 && <Alert variant="danger">Email already exist</Alert>}
+                                    {loginError === 500 && <Alert variant="danger">Unable to Find active user</Alert>}
                                 </Form.Group>
                                
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -117,7 +117,7 @@ const Login = () => {
                                     Sign in with Google 🚀{' '}
                                 </Button>
                                 {googleLoginError === 500 && <Alert variant="danger">
-                                        User already exist in custom user.
+                                        Unable to Find active user
                                 </Alert>}
                             </Form>
 

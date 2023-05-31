@@ -74,6 +74,7 @@ module.exports = class UserService {
         /**
          * 404 Verificationcode expired
          * 500 verifcation code not match.
+         * 422 
          */
 
         try {
@@ -117,7 +118,7 @@ module.exports = class UserService {
         logger.debug(ApiServiceMessage(this.userService, "login"))
         /**
          * 404 password not found
-         * 500 Email does not exist
+         * 500 Unable to Find active user
          */
         try {
             //accept user email, and password
@@ -265,6 +266,10 @@ module.exports = class UserService {
         // update password in user table
         /**
          * statuscode 500 = cannot update password
+         */
+        /**
+         * @description it is because we already validate user in 
+         *   reset password route.
          */
         try {
             let code = await this.tokenRepository.findCode(token);
