@@ -34,17 +34,24 @@
     font-size: 12px;
 }
 .card{
+    position: relative;
     cursor: pointer;
+    top: 0;
+    transition: top ease 0.5s;
+}
+.card:hover{
+    top: -10px;
 }
 .card-header {
     background-color: var(--bg-color-weak-green);
 }
-
 .fixed-height-col{
     height: 200px;
     /* Adjust the height as needed */
     /* Additional styles if necessary */
 }
+
+
 /* .accordion-button:not(.collapsed) {
     color: #ffffff;
     background-color: #29008a;

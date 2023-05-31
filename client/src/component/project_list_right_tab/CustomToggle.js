@@ -7,7 +7,7 @@ function CustomToggle({ children, eventKey }) {
     const decoratedOnClick = useAccordionButton(eventKey, () =>{
         if (arrow) {setArrow(false)} else {setArrow(true)};
     });
-
+  
     return (
         <div className='d-flex' onClick={decoratedOnClick}>
             <div
