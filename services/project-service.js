@@ -41,14 +41,15 @@ module.exports = class ProjectService{
         logger.debug(ApiServiceMessage(this.projectService, "updateProject"))
         try {
             let projectToUpdate = {
-                updated_at: new Date()
+                updated_at: new Date(),
+                project_description: requestBody?.projectDescription
             };
             if (requestBody?.projectName) {
                 projectToUpdate.project_name = requestBody.projectName;
             }
-            if (requestBody?.projectDescription){
-                projectToUpdate.project_description = requestBody.projectDescription;
-            }
+            // if (requestBody?.projectDescription){
+            //     projectToUpdate.project_description = requestBody.projectDescription;
+            // }
             await this.projectRepository.updateProject(userId, projectId, projectToUpdate)
         } catch (error) {
             logger.debug(error.message)

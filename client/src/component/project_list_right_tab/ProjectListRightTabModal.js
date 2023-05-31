@@ -10,7 +10,8 @@ const ProjectListRightTabModal = ({
     onhandleChangeProjectDescription,
     onhandleChangeProject,
     projectName,
-    projectDescription
+    projectDescription,
+    lockProjectButton
 
 }) => {
     const { 
@@ -63,7 +64,10 @@ const ProjectListRightTabModal = ({
                     <Button variant="light" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={onhandleUpdateProject}>
+                    <Button 
+                        variant="primary"
+                        disabled={!lockProjectButton}
+                         onClick={onhandleUpdateProject}>
                         {projectUpdateRequest ?
                             "Loading"
                         :

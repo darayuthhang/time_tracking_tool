@@ -53,7 +53,7 @@ module.exports = class TaskService{
     
         try {
             let taskToUpdate = {
-                updated_at: new Date()
+                updated_at: new Date(),
             };
             if (requestBody?.taskName) {
                 taskToUpdate.task_name = requestBody.taskName;

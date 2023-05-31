@@ -9,7 +9,7 @@ import {
     Alert,
     Accordion
 } from 'react-bootstrap'
-import { useAccordionButton } from 'react-bootstrap/AccordionButton';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { 
     deleteProject, 
@@ -65,8 +65,8 @@ const ProjectListRightTab = ({
      * @Todo handle error
      */
     const onhandleUpdateProject = () => {
-        setShowUpdateModal(false);//close modal
         dispatch(updateProject(userId, projectId, projectName, projectDescription))
+        setShowUpdateModal(false);//close modal
     }
     const onShowUpdateProjectModal = (e, projectId, projectName, projectDescription) => {
         e.stopPropagation();
@@ -102,14 +102,11 @@ const ProjectListRightTab = ({
     }
     const onhandleChangeProject = (e) => {
         resetProjectErrorToDefault();
-        setProjectName(e.target.value)
+        setProjectName(e.target.value); 
     }
     const resetProjectErrorToDefault = () => {
         if(projectUpdateError) dispatch(resetStateProjectUpdateError(null));
     }
-    const decoratedOnClick = useAccordionButton(() =>
-        console.log('totally custom!'),
-    );
 
    
     return (
@@ -124,6 +121,7 @@ const ProjectListRightTab = ({
                     onhandleUpdateProject={onhandleUpdateProject}
                     projectName={projectName}
                     projectDescription={projectDescription}
+                lockProjectButton={projectName}
                 />
             }
             {showDeleteModal && 
