@@ -39,6 +39,13 @@ module.exports = class UserService {
          * status code 500 ===> Create user not found.
          */
         try {
+            /**
+             * @description 
+             *  - Google email exist, prevent user not to sign up 
+             *    with exist gmail
+             */
+            const isGoogleUser = await this.userRepository.findUserByGoogleEmail(email);
+            if (isGoogleUser) { throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Email already exist.') };
             const userActiveEmail = await this.userRepository.findUserByValidationAndEmail(email, false);
             if (userActiveEmail) { throw new APIError('API Error', STATUS_CODES.BAD_REQUEST, 'Please activate your account.') };
             const isEmail = await this.userRepository.findUserByValidationAndEmail(email, true);
@@ -90,6 +97,7 @@ module.exports = class UserService {
         try {
             //use email to get user id from user table
             let user = await this.userRepository.findUserByemail(email);
+            if (!user) throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot Send Verification Code.')
             const userId = user?.id;
             // generate new code 
             const verificationCode = GetVerificationCode();
@@ -100,7 +108,7 @@ module.exports = class UserService {
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
-                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot Update Verification Code.')
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot Send Verification Code.')
             }
         }
     }
@@ -212,9 +220,17 @@ module.exports = class UserService {
     }
     async resetPassword({email}){
         logger.debug(ApiServiceMessage(this.userService, "resetPassword"))
+            /**
+             * status code 404 ===>Email does not exist
+             * status code 500 ===> Internal error.
+             */
         try {
+            /**
+             * @Description
+             *  - only customer user can reset password.
+             */
             let user = await this.userRepository.findUserByValidationAndEmail(email, true);
-            if (!user) throw new Error("Unable to Find active user")
+            if (!user) throw new APIError('API Error', STATUS_CODES.NOT_FOUND, "Email does not exist")
             /**
              * @Delete previous token, so that users can request new token
              * when they click on reset new password.
@@ -235,10 +251,10 @@ module.exports = class UserService {
             await userEmail.sendEmail(this.from, this.text, email,
                 this.subject, link, this.typeEmail)
         } catch (error) {
-            if (error instanceof Error) {
+            if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
-                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot find email')
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Internal error')
             }
         }
     }
@@ -247,6 +263,9 @@ module.exports = class UserService {
         //check if token exist
         // if it exist, hash password
         // update password in user table
+        /**
+         * statuscode 500 = cannot update password
+         */
         try {
             let code = await this.tokenRepository.findCode(token);
             let hashPassword = await GeneratePassword(password, await GenerateSalt());
@@ -256,7 +275,7 @@ module.exports = class UserService {
             if (error instanceof APIError) {
                 throw new APIError('API Error', error.statusCode, error.message)
             } else {
-                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, "Create user not found.")
+                throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, "Cannot update password")
             }
         }
     }

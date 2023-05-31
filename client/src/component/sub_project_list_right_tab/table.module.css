@@ -96,7 +96,6 @@
 .dropdown-menu{
     min-width:0 !important;
     padding: 0 !important;
- 
 }
 .dropdown-item-1{
     background-color: var(--boostrap-success) !important;
@@ -180,17 +179,94 @@
     left: 0;
     right: 0;
     bottom: 0;
+   
 }
 /* iPhone 6/7/8 and X */
-@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
-    /* Styles for iPhone */
-    .all-task-texts {
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) 
+and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+    /* Styles for portrait mode on iPhone 6, 7, 8, and X */
+    /* Add your styles here */
+    /* .media-query-all-task-texts {
         font-size: 10px;
     }
+    .change-font-size-of-date {
+        font-size: 8px;
+    }
+    .dropdown-toggle {
+        font-size: 10px !important;
+    }
+    .media-query-add-cancel-btn{
+        font-size: 8px !important;
+    }
+    .dropdown-item-1{
+        font-size: 9px !important;
+        width: 5em !important;
+    }
+    .dropdown-item-2{
+        font-size: 9px !important;
+        width: 8em !important;
+    }
+     */
+     
     
 }
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) 
+and (-webkit-device-pixel-ratio: 2) and (orientation: landscape) {
+    /* Styles for landscape mode on iPhone 6, 7, 8, and X */
+    /* Add your styles here */
+    .media-query-all-task-texts {
+            font-size: 10px;
+        }
+
+    .change-font-size-of-date {
+        font-size: 8px;
+    }
+
+    .dropdown-toggle {
+        font-size: 10px !important;
+        width: 30% !important;
+
+    }
+
+    .media-query-add-cancel-btn {
+        font-size: 8px !important;
+    }
+   
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 896px) 
+and (-webkit-device-pixel-ratio: 2) and (orientation: landscape) {
+    /* Styles for landscape mode on iPhone XR */
+    /* Add your styles here */
+
+    .dropdown-toggle {
+        font-size: 4px !important;
+        width: 100% !important;
+        border: 1px solid red;
+    }
+
+    .media-query-add-cancel-btn {
+        font-size: 5px !important;
+    }
+}
+
+
+/* @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (orientation: landscape) {
+
+
+    .all-task-texts {
+        font-size: 8px;
+    }
+
+    .sub-date-column {
+        font-size: 5px;
+        border: 1px solid red;
+    }
+} */
 /* iPad */
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
     /* Styles for iPad */
-   
+    .sub-date-column {
+        font-size: 5px;
+        border: 1px solid red;
+    }
 }

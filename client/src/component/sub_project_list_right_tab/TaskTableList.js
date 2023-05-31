@@ -287,23 +287,23 @@ const TaskTableList = ({
             onClick={onClickOutsideTable}
             >
             {/* <Container className={`${styles["sub-project-list-container"]} p-5 border border-danger `}> */}
-            <div className='container '>    
+            <div className='container mt-5'>    
                 <TableModal
                     show={showDeleteModal}
                     handleClose={handleCloseDeleteModal}
                     title={tasksIds.length === 1 ? `Delete this task?` : "Delete these tasks?"}
-                    bodyText="hello "
+                    // bodyText="hello "
                     onhandleDeleteTask={onhandleDeleteTask}
                 />
-                <div className='d-flex mb-5'>
+                <div className='d-flex mb-2'>
                     <div className='d-flex align-items-center'>
                         <i className="bi bi-book"></i>
                     </div>
                     <h5 className='fw-bold ms-2'>{projectNameHeading}</h5>
                 </div>
                 <Breadcrumb className={`${styles['all-task-texts']} `}>
-                    <Breadcrumb.Item href="#">All tasks</Breadcrumb.Item>
-                    <Breadcrumb.Item active>This week</Breadcrumb.Item>
+                    {/* <Breadcrumb.Item href="#">All tasks</Breadcrumb.Item>
+                    <Breadcrumb.Item active>This week</Breadcrumb.Item> */}
                     {tasksIds.length > 0 &&
                         <div className={`${styles.trash} ms-auto`} onClick={handleShowDeleteModal}>
                             <div className={`text-center`}>
@@ -313,7 +313,7 @@ const TaskTableList = ({
                         </div>
                     }
                 </Breadcrumb>
-                <div className={` table-responsive card  p-3 ${styles['border-table']} `}>
+                <div className={` table-responsive card  p-3 ${styles['media-query-all-task-texts']}  ${styles['border-table']} `}>
                     <table className=" table table-bordered rounded rounded-3    ">
                         <thead>
                             <tr>
@@ -444,7 +444,8 @@ const TaskTableList = ({
                                             >
                                                 <input
                                                     type='date'
-                                                    className='border-0 mt-2'
+                                                    
+                                                    className={`${styles['change-font-size-of-date']} border-0 mt-2`}
                                                     value={convertDateFormatToISOformat(val?.task_date)}
                                                     onChange={(e) => onhandleEditChangeTaskDate(e, index)}
                                                 />
@@ -455,7 +456,8 @@ const TaskTableList = ({
                                             >
                                                 
                                                 <div className={`d-flex align-items-center justify-content-center
-                                                ${styles['sub-date-column']}`}>
+                                                ${styles['sub-date-column change-font-size-of-date ']}`}
+                                                >
                                                     {val?.task_date}
                                                 </div>
                                           
@@ -533,7 +535,8 @@ const TaskTableList = ({
                                     <td className=''>
                                         <input
                                             type='date'
-                                            className='border-0 mt-2'
+                                            className={`${styles['change-font-size-of-date']} border-0 mt-2 `}
+
                                             value={taskDate}
                                             onChange={onhandleChangeDate}
                                             onKeyUp={onhandleChangeDate}
@@ -554,10 +557,14 @@ const TaskTableList = ({
                         </Col>
                         <Col md={3}>
                             {showInputFill &&
-                                <div className='d-flex justify-content-end gap-2'>
-                                    <button type="button" className='btn btn-light' onClick={onhandleCloseInputFill}>Cancel</button>
+                                <div className={`d-flex justify-content-end gap-2 `}>
+                                    <button 
+                                    type="button" 
+                                    className={` ${styles['media-query-add-cancel-btn']} btn btn-light`} onClick={onhandleCloseInputFill}>Cancel</button>
                                     <Button
+                                       
                                         variant="danger"
+                                        className={` ${styles['media-query-add-cancel-btn']}`} 
                                         disabled={taskRequest || !taskName}
                                         onClick={onhandleAddTask}
                                         
@@ -578,4 +585,6 @@ const TaskTableList = ({
     );
 };
 
-export default TaskTableList;
+// export default TaskTableList;
+const MemoizedTaskTableList = React.memo(TaskTableList);
+export default MemoizedTaskTableList;

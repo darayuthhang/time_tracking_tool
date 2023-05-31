@@ -14,6 +14,7 @@ import { projectList } from '../../redux/action/ProjectAction';
 import ProjectListRightTab from '../../component/project_list_right_tab/ProjectListRightTab';
 import MemoizedProjectListRightTab from '../../component/project_list_right_tab/ProjectListRightTab';
 import { useRef } from 'react';
+import MemoizedTaskTableList from '../../component/sub_project_list_right_tab/TaskTableList';
 
 
 
@@ -154,10 +155,10 @@ const Task = () => {
                                      
                                             // className="h-100"
                                         >
-                                            <TaskTableList 
+                                            <MemoizedTaskTableList 
                                                 projectNameHeading={val?.project_name}
                                                 projectId={projectId}
-                                               
+
                                             />
                                         </Tab.Pane>
                                     )

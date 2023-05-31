@@ -11,7 +11,6 @@ export const signup = (firstName, lastName, email, password) => async (dispatch)
     try {
         dispatch({ type: UserTypes.SIGN_UP_USER_REQUEST });
         const { data } = await axios.post(BackEndPoint.SIGN_UP, { firstName, lastName, email, password });
-        // Cookies.set("userId", data?.data?.userId, { expires: 1})
         Cookie.saveEmail(email);
         dispatch({ type: UserTypes.SIGN_UP_USER_SUCCESS, payload: email });
     } catch (error) {

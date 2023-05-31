@@ -102,7 +102,8 @@ module.exports = class UserRespository {
                 first_name: firstName,
                 last_name: lastName,
                 google_id: googleId,
-                auth_method: "google_email"
+                auth_method: "google_email",
+                validated:true
             }).returning('*');
             if (googleUser.length === 0) throw new Error("Unable to Create google user");
             return googleUser;
@@ -145,6 +146,20 @@ module.exports = class UserRespository {
                 {
                     email: email,
                     auth_method: "email"
+                }
+            ).first();
+            return user;
+        } catch (error) {
+            throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Invalid link.')
+        }
+
+    }
+    async findUserByGoogleEmail(email) {
+        try {
+            const user = await db(TABLE_USERS).where(
+                {
+                    email: email,
+                    auth_method: "google_email"
                 }
             ).first();
             return user;

@@ -8,6 +8,7 @@ import { useSelector, dispatch, useDispatch } from 'react-redux';
 
 import Cookie from '../../uti/Cookie';
 import ReactEndPoint from '../../constant/ReactEndPoint';
+import BoxInputComponent from './BoxInputComponent';
 const VerifyUser = () => {
     const [firstCode, setFirstCode] = useState("");
     const [secondCode, setSecondCode] = useState("");
@@ -89,9 +90,9 @@ const VerifyUser = () => {
             logSuccess(response)
         } catch (error) {
             if (error?.response?.status === 404) {
-                // setValidateCodeError("Verification code expired")
+                setValidateCodeError("Verification code expired")
             } else if (error?.response?.status === 500) {
-                //setValidateCodeError("Verifcation code not match")
+                setValidateCodeError("Verifcation code not match")
             }
             logError(error, error.message)
         }
@@ -132,57 +133,68 @@ const VerifyUser = () => {
                                 <h2>Verifcation</h2>
                                 <p>Enter your OPT code number</p>
                                 <div className='border p-3'>
-                                    <div className='d-flex gap-3'>
-                                        <div className=' p-3 border'>
-                                            <input
-                                                type="text"
-                                                className="form-control border-0 fs-3 p-1"
-                                                onChange={onhandleChangeFirstCode}
-                                                value={firstCode}
-                                                placeholder=""
-
+                                    <div className=' d-flex gap-3 '>
+                                            <BoxInputComponent 
+                                                onhandleChange={onhandleChangeFirstCode}
+                                                // value={firstCode}
                                             />
-                                        </div>
-                                        <div className=' p-3 border'>
-                                            <input
+                                            <BoxInputComponent 
+                                            onhandleChange={onhandleChangeSecondCode}
+                                            />
+                                        <BoxInputComponent
+                                            onhandleChange={onhandleChangeThirdCode}
+                                        />
+                                        <BoxInputComponent
+                                            onhandleChange={onhandleChangeFourthCode}
+                                        />
+                                        <BoxInputComponent
+                                            onhandleChange={onhandleChangeFifthCode}
+                                        />
+                                        <BoxInputComponent
+                                            onhandleChange={onhandleChangeSixCode}
+                                        />
+                                        
+                                          
+                                      
+                                            {/* <input
                                                 type="text"
-                                                class="form-control border-0 fs-3 p-1"
+                                                class="form-control  fs-3 p-1"
                                                 onChange={onhandleChangeSecondCode}
                                                 placeholder=""
                                             />
-                                        </div>
-                                        <div className=' p-3 border'>
+                           
+                                     
                                             <input
                                                 type="text"
-                                                class="form-control border-0 fs-3 p-1"
+                                                class="form-control  fs-3 p-1"
                                                 onChange={onhandleChangeThirdCode}
                                                 placeholder=""
                                             />
-                                        </div>
-                                        <div className=' p-3 border'>
+                                     
+                                 
                                             <input
                                                 type="text"
-                                                class="form-control border-0 fs-3 p-1"
+                                                class="form-control  fs-3 p-1"
                                                 onChange={onhandleChangeFourthCode}
                                                 placeholder=""
                                             />
-                                        </div>
-                                        <div className=' p-3 border'>
+                                     
+                                      
                                             <input
                                                 type="text"
-                                                class="form-control border-0 fs-3 p-1"
+                                                class="form-control  fs-3 p-1"
                                                 onChange={onhandleChangeFifthCode}
                                                 placeholder=""
                                             />
-                                        </div>
-                                        <div className=' p-3 border'>
+                                   
+                                       
                                             <input
                                                 type="text"
-                                                class="form-control border-0 fs-3 p-1"
+                                                class="form-control  fs-3 p-1"
                                                 onChange={onhandleChangeSixCode}
                                                 placeholder=""
-                                            />
-                                        </div>
+                                            /> */}
+                                      
                                     </div>
                                     <Button
                                         type='submit'

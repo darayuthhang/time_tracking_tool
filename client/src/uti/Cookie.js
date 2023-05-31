@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 
 class Cookie {
-    saveUser(user) {
+    async saveUser(user) {
         try {
             Cookies.set("user", JSON.stringify(user));
         } catch (error) {

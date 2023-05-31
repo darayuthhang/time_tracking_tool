@@ -18,7 +18,14 @@ const Signup = () => {
     const { signUpRequest, signUpSuccess, signUpError } = useSelector((state) => state.userSignUpReducers ) 
     // const { signUpInProgress, signUpSuccess, error, signUpEmail } = useSelector((state) => state.userSignUpReducers)
     // const { sendNewLinkProgress, sendNewLinkSuccess, sendLinkerror } = useSelector((state) => state.userSendNewLinkReducers)
-
+    // useEffect(() => {
+    //   first
+    
+    //   return () => {
+    //     second
+    //   }
+    // }, [third])
+    
     const onhandleChangeFirstName = (e) => {
         setFirstname(e.target.value)
         handleResetAllInputToDefault();
@@ -57,7 +64,8 @@ const Signup = () => {
         return(
             <Navigate to={ReactEndPoint.VERIFY_USER} replace={true} />
         )
-    }else{
+    }
+  
         return (
             <div>
                 <Container>
@@ -114,8 +122,20 @@ const Signup = () => {
                                     <p>Already a user? </p>
                                     <Link to={ReactEndPoint.LOGIN}>LOGIN</Link>
                                 </div>
+                                {signUpError === 404 &&
+                                    <Alert variant="danger">
+                                        User already exist.
+                                    </Alert> 
+                                }
+                                {signUpError === 500 &&
+                                    <Alert variant="danger">
+                                        Internal server not found
+                                    </Alert>
+                                }
                                 {signUpError === 400 &&
-                                   <Navigate to={ReactEndPoint.VERIFY_USER} replace={true}  />
+                                    <Alert variant="danger">
+                                       Please activae your account.
+                                    </Alert>
                                 }
                             </Form>
 
@@ -125,7 +145,7 @@ const Signup = () => {
                 </Container>
             </div>
         );
-    }
+    
    
 };
 

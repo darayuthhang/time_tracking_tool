@@ -24,7 +24,8 @@ const ResetPassword = () => {
             //redirect
         } catch (error) {
             logError(error, error.message);
-            if (error?.response?.status === 500) setEmailError("Email does not exist .")
+            if (error?.response?.status === 500) setEmailError("Internal error. we will get it fixed.")
+            if (error?.response?.status === 404) setEmailError("Email does not exist")
             setEmailRequest(false);
         }
     }
@@ -51,7 +52,7 @@ const ResetPassword = () => {
                             onChange={onhandleChangeEmail}
                             id="email" 
                             placeholder="Enter email" required />
-                            {emailError && <Alert variant='danger'>Email does not exist</Alert>}
+                            {emailError && <Alert variant='danger'>{emailError}</Alert>}
                         </div>
                         <Button
                             className='mt-3 w-100 shadow  rounded'

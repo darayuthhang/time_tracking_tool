@@ -55,7 +55,7 @@ const Login = () => {
     };
   
 
-    const login = useGoogleLogin({
+    const GoogleApiLogin = useGoogleLogin({
         onSuccess: tokenResponse => handleLoginSuccess(tokenResponse),
     });
 
@@ -113,7 +113,7 @@ const Login = () => {
                                     </div>
                                 </div>
                              
-                                <Button onClick={() => login()} className="w-100">
+                                <Button onClick={(e) => GoogleApiLogin()} className="w-100">
                                     Sign in with Google 🚀{' '}
                                 </Button>
                                 {googleLoginError === 500 && <Alert variant="danger">
