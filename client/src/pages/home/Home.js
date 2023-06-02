@@ -1,8 +1,8 @@
 import React from 'react';
-
+import styles from './home.module.css';
 const Home = () => {
     return (
-        <div className='bg-dark text-light' style={{height: "100vh"}}>
+        <div className={` ${styles['bg-color']} text-dark`} style={{height: "100vh"}}>
             Home
             <header>
                 header

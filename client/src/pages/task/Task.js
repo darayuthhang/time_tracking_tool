@@ -96,7 +96,7 @@ const Task = () => {
     return (
         <div 
         style={{height: "100vh"}} 
-        className=''>
+        className={`${styles['bg-color']}`}>
             <Tab.Container 
                 id="left-tabs-example" 
                 className=""

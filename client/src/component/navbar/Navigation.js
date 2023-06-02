@@ -9,14 +9,14 @@ const Navigation = ({
   
 }) => {
     return (
-        <Navbar expand="lg" bg="dark" >
+        <Navbar expand="lg" className={`${styles['bg-color']}`}>
             <Container className=''>
                 <span style={{ fontSize: "16px" }} className='m-2'>&#9200;</span>   
                 <Navbar.Brand
                     to={ReactEndPoint.HOME}
                     as={Link}
                     href="#home" 
-                    className={`${styles['text-hover']} text-light`}
+                    className={`${styles['text-hover']} text-dark`}
                     >
                     TaskMaster
                 </Navbar.Brand>
@@ -25,7 +25,7 @@ const Navigation = ({
                     <Nav className="text-center ">
                         {!isAuth &&
                             <Nav.Link
-                                className={`${styles['text-hover']} text-light`}
+                                className={`${styles['text-hover']} text-dark`}
                                 as={Link}
                                 to={ReactEndPoint.SIGN_UP}
 
@@ -34,7 +34,7 @@ const Navigation = ({
                         }
                         {!isAuth &&
                             <Nav.Link
-                                className={`${styles['text-hover']} text-light`}
+                                className={`${styles['text-hover']} text-dark`}
                                 as={Link}
                                 to={ReactEndPoint.SIGN_UP}
 
@@ -44,13 +44,13 @@ const Navigation = ({
                     </Nav>
                     {isAuth ?
                         <Nav className='ms-auto'>
-                                <Button variant='danger fs-6'
-                                    className={`text-light`}
+                                <Button variant='dark fs-6'
+                                    className={`text-white`}
                                 >
                                     Upgrade to pro
                                 </Button>
                                 <Nav.Link
-                                    className={`${styles['text-hover']} text-light`}
+                                    className={`${styles['text-hover']} text-dark`}
                                     as={Link}
                                     to={ReactEndPoint.HOME}
                                     onClick={handleLogout}
@@ -61,7 +61,7 @@ const Navigation = ({
                             :
                         <Nav className='ms-auto'>
                             <Nav.Link
-                                className='text-light btn btn-outline-secondary'
+                                className='text-dark btn btn-outline-secondary'
                                 as={Link}
                                 to={ReactEndPoint.LOGIN}
                             >

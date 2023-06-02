@@ -2,10 +2,10 @@
     color: darkgrey;
 }
 
-.side_bar {
+/* .side_bar {
     background-color: #fafafa;
   
-}
+} */
 .side_bar_font_size{
     font-size: 14px;
     line-height: 17px;
@@ -16,4 +16,7 @@
 .row{
     position: relative;
     width: 100%;
+}
+.bg-color {
+    background-color: #f2f2f2 !important;
 }
