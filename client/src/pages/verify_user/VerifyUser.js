@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { Form, Container, Button, Alert, Row, Col } from 'react-bootstrap'
 import BackEndPoint from '../../constant/BackEndPoint';
@@ -24,27 +24,44 @@ const VerifyUser = () => {
     const { email } = useSelector((state) => state.userSignUpReducers)
 
     const navigate = useNavigate();
+    const secondInputRef = useRef();
+    const thirdInputRef = useRef();
+    const fourtInputRef = useRef();
+    const fiveInputRef = useRef();
+    const sixInputRef = useRef();
 
-
+    const refFocus = (inputRef, value) => {
+        if(value !== "") inputRef.current?.focus();
+    }
     const onhandleChangeFirstCode = (e) => {
         // validateInput(e.target.value)
-        setFirstCode(e.target.value)
+        const {value} = e.target;
+        setFirstCode(value)
+        refFocus(secondInputRef, value)
         resetStateToDefault();
     }
     const onhandleChangeSecondCode = (e) => {
-        setSecondCode(e.target.value)
+        const { value } = e.target;
+        setSecondCode(value)
+        refFocus(thirdInputRef, value)
         resetStateToDefault();
     }
     const onhandleChangeThirdCode = (e) => {
-        setthirdCode(e.target.value)
+        const { value } = e.target;
+        setthirdCode(value)
+        refFocus(fourtInputRef, value)
         resetStateToDefault();
     }
     const onhandleChangeFourthCode = (e) => {
-        setfourthCode(e.target.value)
+        const { value } = e.target;
+        setfourthCode(value)
+        refFocus(fiveInputRef, value)
         resetStateToDefault();
     }
     const onhandleChangeFifthCode = (e) => {
-        setfifthCode(e.target.value)
+        const { value } = e.target;
+        setfifthCode(value)
+        refFocus(sixInputRef, value)
         resetStateToDefault();
     }
     const onhandleChangeSixCode = (e) => {
@@ -140,24 +157,30 @@ const VerifyUser = () => {
                                 <p>Enter your OPT code number</p>
                                 <div className='border p-3'>
                                     <div className=' d-flex gap-3 '>
-                                            <BoxInputComponent 
+                                        <BoxInputComponent 
                                                 onhandleChange={onhandleChangeFirstCode}
+                                           
                                                 // value={firstCode}
-                                            />
-                                            <BoxInputComponent 
+                                        />
+                                        <BoxInputComponent 
                                             onhandleChange={onhandleChangeSecondCode}
-                                            />
+                                            refInput={secondInputRef}
+                                        />
                                         <BoxInputComponent
                                             onhandleChange={onhandleChangeThirdCode}
+                                            refInput={thirdInputRef}
                                         />
                                         <BoxInputComponent
                                             onhandleChange={onhandleChangeFourthCode}
+                                            refInput={fourtInputRef}
                                         />
                                         <BoxInputComponent
                                             onhandleChange={onhandleChangeFifthCode}
+                                            refInput={fiveInputRef}
                                         />
                                         <BoxInputComponent
                                             onhandleChange={onhandleChangeSixCode}
+                                            refInput={sixInputRef}
                                         />
                                         
                                           

@@ -1,54 +1,75 @@
 import React from 'react';
-import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Container, Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import ReactEndPoint from '../../constant/ReactEndPoint';
-
+import styles from './navigation.module.css';
 const Navigation = ({
     isAuth,
     handleLogout
   
 }) => {
     return (
-        <Navbar bg="light" expand="lg" >
-            <Container>
-                <Navbar.Brand href="#home">TimeTracking App</Navbar.Brand>
+        <Navbar expand="lg" bg="dark" >
+            <Container className=''>
+                <span style={{ fontSize: "16px" }} className='m-2'>&#9200;</span>   
+                <Navbar.Brand
+                    to={ReactEndPoint.HOME}
+                    as={Link}
+                    href="#home" 
+                    className={`${styles['text-hover']} text-light`}
+                    >
+                    TaskMaster
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link 
-                            as={Link}
-                            to={ReactEndPoint.HOME}
-                        >
-                            Home
-                        </Nav.Link >
-                        {isAuth ? 
-                          <Nav.Link 
-                           
-                            onClick={handleLogout}
-                           
-                        >
-                             LogOut
-                        </Nav.Link >
-                        
-                        :
-                        <div className='d-flex'>
-                                <Nav.Link
-                                    as={Link}
-                                    to={ReactEndPoint.LOGIN}
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="text-center ">
+                        {!isAuth &&
+                            <Nav.Link
+                                className={`${styles['text-hover']} text-light`}
+                                as={Link}
+                                to={ReactEndPoint.SIGN_UP}
 
-                                >   Login
-                                </Nav.Link >
-                                <Nav.Link
-                                    as={Link}
-                                    to={ReactEndPoint.SIGN_UP}
+                            >   Sigup
+                            </Nav.Link >
+                        }
+                        {!isAuth &&
+                            <Nav.Link
+                                className={`${styles['text-hover']} text-light`}
+                                as={Link}
+                                to={ReactEndPoint.SIGN_UP}
 
-                                >   Sigup
-                                </Nav.Link >
-                        </div>
-                       
-                    }
-                   
+                            >   Pricing
+                            </Nav.Link >
+                        }
                     </Nav>
+                    {isAuth ?
+                        <Nav className='ms-auto'>
+                                <Button variant='danger fs-6'
+                                    className={`text-light`}
+                                >
+                                    Upgrade to pro
+                                </Button>
+                                <Nav.Link
+                                    className={`${styles['text-hover']} text-light`}
+                                    as={Link}
+                                    to={ReactEndPoint.HOME}
+                                    onClick={handleLogout}
+                                >
+                                    Logout
+                                </Nav.Link >
+                        </Nav>
+                            :
+                        <Nav className='ms-auto'>
+                            <Nav.Link
+                                className='text-light btn btn-outline-secondary'
+                                as={Link}
+                                to={ReactEndPoint.LOGIN}
+                            >
+                                Login
+                            </Nav.Link >
+                        </Nav>
+
+                        }
                 </Navbar.Collapse>
             </Container>
         </Navbar>

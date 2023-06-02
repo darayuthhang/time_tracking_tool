@@ -117,7 +117,7 @@ const Login = () => {
                                     Sign in with Google 🚀{' '}
                                 </Button>
                                 {googleLoginError === 500 && <Alert variant="danger">
-                                        Unable to Find active user
+                                    User already exist in custom user
                                 </Alert>}
                             </Form>
 

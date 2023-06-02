@@ -57,7 +57,7 @@ module.exports = class UserService {
             let userId = await this.userRepository.createUserTrx(email, firstName, lastName, hashPassword, verificationCode)
             //send valdiation code to user
             await userEmail.sendEmail("yuth", "hello world", email, "hello world", verificationCode)
-            return userId;
+            return userId;  
         } catch (error) {
             logger.debug(error.message)
             if (error instanceof APIError) {
