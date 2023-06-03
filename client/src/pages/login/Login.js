@@ -26,9 +26,8 @@ const Login = () => {
     const navigate = useNavigate();
     const { loginRequest, loginSuccess, loginError } = useSelector((state) => state.userLoginReducers)
     const { googleLoginError, googleLoginSuccess } = useSelector((state) => state.googleUserLoginReducers)
-    // const { handleGoogle, loading, error } = useFetch(
-    //     "http://localhost:5152/signup"
-    // );
+
+
     const onhandleChangeEmail = (e) => {
         setEmail(e.target.value)
         handleResetAllInputToDefault();

@@ -21,24 +21,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 function App() {
 
 
-  useEffect(() => {
-    const isMessengerInAppBrowser = /FBAN|FBAV/i.test(window.navigator.userAgent);
-
-    if (isMessengerInAppBrowser) {
-      const url = "https://www.taskkru.com"
-      //runing in messner app browser
-      // Code to handle Messenger in-app browser
-      window.location.replace(url);   
-    } else {
-     
-      //runing in messner app browser
-      // Code to handle Messenger in-app browser
-     
-      // running in regular browswer
-
-    }
-  }, []);
-
   //   const refreshToken = Cookie.getLocalRefreshToken();
   //  const navigate = useNavigate();
   //   const dispatch = useDispatch();
@@ -63,7 +45,25 @@ function App() {
   //   const handleLogout = () => {
   //     navigateToHomePage();
   //   }
+  useEffect(() => {
+    const isMessengerInAppBrowser = /FBAN|FBAV/i.test(window.navigator.userAgent);
 
+    if (isMessengerInAppBrowser) {
+      const shouldOpenInSafari = window.confirm('For the best experience, open this link in Safari. Do you want to proceed?');
+
+      if (shouldOpenInSafari) {
+        window.open('https://www.taskkru.com', '_system');
+      }
+    } 
+    // else {
+    //   window.open('https://example.com', '_blank');
+    // }
+    
+    return () => {
+      
+    }
+  }, [])
+  
   return (
     <div className="font-monospace">
       {/* <Ads dataAdSlot='6642898968' /> */}
