@@ -12,64 +12,61 @@ import UpdatePassword from "./pages/update_password/UpdatePassword";
 import ProtectedRoute from "./Protectroute/ProtectRoute";
 import Task from "./pages/task/Task";
 import Navigation from "./component/navbar/Navigation";
-
 import ReactEndPoint from "./constant/ReactEndPoint";
-// import Cookie from "./uti/Cookie";
-// import jwt_decode from "jwt-decode";
-// import { useSelector, useDispatch } from 'react-redux';
-import { Routes, Route} from 'react-router-dom';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 
 function App() {
 
 
-//   const { user, isAuth } = useSelector((state) => state.authReducers)
+  const { user, isAuth } = useSelector((state) => state.authReducers)
 
-//   const refreshToken = Cookie.getLocalRefreshToken();
-//  const navigate = useNavigate();
-//   const dispatch = useDispatch();
-//   useEffect(() => {
-//     if(!isAuth){
-//       navigate("/")
-//       // Cookie.removeUser();
-//     }
-  
-//     return () => {
-      
-//     }
-//   }, [isAuth])
-  
-//   const navigateToHomePage = () => {
-//     dispatch(removeAuth());
-//     // navigate("/", {replace: true});
-//     // return redirect("/");
-//       // <Navigate to="/" replace={true} />;
-//   }
+  //   const refreshToken = Cookie.getLocalRefreshToken();
+  //  const navigate = useNavigate();
+  //   const dispatch = useDispatch();
+  //   useEffect(() => {
+  //     if(!isAuth){
+  //       navigate("/")
+  //       // Cookie.removeUser();
+  //     }
 
-//   const handleLogout = () => {
-//     navigateToHomePage();
-//   }
+  //     return () => {
+
+  //     }
+  //   }, [isAuth])
+
+  //   const navigateToHomePage = () => {
+  //     dispatch(removeAuth());
+  //     // navigate("/", {replace: true});
+  //     // return redirect("/");
+  //       // <Navigate to="/" replace={true} />;
+  //   }
+
+  //   const handleLogout = () => {
+  //     navigateToHomePage();
+  //   }
 
   return (
     <div className="font-monospace">
       {/* <Ads dataAdSlot='6642898968' /> */}
-     
+
       <div className="App">
-       
+
         <Navigation
-          // isAuth={isAuth}
-          // handleLogout={handleLogout}
-          // navigate={navigate}
-          // Link={Link}
+        // isAuth={isAuth}
+        // handleLogout={handleLogout}
+        // navigate={navigate}
+        // Link={Link}
 
         />
 
         <Routes>
-          
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path={ReactEndPoint.SIGN_UP} element={<SignUp />} />
-          <Route  path={ReactEndPoint.LOGIN} element={<Login />} />
+          <Route path={ReactEndPoint.LOGIN} element={<Login />} />
           <Route path={ReactEndPoint.RESET_PASSWORD} element={<ResetPassword />} />
           <Route path={ReactEndPoint.UPDATE_PASSWORD + "/:token"} element={<UpdatePassword />} />
           <Route path={ReactEndPoint.VERIFY_USER} element={<VerifyUser />} />
@@ -81,7 +78,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
-    
+
     </div>
 
   );
