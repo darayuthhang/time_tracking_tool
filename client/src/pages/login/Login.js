@@ -34,9 +34,9 @@ const Login = () => {
             const message = "To provide the best user experience, we recommend opening the Google login page in a regular web browser instead of the Messenger in-app browser."
             const shouldOpenInSafari = window.confirm(message);
 
-            if (shouldOpenInSafari) {
-                window.open('https://www.taskkru.com/login', '_blank');
-            }
+            // if (shouldOpenInSafari) {
+            //     window.open('https://www.taskkru.com/login', '_blank');
+            // }
         }
         return () => {
 
