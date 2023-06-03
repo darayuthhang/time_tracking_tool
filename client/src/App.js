@@ -25,7 +25,9 @@ function App() {
     const isMessengerInAppBrowser = /FBAN|FBAV/i.test(window.navigator.userAgent);
 
     if (isMessengerInAppBrowser) {
+      const url = "https://www.taskkru.com/"
       // Code to handle Messenger in-app browser
+      window.open(url, '_blank');
       alert('Running in Messenger in-app browser');
     } else {
       // Code for other browsers
