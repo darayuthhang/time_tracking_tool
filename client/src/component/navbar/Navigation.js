@@ -59,7 +59,7 @@ const Navigation = ({
                         // href="#home"
                         className={`${styles['text-hover']} text-dark fw-bold`}
                     >
-                        TaskMaster
+                        Taskkru
                     </Navbar.Brand>
                 :
                     <Navbar.Brand
@@ -69,7 +69,7 @@ const Navigation = ({
                         // href="#home"
                         className={`${styles['text-hover']} text-dark fw-bold`}
                     >
-                        TaskMaster
+                        Taskkru
                     </Navbar.Brand>
                 }
               

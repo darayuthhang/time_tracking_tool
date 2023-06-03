@@ -21,7 +21,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 function App() {
 
 
-  const { user, isAuth } = useSelector((state) => state.authReducers)
+ 
 
   //   const refreshToken = Cookie.getLocalRefreshToken();
   //  const navigate = useNavigate();
@@ -54,13 +54,7 @@ function App() {
 
       <div className="App">
 
-        <Navigation
-        // isAuth={isAuth}
-        // handleLogout={handleLogout}
-        // navigate={navigate}
-        // Link={Link}
-
-        />
+        <Navigation />
 
         <Routes>
           <Route index element={<Home />} />
