@@ -4,7 +4,6 @@ import { Container, Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 import ReactEndPoint from '../../constant/ReactEndPoint';
 import styles from './navigation.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { LinkContainer } from 'react-router-bootstrap'
 import Cookie from '../../uti/Cookie';
 import { removeAuth } from '../../redux/action/AuthAction';
 import {
@@ -19,21 +18,16 @@ const Navigation = ({
     // Link
   
 }) => {
-
-    console.log("navigateion");
     const { user, isAuth } = useSelector((state) => state.authReducers)
     const dispatch = useDispatch();
     const refreshToken = Cookie.getLocalRefreshToken();
     const navigate = useNavigate();
     
-
     const navigateToHomePage = () => {
         dispatch(removeAuth());
         window.location.reload()
     }
   
-
-    
     if (refreshToken) {
       
         var decoded = jwt_decode(refreshToken);
@@ -112,11 +106,6 @@ const Navigation = ({
                            
                                 <Nav.Link
                                     className={`${styles['text-hover']} text-dark fw-medium`}
-                                    // href={ReactEndPoint.HOME}
-                                    // as={Link}
-                                    // to={ReactEndPoint.HOME}
-                                    // to="/"
-                                    // href=""
                                     onClick={handleLogout}
                                 >
                                     Logout
@@ -126,21 +115,14 @@ const Navigation = ({
                         </Nav>
                             :
                         <Nav className='ms-auto'>
-                            <LinkContainer to={ReactEndPoint.LOGIN}>
                                 <Nav.Link
-                                    // href={ReactEndPoint.LOGIN}
-
-                                  
-                                  
-
-                                    // onClick={handleLoginClick}
+                                    as={Link}
+                                    to={ReactEndPoint.LOGIN}
                                     className='text-dark btn btn-outline-secondary fw-medium'
                                     
                                 >
                                     Login
-                                </Nav.Link >
-                            </LinkContainer>
-                            
+                                </Nav.Link > 
                         </Nav>
 
                         }
