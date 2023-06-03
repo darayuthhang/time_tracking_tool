@@ -45,7 +45,7 @@ function App() {
   //   const handleLogout = () => {
   //     navigateToHomePage();
   //   }
-  useEffect(() => {
+  // useEffect(() => {
   //   const isMessengerInAppBrowser = /FBAN|FBAV/i.test(window.navigator.userAgent);
 
   //   if (isMessengerInAppBrowser) {
