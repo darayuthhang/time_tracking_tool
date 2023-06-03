@@ -52,7 +52,7 @@ function App() {
       const shouldOpenInSafari = window.confirm('For the best experience, open this link in Safari. Do you want to proceed?');
 
       if (shouldOpenInSafari) {
-        window.open('https://www.taskkru.com', '_system');
+        window.open('https://www.taskkru.com', '_blank');
       }
     } 
     // else {
