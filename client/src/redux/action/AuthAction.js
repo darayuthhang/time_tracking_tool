@@ -12,3 +12,9 @@ export const setAuth = () => {
         payload: null
     }
 }   
+export const removeAuth = () => {
+    return {
+        type:AuthTypes.REMOVE_AUTH,
+        payload:null
+    }
+}

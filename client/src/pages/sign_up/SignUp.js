@@ -67,11 +67,11 @@ const Signup = () => {
     }
   
         return (
-            <div>
+            <div style={{ height: "100vh", backgroundColor: "#f2f2f2" }} >
                 <Container>
                     <Row className='justify-content-center'>
                         <Col md={5}>
-                            <Form onSubmit={onhandleSubmit} className='border border-2 p-5 rounded'>
+                            <Form onSubmit={onhandleSubmit} className='mt-3 mb-3 border border-secondary border-2 p-5 rounded'>
                                 <h3 className='mb-4'>SIGN UP</h3>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Label>Email</Form.Label>

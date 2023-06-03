@@ -17,6 +17,13 @@ export function authReducers(state = {
                 ...state,
                 user: Cookie.getUser()
             };
+        case AuthTypes.REMOVE_AUTH:
+            return {
+                ...state,
+                isAuth:false,
+                user: Cookie.removeUser()
+            };
+        
         default: return state;
     }
 }

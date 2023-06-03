@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import allReducers from './redux/reducers';
-
+import { BrowserRouter as Router } from 'react-router-dom';
 let composeEnhancers = null;
 
 if (process.env.NODE_ENV === 'development') {
@@ -26,7 +26,9 @@ root.render(
 
     <Provider store={store}>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-        <App />
+        <Router>
+            <App />
+        </Router>
       </GoogleOAuthProvider>
     </Provider>
  
