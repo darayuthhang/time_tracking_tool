@@ -20,7 +20,7 @@ const Navigation = ({
   
 }) => {
 
-    
+    console.log("navigateion");
     const { user, isAuth } = useSelector((state) => state.authReducers)
     const dispatch = useDispatch();
     const refreshToken = Cookie.getLocalRefreshToken();
@@ -35,7 +35,7 @@ const Navigation = ({
 
     
     if (refreshToken) {
-        console.log('refreshToken');
+      
         var decoded = jwt_decode(refreshToken);
         //if token expire.
         if (decoded?.exp * 1000 < Date.now()) {
@@ -53,6 +53,7 @@ const Navigation = ({
     }
  
     return (
+        
         <Navbar expand="lg" className={`${styles['bg-color']}`}>
             <Container className=''>
                 <span style={{ fontSize: "16px" }} className='m-2'>&#9200;</span>  
