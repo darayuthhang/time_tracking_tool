@@ -29,6 +29,22 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <script>
+
+      var ua = navigator.userAgent || navigator.vendor || window.opera;
+
+      function isFacebookApp() {
+        return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1);
+
+      }
+
+      if (isFacebookApp()) {
+        if (!window.location.href.match('redirect_fb')) {
+          // force open in browser ... 
+        }
+      }
+
+    </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
