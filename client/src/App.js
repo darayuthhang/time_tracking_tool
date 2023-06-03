@@ -21,7 +21,17 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 function App() {
 
 
- 
+  useEffect(() => {
+    const isMessengerInAppBrowser = /FBAN|FBAV/i.test(window.navigator.userAgent);
+
+    if (isMessengerInAppBrowser) {
+      // Code to handle Messenger in-app browser
+      alert('Running in Messenger in-app browser');
+    } else {
+      // Code for other browsers
+      alert('Running in a regular browser');
+    }
+  }, []);
 
   //   const refreshToken = Cookie.getLocalRefreshToken();
   //  const navigate = useNavigate();
