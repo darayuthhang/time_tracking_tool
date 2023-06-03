@@ -46,20 +46,20 @@ function App() {
   //     navigateToHomePage();
   //   }
   useEffect(() => {
-    const isMessengerInAppBrowser = /FBAN|FBAV/i.test(window.navigator.userAgent);
+  //   const isMessengerInAppBrowser = /FBAN|FBAV/i.test(window.navigator.userAgent);
 
-    if (isMessengerInAppBrowser) {
-      const message = "To provide the best user experience, we recommend opening the Google login page in a regular web browser instead of the Messenger in-app browser."
-        // const shouldOpenInSafari = window.confirm('');
-        window.alert(message);
-        // if (shouldOpenInSafari) {
-        //   window.open('https://www.taskkru.com', '_blank');
-        // }
-    } 
-    return () => {
+  //   if (isMessengerInAppBrowser) {
+  //       const message = "To provide the best user experience, we recommend opening the Google login page in a regular web browser instead of the Messenger in-app browser."
+  //       const shouldOpenInSafari = window.confirm(message);
+        
+  //       if (shouldOpenInSafari) {
+  //         window.open('https://www.taskkru.com', '_blank');
+  //       }
+  //   } 
+  //   return () => {
       
-    }
-  }, [])
+  //   }
+  // }, [])
   
   return (
     <div className="font-monospace">
