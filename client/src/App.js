@@ -49,16 +49,13 @@ function App() {
     const isMessengerInAppBrowser = /FBAN|FBAV/i.test(window.navigator.userAgent);
 
     if (isMessengerInAppBrowser) {
-      const shouldOpenInSafari = window.confirm('For the best experience, open this link in Safari. Do you want to proceed?');
-
-      if (shouldOpenInSafari) {
-        window.open('https://www.taskkru.com', '_blank');
-      }
+      const message = "To provide the best user experience, we recommend opening the Google login page in a regular web browser instead of the Messenger in-app browser."
+        // const shouldOpenInSafari = window.confirm('');
+        window.alert(message);
+        // if (shouldOpenInSafari) {
+        //   window.open('https://www.taskkru.com', '_blank');
+        // }
     } 
-    // else {
-    //   window.open('https://example.com', '_blank');
-    // }
-    
     return () => {
       
     }
