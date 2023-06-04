@@ -59,7 +59,7 @@ module.exports = class UserService {
             await userEmail.sendEmail("yuth", "hello world", email, "hello world", verificationCode)
             return userId;  
         } catch (error) {
-            logger.info(error.message)
+    
             if (error instanceof APIError) {
                 throw new APIError('API Error', error.statusCode, error.message)
             } else {
@@ -84,7 +84,7 @@ module.exports = class UserService {
             await this.userRepository.updateActiveUser(userId?.id, true)
             await this.tokenRepository.deleteCode(verificationCode)
         } catch (error) {
-            logger.info(error.message)
+        
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -105,7 +105,7 @@ module.exports = class UserService {
             await this.tokenRepository.updateOtpWithExpiredTimeByUserId(userId, verificationCode);
             await userEmail.sendEmail("yuth", "hello world", email, "hello world", verificationCode)
         } catch (error) {
-            logger.info(error.message)
+       
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -210,7 +210,7 @@ module.exports = class UserService {
             }
             throw new Error("Unable to login with Google user");
         } catch (error) {
-            logger.info(error.message)
+          
             if (error instanceof Error) {
                 throw new APIError('API Error', error.statusCode, error.message)
             } else {
@@ -276,7 +276,7 @@ module.exports = class UserService {
             let hashPassword = await GeneratePassword(password, await GenerateSalt());
             await this.userRepository.updateActiveUserPassword(code?.user_id, hashPassword);
         } catch (error) {
-            logger.info(error.message)
+        
             if (error instanceof APIError) {
                 throw new APIError('API Error', error.statusCode, error.message)
             } else {

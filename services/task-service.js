@@ -13,7 +13,7 @@ module.exports = class TaskService{
         try {
             return await this.taskRepository.createTasks(tasks);
         } catch (error) {
-            logger.info(error.message)
+   
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -26,7 +26,7 @@ module.exports = class TaskService{
         try {
             return await this.taskRepository.createTask(projectId, taskName, taskDate, taskDescription, taskStatus);
         } catch (error) {
-            logger.info(error.message)
+         
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -39,7 +39,7 @@ module.exports = class TaskService{
         try {
             await this.taskRepository.deleteTask(projectId, taskId);
         } catch (error) {
-            logger.info(error.message)
+         
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -69,7 +69,7 @@ module.exports = class TaskService{
             }
             await this.taskRepository.updateTask(projectId, taskId, taskToUpdate);
         } catch (error) {
-            logger.info(error.message)
+          
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -82,7 +82,7 @@ module.exports = class TaskService{
         try {
             await this.taskRepository.deleteTasks(projectId, taskIds);
         } catch (error) {
-            logger.info(error.message)
+           
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -95,7 +95,7 @@ module.exports = class TaskService{
         try {
             return await this.taskRepository.getTasks(projectId);
         } catch (error) {
-            logger.info(error.message)
+       
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {

@@ -22,8 +22,7 @@ module.exports = class TokenRepository{
             }
             throw new Error("Unable to find verificationCode ")
         } catch (error) {
-            // logger.info(error.message)
-            logger.info(error);
+       
             if(error instanceof Error){
                 throw new APIError('API Error', error.statusCode, error.message)
             }else{
@@ -40,7 +39,7 @@ module.exports = class TokenRepository{
                 expired_in: this.time
             })
         } catch (error) {
-            logger.info(error);
+          
             throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Invalid link.')
            
         }
@@ -56,8 +55,6 @@ module.exports = class TokenRepository{
             return token;
     
         } catch (error) {
-            // logger.info(error.message)
-            logger.info(error);
             if (error instanceof Error) {
                 throw new APIError('API Error', error.statusCode, error.message)
             } else {
@@ -72,7 +69,6 @@ module.exports = class TokenRepository{
             if(code) return code;
             throw new Error("Unable to delete verificationCode")
         } catch (error) {
-            logger.info(error.message)
             if (error instanceof Error) {
                 throw new APIError('API Error', error.statusCode, error.message)
             } else {

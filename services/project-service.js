@@ -15,7 +15,7 @@ module.exports = class ProjectService{
         try {
             return await this.projectRepository.createProject(projectName, projectDescription, userId);
         } catch (error) {
-            logger.info(error.message)
+      
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -29,7 +29,7 @@ module.exports = class ProjectService{
             let data = await this.projectRepository.getProjectByUserId(userId);
             return data;
         } catch (error) {
-            logger.info(error.message)
+      
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -52,7 +52,7 @@ module.exports = class ProjectService{
             // }
             await this.projectRepository.updateProject(userId, projectId, projectToUpdate)
         } catch (error) {
-            logger.info(error.message)
+        
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -65,7 +65,7 @@ module.exports = class ProjectService{
         try {
             await this.projectRepository.deleteProject(userId, projectId);
         } catch (error) {
-            logger.info(error.message)
+        
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
