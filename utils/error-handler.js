@@ -1,22 +1,38 @@
 
 require('dotenv').config();
 const winston = require('winston');
+require('winston-daily-rotate-file');
 const logger = winston.createLogger({
     //we can log error, and message if level is ifno
-    level: process.env.NODE_ENV !== 'local' ? 'info' : 'debug',
+    level: process.env.NODE_ENV === 'local' ? 'debug' : 'info',
     format: winston.format.combine(
         winston.format.timestamp(),
         winston.format.json()
     ),
     transports: [
-        new winston.transports.Console(),
+        // new winston.transports.Console(),
         // new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
-        // new winston.transports.File({ filename: 'logs/combined.log' })
     ],
     exceptionHandlers: [
         // new winston.transports.File({ filename: 'logs/exceptions.log' })
-        new winston.transports.Console(),
+        // new winston.transports.Console(),
     ]
 });
+if(process.env.NODE_ENV === 'local'){
+    logger.add(new winston.transports.Console({
+        format: winston.format.simple(),
+    }));
+}else{
+    logger.add(
+        new winston.transports.DailyRotateFile(
+            { 
+                filename: 'logs/combined-%DATE%.log' ,
+                datePattern: 'YYYY-MM-DD-HH',
+                maxSize: '20m',
+                maxFiles: '14d',
+            }
+            )
+    );
+}
 
 module.exports = logger;

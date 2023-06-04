@@ -18,55 +18,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 
-function App() {
-
-
-  //   const refreshToken = Cookie.getLocalRefreshToken();
-  //  const navigate = useNavigate();
-  //   const dispatch = useDispatch();
-  //   useEffect(() => {
-  //     if(!isAuth){
-  //       navigate("/")
-  //       // Cookie.removeUser();
-  //     }
-
-  //     return () => {
-
-  //     }
-  //   }, [isAuth])
-
-  //   const navigateToHomePage = () => {
-  //     dispatch(removeAuth());
-  //     // navigate("/", {replace: true});
-  //     // return redirect("/");
-  //       // <Navigate to="/" replace={true} />;
-  //   }
-
-  //   const handleLogout = () => {
-  //     navigateToHomePage();
-  //   }
-  // useEffect(() => {
-  //   const isMessengerInAppBrowser = /FBAN|FBAV/i.test(window.navigator.userAgent);
-
-  //   if (isMessengerInAppBrowser) {
-  //       const message = "To provide the best user experience, we recommend opening the Google login page in a regular web browser instead of the Messenger in-app browser."
-  //       const shouldOpenInSafari = window.confirm(message);
-        
-  //       if (shouldOpenInSafari) {
-  //         window.open('https://www.taskkru.com', '_blank');
-  //       }
-  //   } 
-  //   return () => {
-      
-  //   }
-  // }, [])
-  
+function App() {  
   return (
     <div className="font-monospace">
-      {/* <Ads dataAdSlot='6642898968' /> */}
-
       <div className="App">
-
         <Navigation />
 
         <Routes>

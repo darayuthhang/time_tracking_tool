@@ -11,7 +11,6 @@
     "project_test": "npx mocha ./test/project.test.js",
     "user_test": "npx mocha ./test/user.test.js",
     "test": "npx mocha --exit"
-  
   },
   "repository": {
     "type": "git",
@@ -47,6 +46,7 @@
     "pino-pretty": "^10.0.0",
     "supertest": "^6.3.3",
     "uuid": "^9.0.0",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "winston-daily-rotate-file": "^4.7.1"
   }
 }
