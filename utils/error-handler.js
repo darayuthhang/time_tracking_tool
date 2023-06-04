@@ -2,7 +2,12 @@
 require('dotenv').config();
 const winston = require('winston');
 require('winston-daily-rotate-file');
-require('winston-papertrail').Papertrail;
+const PapertrailTransport = require('winston-papertrail').PapertrailTransport;
+
+// Retrieve Papertrail credentials from Heroku environment variables
+const papertrailHost = process.env.PAPERTRAIL_HOST;
+const papertrailPort = process.env.PAPERTRAIL_PORT;
+const papertrailApiKey = process.env.PAPERTRAIL_API_TOKEN;
 // const url = require('url');
 // const PapertrailTransport = require('winston-papertrail-transport');
 
@@ -47,10 +52,18 @@ if(process.env.NODE_ENV === 'local'){
     logger.add(new winston.transports.Console({
         format: winston.format.simple(),
     }));
+    
 }else{
-    logger.add(new winston.transports.Console({
-        format: winston.format.simple(),
-    }));
+    logger.add(
+        new PapertrailTransport({
+            host: papertrailHost,
+            port: papertrailPort,
+            apiKey: papertrailApiKey,
+            logFormat: function (level, message) {
+                return `[${level}] ${message}`;
+            },
+        }),
+    );
     // logger.add(
     //     new winston.transports.DailyRotateFile(
     //         { 
