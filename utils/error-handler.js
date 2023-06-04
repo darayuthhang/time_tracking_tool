@@ -2,7 +2,7 @@
 require('dotenv').config();
 const winston = require('winston');
 require('winston-daily-rotate-file');
-const PapertrailTransport = require('winston-papertrail').PapertrailTransport;
+const Papertrail = require('winston-papertrail').Papertrail;
 
 // Retrieve Papertrail credentials from Heroku environment variables
 const papertrailHost = process.env.PAPERTRAIL_HOST;
@@ -31,6 +31,17 @@ const papertrailApiKey = process.env.PAPERTRAIL_API_TOKEN;
 //         authToken: process.env.PAPERTRAIL_API_TOKEN,
 //     },
 // });
+const winstonPaperTrail = new winston.transports.Papertrail({
+    host: papertrailHost,
+    port: papertrailPort,
+    apiKey: papertrailApiKey,
+    logFormat: function (level, message) {
+        return `[${level}] ${message}`;
+    },
+})
+winstonPaperTrail.on('error', function (err) {
+    // Handle, report, or silently ignore connection errors and failures
+});
 const logger = winston.createLogger({
     //we can log error, and message if level is ifno
     // level: process.env.NODE_ENV === 'local' ? 'debug' : 'info',
@@ -44,8 +55,7 @@ const logger = winston.createLogger({
         // new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
     ],
     exceptionHandlers: [
-        // new winston.transports.File({ filename: 'logs/exceptions.log' })
-        // new winston.transports.Console(),
+       
     ]
 });
 if(process.env.NODE_ENV === 'local'){
@@ -54,16 +64,8 @@ if(process.env.NODE_ENV === 'local'){
     }));
     
 }else{
-    logger.add(
-        new PapertrailTransport({
-            host: papertrailHost,
-            port: papertrailPort,
-            apiKey: papertrailApiKey,
-            logFormat: function (level, message) {
-                return `[${level}] ${message}`;
-            },
-        }),
-    );
+    logger.add(winstonPaperTrail);
+  
     // logger.add(
     //     new winston.transports.DailyRotateFile(
     //         { 
