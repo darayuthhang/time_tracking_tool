@@ -31,7 +31,7 @@ module.exports = class UserService {
         }
     }
     async createUser({ email, firstName, lastName, password }) {
-        logger.debug(ApiServiceMessage(this.userService, "createUser"))
+        logger.info(ApiServiceMessage(this.userService, "createUser"))
         email = email.toLowerCase().trim();
         /**
          * status code 400 ==> Please activae your account
@@ -59,7 +59,7 @@ module.exports = class UserService {
             await userEmail.sendEmail("yuth", "hello world", email, "hello world", verificationCode)
             return userId;  
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error.statusCode, error.message)
             } else {
@@ -69,7 +69,7 @@ module.exports = class UserService {
         }
     }
     async verifyUser({ verificationCode, email }) {
-        logger.debug(ApiServiceMessage(this.userService, "verifyUser"))
+        logger.info(ApiServiceMessage(this.userService, "verifyUser"))
         //email, and verificationcode
         /**
          * 404 Verificationcode expired
@@ -84,7 +84,7 @@ module.exports = class UserService {
             await this.userRepository.updateActiveUser(userId?.id, true)
             await this.tokenRepository.deleteCode(verificationCode)
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -94,7 +94,7 @@ module.exports = class UserService {
         }
     }
     async resentVerificationCode({ email }) {
-        logger.debug(ApiServiceMessage(this.userService, "resentVerificationCode"))
+        logger.info(ApiServiceMessage(this.userService, "resentVerificationCode"))
         try {
             //use email to get user id from user table
             let user = await this.userRepository.findUserByemail(email);
@@ -105,7 +105,7 @@ module.exports = class UserService {
             await this.tokenRepository.updateOtpWithExpiredTimeByUserId(userId, verificationCode);
             await userEmail.sendEmail("yuth", "hello world", email, "hello world", verificationCode)
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -115,7 +115,7 @@ module.exports = class UserService {
     }
 
     async login({ email, password }) {
-        logger.debug(ApiServiceMessage(this.userService, "login"))
+        logger.info(ApiServiceMessage(this.userService, "login"))
         /**
          * 404 password not found
          * 500 Unable to Find active user
@@ -161,7 +161,7 @@ module.exports = class UserService {
         }
     }
     async googleLogin({ googleToken }) {
-        logger.debug(ApiServiceMessage(this.userService, "googleLogin"))
+        logger.info(ApiServiceMessage(this.userService, "googleLogin"))
       
         //if google user exist, return true
         //else create google user
@@ -210,7 +210,7 @@ module.exports = class UserService {
             }
             throw new Error("Unable to login with Google user");
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof Error) {
                 throw new APIError('API Error', error.statusCode, error.message)
             } else {
@@ -220,7 +220,7 @@ module.exports = class UserService {
         }
     }
     async resetPassword({email}){
-        logger.debug(ApiServiceMessage(this.userService, "resetPassword"))
+        logger.info(ApiServiceMessage(this.userService, "resetPassword"))
             /**
              * status code 404 ===>Email does not exist
              * status code 500 ===> Internal error.
@@ -260,7 +260,7 @@ module.exports = class UserService {
         }
     }
     async updatePassword({token, password}){
-        logger.debug(ApiServiceMessage(this.userService, "updatePassword"))
+        logger.info(ApiServiceMessage(this.userService, "updatePassword"))
         //check if token exist
         // if it exist, hash password
         // update password in user table
@@ -276,7 +276,7 @@ module.exports = class UserService {
             let hashPassword = await GeneratePassword(password, await GenerateSalt());
             await this.userRepository.updateActiveUserPassword(code?.user_id, hashPassword);
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error.statusCode, error.message)
             } else {

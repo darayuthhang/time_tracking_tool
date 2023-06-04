@@ -18,7 +18,7 @@ module.exports = class UserRespository {
         this.time = Date.now() + this._24HOUR // an hour
     }
     async createUserTrx(email, firstName, lastName, password, verificationcode) {
-        logger.debug(ApiRepositoryMessage('UserRespository', "createUserTrx"))
+        logger.info(ApiRepositoryMessage('UserRespository', "createUserTrx"))
         let id = "";
         try {
             await db.transaction(async trx => {

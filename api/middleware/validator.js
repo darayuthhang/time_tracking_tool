@@ -7,7 +7,7 @@ let MIDDLEWARE = "MIDDLEWARE ===> "
  * @NORMALIZE EMAIL WILL CONVERT email to lower case
  */
 const validationUserDataRules = () => {
-    logger.debug(MIDDLEWARE + "validationUserDataRules")
+    logger.info(MIDDLEWARE + "validationUserDataRules")
     
     return [
         body('firstName')
@@ -34,7 +34,7 @@ const validationUserDataRules = () => {
     ];
 };
 const validationUserLoginDataRules = () => {
-    logger.debug(MIDDLEWARE + "validationUserLoginDataRules")
+    logger.info(MIDDLEWARE + "validationUserLoginDataRules")
 
     return [
         body('email')
@@ -52,7 +52,7 @@ const validationUserLoginDataRules = () => {
     ];
 };
 const validationVerificationCodeRules = () => {
-    logger.debug(MIDDLEWARE + "validationVerificationCodeRules")
+    logger.info(MIDDLEWARE + "validationVerificationCodeRules")
 
     return [
         body('verificationCode').exists().trim().withMessage('Verifcation does not exist'),
@@ -60,7 +60,7 @@ const validationVerificationCodeRules = () => {
     ]
 }
 const validationResentOtpCodeRules = () => {
-    logger.debug(MIDDLEWARE + "validationResentOtpCodeRules")
+    logger.info(MIDDLEWARE + "validationResentOtpCodeRules")
     return [
         body('email')
             .notEmpty()
@@ -72,7 +72,7 @@ const validationResentOtpCodeRules = () => {
     ]
 }
 const validationResentPasswordCodeRules = () => {
-    logger.debug(MIDDLEWARE + "validationResentPasswordCodeRules")
+    logger.info(MIDDLEWARE + "validationResentPasswordCodeRules")
     return [
         body('email')
             .notEmpty()
@@ -85,7 +85,7 @@ const validationResentPasswordCodeRules = () => {
 }
 
 const validationUserPasswordDataRules = () => {
-    logger.debug(MIDDLEWARE + "validationUserDataRules")
+    logger.info(MIDDLEWARE + "validationUserDataRules")
 
     return [
         body('password')
@@ -102,14 +102,14 @@ const validationUserPasswordDataRules = () => {
 
 
 const validateUserData = (req, res, next) => {
-    logger.debug(MIDDLEWARE + "validateUserData")
+    logger.info(MIDDLEWARE + "validateUserData")
     const errors = validationResult(req);
     
     //there is no error.
     if (errors.isEmpty()) {
         return next();
     }else{
-        logger.debug(errors)
+        logger.info(errors)
     }
 
     return res.status(422).json({

@@ -4,7 +4,7 @@ const logger = require("../../utils/error-handler")
 let MIDDLEWARE = "MIDDLEWARE ===> "
 
 const validationProjectcodeRules = () => {
-    logger.debug(MIDDLEWARE + "validationResentPasswordCodeRules")
+    logger.info(MIDDLEWARE + "validationResentPasswordCodeRules")
     return [
         param('userId').isUUID().withMessage('UserId is not uuid').trim(),
         body('projectName')
@@ -16,13 +16,13 @@ const validationProjectcodeRules = () => {
 }
 
 const validationUserIdcodeRules = () => {
-    logger.debug(MIDDLEWARE + "validationUserIdcodeRules")
+    logger.info(MIDDLEWARE + "validationUserIdcodeRules")
     return [
         param('userId').isUUID().withMessage('UserId is not uuid').trim()
     ]
 }
 const validationUserAndProjectIdProjectNamecodeRules = () => {
-    logger.debug(MIDDLEWARE + "validationUserIdcodeRules")
+    logger.info(MIDDLEWARE + "validationUserIdcodeRules")
     return [
         param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
         param('userId').isUUID().withMessage('userId is not uuid').trim(),
@@ -33,21 +33,21 @@ const validationUserAndProjectIdProjectNamecodeRules = () => {
     ]
 }
 const validationUserAndProjectIdcodeRules = () => {
-    logger.debug(MIDDLEWARE + "validationUserIdcodeRules")
+    logger.info(MIDDLEWARE + "validationUserIdcodeRules")
     return [
         param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
         param('userId').isUUID().withMessage('userId is not uuid').trim()
     ]
 }
 const validateProjectData = (req, res, next) => {
-    logger.debug(MIDDLEWARE + "validateProjectData")
+    logger.info(MIDDLEWARE + "validateProjectData")
     const errors = validationResult(req);
 
     //there is no error.
     if (errors.isEmpty()) {
         return next();
     } else {
-        logger.debug(errors)
+        logger.info(errors)
     }
 
     return res.status(422).json({

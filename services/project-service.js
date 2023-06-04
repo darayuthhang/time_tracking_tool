@@ -11,11 +11,11 @@ module.exports = class ProjectService{
         this.projectRepository = new ProjectRepository();
     }
     async createProject(projectName, projectDescription, userId){
-        logger.debug(ApiServiceMessage(this.projectService, "createProject"))
+        logger.info(ApiServiceMessage(this.projectService, "createProject"))
         try {
             return await this.projectRepository.createProject(projectName, projectDescription, userId);
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -24,12 +24,12 @@ module.exports = class ProjectService{
         }
     }
     async getProjectByUserId(userId){
-        logger.debug(ApiServiceMessage(this.projectService, "getProjectByUserId"))
+        logger.info(ApiServiceMessage(this.projectService, "getProjectByUserId"))
         try {
             let data = await this.projectRepository.getProjectByUserId(userId);
             return data;
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -38,7 +38,7 @@ module.exports = class ProjectService{
         }
     }
     async updateProject({projectId, userId}, requestBody){
-        logger.debug(ApiServiceMessage(this.projectService, "updateProject"))
+        logger.info(ApiServiceMessage(this.projectService, "updateProject"))
         try {
             let projectToUpdate = {
                 updated_at: new Date(),
@@ -52,7 +52,7 @@ module.exports = class ProjectService{
             // }
             await this.projectRepository.updateProject(userId, projectId, projectToUpdate)
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -61,11 +61,11 @@ module.exports = class ProjectService{
         }
     }
     async deleteProject({userId, projectId}) {
-        logger.debug(ApiServiceMessage(this.projectService, "deleteProject"))
+        logger.info(ApiServiceMessage(this.projectService, "deleteProject"))
         try {
             await this.projectRepository.deleteProject(userId, projectId);
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {

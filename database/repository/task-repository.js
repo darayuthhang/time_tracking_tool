@@ -14,7 +14,7 @@ module.exports = class TaskRepository{
         this.TaskRepository = "TASK_REPOSITORY"
     }
     async createTasks(tasks) {
-        logger.debug(ApiRepositoryMessage(this.TaskRepository, "createTasks"))
+        logger.info(ApiRepositoryMessage(this.TaskRepository, "createTasks"))
         try {
             let taskData = [];
             taskData = await db(TABLE_TASKS).insert(tasks);;
@@ -24,7 +24,7 @@ module.exports = class TaskRepository{
         }
     }
     async createTask(projectId, taskName, taskDate, taskDescription, taskStatus){
-        logger.debug(ApiRepositoryMessage(this.TaskRepository, "createTask"))
+        logger.info(ApiRepositoryMessage(this.TaskRepository, "createTask"))
         try {
             return await db(TABLE_TASKS).insert({
                 project_id:projectId,
@@ -39,7 +39,7 @@ module.exports = class TaskRepository{
         }
     }
     async deleteTask(projectId, taskId){
-        logger.debug(ApiRepositoryMessage(this.TaskRepository, "deleteTask"))
+        logger.info(ApiRepositoryMessage(this.TaskRepository, "deleteTask"))
         try {
             return await db(TABLE_TASKS).where({
                 id: taskId,
@@ -51,7 +51,7 @@ module.exports = class TaskRepository{
     }
     async updateTask(projectId, taskId, tasks) {
    
-        logger.debug(ApiRepositoryMessage(this.TaskRepository, "updateTask"))
+        logger.info(ApiRepositoryMessage(this.TaskRepository, "updateTask"))
         try {
             return await db(TABLE_TASKS)
             .update(tasks)
@@ -64,7 +64,7 @@ module.exports = class TaskRepository{
         }
     }
     async deleteTasks(projectId, taskIds) {
-        logger.debug(ApiRepositoryMessage(this.TaskRepository, "deleteTask"))
+        logger.info(ApiRepositoryMessage(this.TaskRepository, "deleteTask"))
         try {
             return await db(TABLE_TASKS)
             .where('project_id', projectId)
@@ -74,7 +74,7 @@ module.exports = class TaskRepository{
         }
     }
     async getTasks(projectId){
-        logger.debug(ApiRepositoryMessage(this.TaskRepository, "getTasks"))
+        logger.info(ApiRepositoryMessage(this.TaskRepository, "getTasks"))
         try {
             // return await db(TABLE_TASKS).where("project_id", projectId)
             return await db(TABLE_TASKS)

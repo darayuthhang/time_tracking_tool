@@ -16,7 +16,7 @@ module.exports = class ProjectRepository {
     }
 
     async createProject(projectName, projectDescription, userId) {
-        logger.debug(ApiRepositoryMessage(this.project, "createProject"))
+        logger.info(ApiRepositoryMessage(this.project, "createProject"))
         try {
             let projects = [];
             projects = await db(TABLE_PROJECTS).insert({
@@ -30,7 +30,7 @@ module.exports = class ProjectRepository {
         }
     }
     async getProjectByUserId(userId) {
-        logger.debug(ApiRepositoryMessage(this.project, "getProjectByUserId"))
+        logger.info(ApiRepositoryMessage(this.project, "getProjectByUserId"))
         try {
             const projects = await db(TABLE_PROJECTS)
                 .where(
@@ -46,7 +46,7 @@ module.exports = class ProjectRepository {
         }
     }
     async updateProject(userId, projectId, project) {
-        logger.debug(ApiRepositoryMessage(this.project, "updateProject"))
+        logger.info(ApiRepositoryMessage(this.project, "updateProject"))
         try {
             return await db(TABLE_PROJECTS)
                 .update(project)
@@ -60,7 +60,7 @@ module.exports = class ProjectRepository {
         }
     }
     async deleteProject(userId, projectId) {
-        logger.debug(ApiRepositoryMessage(this.project, "deleteProject"))
+        logger.info(ApiRepositoryMessage(this.project, "deleteProject"))
         /**
          * Delete task first
          */

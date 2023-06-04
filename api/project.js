@@ -26,7 +26,7 @@ module.exports = (app) => {
      * PUT  - UPDATE /api/v1/{userId}/projects/:projectId 
      */
     app.post(`${API_VERSION}/:userId/projects`, UserAuth, validationProjectcodeRules(), validateProjectData, async (req, res, next) => {
-        logger.debug(ApiRouteMessage(`${API_VERSION}/:userId/projects`, "POST"))
+        logger.info(ApiRouteMessage(`${API_VERSION}/:userId/projects`, "POST"))
         const { projectName, projectDescription } = req.body;
         const {userId} = req.params;
         //user id
@@ -34,40 +34,40 @@ module.exports = (app) => {
             let projectData = await projectService.createProject(projectName, projectDescription, userId)
             return res.status(200).json({ success: true, message: "success", data:projectData})
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             next(error);
         }
     })
     app.get(`${API_VERSION}/:userId/projects`, UserAuth, validationUserIdcodeRules(), validateProjectData, async (req, res, next) => {
         const {userId} = req.params;
-        logger.debug(ApiRouteMessage(`${API_VERSION}/:userId/projects`, "GET"))
+        logger.info(ApiRouteMessage(`${API_VERSION}/:userId/projects`, "GET"))
         try {
             const project = await projectService.getProjectByUserId(userId);
             return res.status(200).json({ success: true, message: "success", data:project })
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             next(error);
         }
     })
     // * PUT  - SINGLE /api/v1/{userId}/project/:projectId 
     app.put(`${API_VERSION}/:userId/project/:projectId`, UserAuth, validationUserAndProjectIdProjectNamecodeRules(), validateProjectData, async (req, res, next) => {
-        logger.debug(ApiRouteMessage(`${API_VERSION}/:userId/project/:projectId `, "PUT"))
+        logger.info(ApiRouteMessage(`${API_VERSION}/:userId/project/:projectId `, "PUT"))
         try {
             await projectService.updateProject(req.params, req.body);
             return res.status(200).json({success: true})
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             next(error);
         }
     })
     // * Delete  - SINGLE /api/v1/{userId}/project/:projectId 
     app.delete(`${API_VERSION}/:userId/project/:projectId`, UserAuth, validationUserAndProjectIdcodeRules(), validateProjectData, async (req, res, next) => {
-        logger.debug(ApiRouteMessage(`${API_VERSION}/:userId/project/:projectId `, "DELETE"))
+        logger.info(ApiRouteMessage(`${API_VERSION}/:userId/project/:projectId `, "DELETE"))
         try {
             await projectService.deleteProject(req.params);
             return res.status(200).json({ success: true })
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             next(error);
         }
     })

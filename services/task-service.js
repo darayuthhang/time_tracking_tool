@@ -9,11 +9,11 @@ module.exports = class TaskService{
         this.taskRepository = new TaskRepository();
     }
     async createTasks(tasks){
-        logger.debug(ApiServiceMessage(this.taskService, "createTasks"))
+        logger.info(ApiServiceMessage(this.taskService, "createTasks"))
         try {
             return await this.taskRepository.createTasks(tasks);
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -22,11 +22,11 @@ module.exports = class TaskService{
         }
     }
     async createTask({ projectId, taskName, taskDate, taskDescription, taskStatus }) {
-        logger.debug(ApiServiceMessage(this.taskService, "createTask"))
+        logger.info(ApiServiceMessage(this.taskService, "createTask"))
         try {
             return await this.taskRepository.createTask(projectId, taskName, taskDate, taskDescription, taskStatus);
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -35,11 +35,11 @@ module.exports = class TaskService{
         }
     }
     async deleteTask( projectId, taskId ) {
-        logger.debug(ApiServiceMessage(this.taskService, "deleteTask"))
+        logger.info(ApiServiceMessage(this.taskService, "deleteTask"))
         try {
             await this.taskRepository.deleteTask(projectId, taskId);
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -48,7 +48,7 @@ module.exports = class TaskService{
         }
     }
     async updateTask(projectId, taskId, requestBody = {}){
-        logger.debug(ApiServiceMessage(this.taskService, "updateTask"))
+        logger.info(ApiServiceMessage(this.taskService, "updateTask"))
         if (isObjectEmpty(requestBody)) throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Request body is empty');
     
         try {
@@ -69,7 +69,7 @@ module.exports = class TaskService{
             }
             await this.taskRepository.updateTask(projectId, taskId, taskToUpdate);
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -78,11 +78,11 @@ module.exports = class TaskService{
         }
     }
     async deleteTasks(projectId, taskIds){
-        logger.debug(ApiServiceMessage(this.taskService, "deleteTasks"))
+        logger.info(ApiServiceMessage(this.taskService, "deleteTasks"))
         try {
             await this.taskRepository.deleteTasks(projectId, taskIds);
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
@@ -91,11 +91,11 @@ module.exports = class TaskService{
         }
     }
     async getTasks(projectId){
-        logger.debug(ApiServiceMessage(this.taskService, "getTasks"))
+        logger.info(ApiServiceMessage(this.taskService, "getTasks"))
         try {
             return await this.taskRepository.getTasks(projectId);
         } catch (error) {
-            logger.debug(error.message)
+            logger.info(error.message)
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
