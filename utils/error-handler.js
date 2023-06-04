@@ -28,7 +28,8 @@ require('winston-papertrail').Papertrail;
 // });
 const logger = winston.createLogger({
     //we can log error, and message if level is ifno
-    level: process.env.NODE_ENV === 'locals' ? 'debug' : 'info',
+    // level: process.env.NODE_ENV === 'local' ? 'debug' : 'info',
+    level: "debug",
     format: winston.format.combine(
         winston.format.timestamp(),
         winston.format.json()
