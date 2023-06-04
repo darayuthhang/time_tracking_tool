@@ -1,8 +1,9 @@
 
 require('dotenv').config();
 const winston = require('winston');
+
 require('winston-daily-rotate-file');
-const Papertrail = require('winston-papertrail').Papertrail;
+
 
 // Retrieve Papertrail credentials from Heroku environment variables
 const papertrailHost = process.env.PAPERTRAIL_HOST;
