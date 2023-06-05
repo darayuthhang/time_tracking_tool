@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import PrivacyPolicy from '../../component/privacy_policy/PrivacyPolicy';
+import TermCondition from '../../component/term_condition/TermCondition';
 import ReactEndPoint from '../../constant/ReactEndPoint';
 
 import styles from './home.module.css';
@@ -19,6 +21,10 @@ const Home = () => {
                     main
                 </main>
                 <footer>
+                    <TermCondition 
+                        name="Taskkru"
+                    />
+                    <PrivacyPolicy />
                     footer
                 </footer>
             </div>
