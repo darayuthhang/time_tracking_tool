@@ -6,6 +6,9 @@ class ReactEndPoint{
     UPDATE_PASSWORD = "/update-password"
     TASK = "/task"
     HOME = "/"
+    TERM_CONDITION = "/term-condition"
+    PRIVACY_POLICY = "/privacy-policy"
+    DISCLAIMER = "/disclaimer"
   
 }
 export default new ReactEndPoint();

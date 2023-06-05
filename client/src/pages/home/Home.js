@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import Disclaimer from '../../component/disclaimer/Disclaimer';
 import PrivacyPolicy from '../../component/privacy_policy/PrivacyPolicy';
 import TermCondition from '../../component/term_condition/TermCondition';
 import ReactEndPoint from '../../constant/ReactEndPoint';
@@ -21,10 +22,27 @@ const Home = () => {
                     main
                 </main>
                 <footer>
-                    <TermCondition 
+                    <div className='d-flex justify-content-center gap-3'>
+                        <Link 
+                            to={ReactEndPoint.PRIVACY_POLICY}
+                        > 
+                            Privacy Policy
+                        </Link>
+                        <Link
+                            to={ReactEndPoint.TERM_CONDITION}
+                        >
+                            Term & Condition
+                        </Link>
+                        <Link
+                            to={ReactEndPoint.DISCLAIMER}
+                        >
+                            Disclaimer
+                        </Link>
+                    </div>
+                    {/* <TermCondition 
                         name="Taskkru"
                     />
-                    <PrivacyPolicy />
+                    <PrivacyPolicy /> */}
                     footer
                 </footer>
             </div>

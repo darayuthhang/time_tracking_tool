@@ -16,6 +16,9 @@ import ReactEndPoint from "./constant/ReactEndPoint";
 
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import PrivacyPolicy from "./component/privacy_policy/PrivacyPolicy";
+import TermCondition from "./component/term_condition/TermCondition";
+import Disclaimer from "./component/disclaimer/Disclaimer";
 
 
 function App() {  
@@ -29,6 +32,9 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path={ReactEndPoint.SIGN_UP} element={<SignUp />} />
           <Route path={ReactEndPoint.LOGIN} element={<Login />} />
+          <Route path={ReactEndPoint.PRIVACY_POLICY} element={<PrivacyPolicy />} />
+          <Route path={ReactEndPoint.TERM_CONDITION} element={<TermCondition />}/>
+          <Route path={ReactEndPoint.DISCLAIMER} element={<Disclaimer />} />
           <Route path={ReactEndPoint.RESET_PASSWORD} element={<ResetPassword />} />
           <Route path={ReactEndPoint.UPDATE_PASSWORD + "/:token"} element={<UpdatePassword />} />
           <Route path={ReactEndPoint.VERIFY_USER} element={<VerifyUser />} />

@@ -131,6 +131,14 @@ const Login = () => {
                                 {googleLoginError === 500 && <Alert variant="danger">
                                     User already exist in custom user
                                 </Alert>}
+                                <GoogleLogin
+                                    onSuccess={credentialResponse => {
+                                        console.log(credentialResponse);
+                                    }}
+                                    onError={() => {
+                                        console.log('Login Failed');
+                                    }}
+                                />;
                             </Form>
 
                         </Col>
