@@ -15,6 +15,7 @@ import {
     PROGRESS,
     DONE,
     ENTER } from '../../constant';
+import PhoneConfirmationBox from '../confirmation_box/PhoneConfirmationBox';
 
 const TaskTableList = ({ 
     projectNameHeading, 
@@ -305,13 +306,21 @@ const TaskTableList = ({
                     {/* <Breadcrumb.Item href="#">All tasks</Breadcrumb.Item>
                     <Breadcrumb.Item active>This week</Breadcrumb.Item> */}
                     {tasksIds.length > 0 &&
-                        <div className={`${styles.trash} ms-auto`} onClick={handleShowDeleteModal}>
-                            <div className={`text-center`}>
-                                <i className={`bi bi-trash`}></i>
+                        <div className='ms-auto d-flex'>
+                            <div className={`${styles.trash} `} onClick={handleShowDeleteModal}>
+                                <div className={`text-center`}>
+                                    <i className={`bi bi-trash`}></i>
+                                </div>
+                                <div className='fw-bold'>Delete</div>
                             </div>
-                            <div className='fw-bold'>Delete</div>
-                        </div>
+                            <div>
+
+                            </div>
+                            {/* <PhoneConfirmationBox /> */}
+                    </div>
+                       
                     }
+                   
                 </Breadcrumb>
                 <div className={` table-responsive card  p-3 ${styles['media-query-all-task-texts']}  ${styles['border-table']} `}>
                     <table className=" table table-bordered rounded rounded-3    ">

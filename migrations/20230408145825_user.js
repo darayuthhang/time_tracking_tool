@@ -42,6 +42,49 @@ exports.up = function (knex) {
         table.timestamp('created_at').defaultTo(knex.fn.now());
         table.timestamp('updated_at').defaultTo(knex.fn.now());
     })
+    .createTable('user_consent_phone_numbers', function (table) {
+        table.uuid('id').primary().defaultTo(knex.raw('(gen_random_uuid())'));
+        table.string('phone_number').notNullable();
+        table.boolean('consent').defaultTo(false).notNullable();
+        table.timestamp('created_at').defaultTo(knex.fn.now());
+        table.timestamp('updated_at').defaultTo(knex.fn.now());
+        table.uuid('user_id').references('id').inTable('users');
+    })
+    .createTable('user_consent_emails', function (table) {
+        table.uuid('id').primary().defaultTo(knex.raw('(gen_random_uuid())'));
+        table.string('email').notNullable();
+        table.boolean('consent').defaultTo(false).notNullable();
+        table.timestamp('created_at').defaultTo(knex.fn.now());
+        table.timestamp('updated_at').defaultTo(knex.fn.now());
+        table.uuid('user_id').references('id').inTable('users');
+    })
+    /**
+     * user_consent_phone_numbers
+     *  (
+     *    phone_number,
+     *    consent,
+     *    updated_at,
+     *    created_at,
+     * 
+     * )
+     * user_consent_emails
+     * (
+     *    email,
+     *    consent,
+     *    updated_at,
+     *    created_at,
+     * 
+     * )
+     * user_consents 
+     * (
+     *   id,
+     *   user_consent_phone_number_id
+     *   user_consent_email_id
+     *   updated_at,
+     *   created_at
+     * )
+     */
+    
     
 };
 

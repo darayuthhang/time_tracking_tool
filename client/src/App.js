@@ -16,9 +16,9 @@ import ReactEndPoint from "./constant/ReactEndPoint";
 
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import PrivacyPolicy from "./component/privacy_policy/PrivacyPolicy";
-import TermCondition from "./component/term_condition/TermCondition";
-import Disclaimer from "./component/disclaimer/Disclaimer";
+import PrivacyPolicy from "./pages/privacy_policy/PrivacyPolicy";
+import TermCondition from "./pages/term_condition/TermCondition";
+import Disclaimer from "./pages/disclaimer/Disclaimer";
 
 
 function App() {  

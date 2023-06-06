@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
-import Disclaimer from '../../component/disclaimer/Disclaimer';
-import PrivacyPolicy from '../../component/privacy_policy/PrivacyPolicy';
-import TermCondition from '../../component/term_condition/TermCondition';
+import Disclaimer from '../disclaimer/Disclaimer';
+import PrivacyPolicy from '../privacy_policy/PrivacyPolicy';
+import TermCondition from '../term_condition/TermCondition';
 import ReactEndPoint from '../../constant/ReactEndPoint';
 
 import styles from './home.module.css';
