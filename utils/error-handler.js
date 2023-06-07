@@ -2,7 +2,7 @@
 require('dotenv').config();
 const winston = require('winston');
 
-require('winston-daily-rotate-file');
+
 
 const logger = winston.createLogger({
     //we can log error, and message if level is ifno
@@ -23,6 +23,7 @@ const logger = winston.createLogger({
 if(process.env.NODE_ENV === 'local'){
     logger.add(new winston.transports.Console({
         format: winston.format.simple(),
+        handleExceptions: true
     }));
     
 }else{

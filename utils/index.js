@@ -103,3 +103,10 @@ module.exports.getGoogleUserInfo = async (googleToken) => {
         throw Error(error.message)
     }
 }
+// module.exports.FormatData = (data) => {
+//     if (data) {
+//         return { data };
+//     } else {
+//         throw new Error("Data Not found!");
+//     }
+// };

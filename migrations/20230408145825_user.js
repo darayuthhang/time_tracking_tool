@@ -45,6 +45,7 @@ exports.up = function (knex) {
     .createTable('user_consent_phone_numbers', function (table) {
         table.uuid('id').primary().defaultTo(knex.raw('(gen_random_uuid())'));
         table.string('phone_number').notNullable();
+        table.string('country_code').notNullable(); //store without plus sign
         table.boolean('consent').defaultTo(false).notNullable();
         table.timestamp('created_at').defaultTo(knex.fn.now());
         table.timestamp('updated_at').defaultTo(knex.fn.now());

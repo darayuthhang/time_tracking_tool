@@ -34,7 +34,7 @@ module.exports = (app) => {
             let projectData = await projectService.createProject(projectName, projectDescription, userId)
             return res.status(200).json({ success: true, message: "success", data:projectData})
         } catch (error) {
-            logger.info(error.message)
+            
             next(error);
         }
     })
@@ -45,7 +45,7 @@ module.exports = (app) => {
             const project = await projectService.getProjectByUserId(userId);
             return res.status(200).json({ success: true, message: "success", data:project })
         } catch (error) {
-            logger.info(error.message)
+            
             next(error);
         }
     })
@@ -56,7 +56,7 @@ module.exports = (app) => {
             await projectService.updateProject(req.params, req.body);
             return res.status(200).json({success: true})
         } catch (error) {
-            logger.info(error.message)
+            
             next(error);
         }
     })
@@ -67,7 +67,7 @@ module.exports = (app) => {
             await projectService.deleteProject(req.params);
             return res.status(200).json({ success: true })
         } catch (error) {
-            logger.info(error.message)
+            
             next(error);
         }
     })

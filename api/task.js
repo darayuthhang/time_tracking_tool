@@ -38,7 +38,7 @@ module.exports = (app) => {
     //         await taskService.createTasks(tasks);
     //         return res.status(200).json({success:true})
     //     } catch (error) {
-    //         logger.info(error.message)
+    //     
     //         next(error);
     //     }
     // })
@@ -50,7 +50,6 @@ module.exports = (app) => {
             await taskService.createTask(req.body);
             return res.status(200).json({ success: true })
         } catch (error) {
-            logger.info(error.message)
             next(error);
         }
     })
@@ -68,7 +67,7 @@ module.exports = (app) => {
                 await taskService.updateTask(projectId, taskId, req.body);
                 return res.status(200).json({ success: true })
             } catch (error) {
-                logger.info(error.message)
+
                 next(error);
             }
     })
@@ -87,7 +86,7 @@ module.exports = (app) => {
     //         await taskService.deleteTask(projectId, taskId);
     //         return res.status(200).json({ success: true })
     //     } catch (error) {
-    //         logger.info(error.message)
+    //     
     //         next(error);
     //     }
     // })
@@ -112,7 +111,6 @@ module.exports = (app) => {
             await taskService.deleteTasks(projectId, JSON.parse(taskIds));
             return res.status(200).json({ success: true })
         } catch (error) {
-            logger.info(error.message)
             next(error);
         }
     })
@@ -125,7 +123,6 @@ module.exports = (app) => {
             let data = await taskService.getTasks(projectId);
             return res.status(200).json({ success: true, data })
         } catch (error) {
-            logger.info(error.message)
             next(error);
         }
     })
