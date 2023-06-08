@@ -3,5 +3,7 @@ module.exports = {
     UserService:require("./user-service"),
     ProjectService:require("./project-service"),
     TaskService:require('./task-service'),
-    ConsentService:require('./consent-service')
+    TwilioService: require("./twilio-service"),
+    ConsentService:require('./consent-service'),
+   
 }

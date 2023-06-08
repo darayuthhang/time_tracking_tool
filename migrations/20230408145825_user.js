@@ -59,6 +59,14 @@ exports.up = function (knex) {
         table.timestamp('updated_at').defaultTo(knex.fn.now());
         table.uuid('user_id').references('id').inTable('users');
     })
+    .createTable('schedules', function (table) {
+        table.uuid('id').primary().defaultTo(knex.raw('(gen_random_uuid())'));
+        table.timestamp('schedule_date').notNullable();
+        table.timestamp('created_at').defaultTo(knex.fn.now());
+        table.timestamp('updated_at').defaultTo(knex.fn.now());
+        table.uuid('user_consent_email_id').references('id').inTable('user_consent_emails');
+        table.uuid('user_consent_phone_number_id').references('id').inTable('user_consent_phone_numbers');
+    })
     /**
      * user_consent_phone_numbers
      *  (

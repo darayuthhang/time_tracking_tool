@@ -7,7 +7,7 @@ const ErrorHandler = (error, req, res, next) => {
      * @description
      *  - nested status code from repo --> service --> api
      */
-    if (error?.statusCode?.statusCode) error.statusCode = 500;
+    else if (error?.statusCode?.statusCode) error.statusCode = 500;
     // logger.error(error.message);
     return res.status(error?.statusCode ).json({ success: false, message: "An error occurred while processing your request." })
 }

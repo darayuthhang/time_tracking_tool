@@ -25,6 +25,12 @@
 .add_task_plus_sign:hover{
     color:#8e8585;
 }
+.bell{
+    cursor: pointer;
+}
+.bell:hover{
+    color: rgb(179, 87, 87);
+}
 .trash{
     cursor: pointer;
 

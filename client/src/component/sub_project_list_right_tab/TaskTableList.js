@@ -4,7 +4,8 @@ import styles from './table.module.css';
 import {
     Breadcrumb,
     Dropdown, Row, Col,
-    Button, Container
+    Button, Container,
+    
 } from 'react-bootstrap';
 import { validate as uuidValidate } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,6 +17,7 @@ import {
     DONE,
     ENTER } from '../../constant';
 import PhoneConfirmationBox from '../confirmation_box/PhoneConfirmationBox';
+import PhoneNumberModal from './PhoneNumberModal';
 
 const TaskTableList = ({ 
     projectNameHeading, 
@@ -35,10 +37,14 @@ const TaskTableList = ({
     const [status, setStatus] = useState(PROGRESS);
     const [statusDone, setStatusDone] = useState("");
     const [showInputFill, setShowInputFill] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isEditTask, setIsEditTask] = useState(false);
     const [editIndex, setEditIndex] = useState(0);
     const [isChecked, setIsChecked] = useState(false);
+    /**
+     * @description @Modal
+     */
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showPhoneNumberModal, setShowPhoneNumberModal] = useState(false);
     // const [trackChecked, setTrackChecked] = useState([]);
     /**
      * @REF
@@ -133,7 +139,7 @@ const TaskTableList = ({
     }
     /**
      * @description
-     *   - @Modal
+     *   - @DeleteModal
      */
     const handleCloseDeleteModal = () => {
         setShowDeleteModal(false)
@@ -141,6 +147,16 @@ const TaskTableList = ({
     const handleShowDeleteModal = () => {
         setShowDeleteModal(true)
     };
+    /**
+     * @description
+     *   - @PhoneNumberModal
+     */
+    const onhandleClosePhoneModal = () => {
+        setShowPhoneNumberModal(false);
+    }
+    const onhandleShowPhoneModal = () => {
+        setShowPhoneNumberModal(true)
+    }
     /**
        * @description
        *   - @DeleteTask Delete tasks in Bulk(array)
@@ -150,7 +166,13 @@ const TaskTableList = ({
         if (tasksIds.length > 0 )setTrackDeleteIds([...tasksIds]);
         dispatch(deleteTaskList(projectId, tasksIds))
     }
-
+    /**
+     * @description
+     *    - @onhandleSubmitPhoneNumberConsent
+     */
+    const onhandleSubmitPhoneNumberConsent = (e) => {
+        alert("submit phone conent phone number")
+    }
     /**
      * @description
      *   - @onHandleChange Task name
@@ -158,19 +180,6 @@ const TaskTableList = ({
     const onhandleChangeTaskName = (e) => {
         setTasktName(e.target.value);
         onPressKeyToAddTask(e.code);
-        /**
-         * @Todo
-         *  - we are handling shift enter later 
-         */
-        // if(e.code === SHIFT_LEFT 
-        //     && e.code === ENTER){
-        //         console.log("Shift left enter");
-        //     }
-        // else if(e.code === ENTER){
-        //     console.log("enter");
-        // }
-    
-       
     }
     const onhandleChangetaskDescriptionName = (e) => {
         setTaskDescription(e.target.value);
@@ -296,6 +305,12 @@ const TaskTableList = ({
                     // bodyText="hello "
                     onhandleDeleteTask={onhandleDeleteTask}
                 />
+                <PhoneNumberModal 
+                    show={showPhoneNumberModal}
+                    handleClose={onhandleClosePhoneModal}
+                    onhandleSubmit={onhandleSubmitPhoneNumberConsent}
+                    title="hello"
+                />
                 <div className='d-flex mb-2'>
                     <div className='d-flex align-items-center'>
                         <i className="bi bi-book"></i>
@@ -306,18 +321,34 @@ const TaskTableList = ({
                     {/* <Breadcrumb.Item href="#">All tasks</Breadcrumb.Item>
                     <Breadcrumb.Item active>This week</Breadcrumb.Item> */}
                     {tasksIds.length > 0 &&
-                        <div className='ms-auto d-flex'>
-                            <div className={`${styles.trash} `} onClick={handleShowDeleteModal}>
-                                <div className={`text-center`}>
-                                    <i className={`bi bi-trash`}></i>
-                                </div>
-                                <div className='fw-bold'>Delete</div>
-                            </div>
+                        <div className='ms-auto d-flex gap-3'>
+                            <Dropdown>
+                                <Dropdown.Toggle variant="outline-danger" id="dropdown-basic">
+                                    <i className={`bi bi-bell p-2 `}></i>
+                                        Reminder
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item href="#/action-1" onClick={onhandleShowPhoneModal}>Phone number</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-2">Email</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
                             <div>
-
+                                <Button 
+                                    onClick={handleShowDeleteModal}
+                                    variant="outline-primary">
+                                    <div className={` `} >
+                                        {/* <div className={`text-center`}>
+                                            <i className={`bi bi-trash`}></i>
+                                        </div> */}
+                                        <i className={`bi bi-trash p-2`}></i>
+                                        Delete
+                                        {/* <div className='fw-bold'>Delete</div> */}
+                                    </div>
+                                </Button>
+                               
                             </div>
                             {/* <PhoneConfirmationBox /> */}
-                    </div>
+                        </div>
                        
                     }
                    
