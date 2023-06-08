@@ -19,6 +19,7 @@ import {
 import PhoneConfirmationBox from '../confirmation_box/PhoneConfirmationBox';
 import PhoneNumberModal from './PhoneNumberModal';
 
+
 const TaskTableList = ({ 
     projectNameHeading, 
     projectId,
@@ -40,6 +41,11 @@ const TaskTableList = ({
     const [isEditTask, setIsEditTask] = useState(false);
     const [editIndex, setEditIndex] = useState(0);
     const [isChecked, setIsChecked] = useState(false);
+    /**
+     * @descipriotn
+     *  -@UsestatePhoneNumber
+     */
+    const [phoneNumber, setPhoneNumber] = useState('');
     /**
      * @description @Modal
      */
@@ -224,6 +230,13 @@ const TaskTableList = ({
     }
     /**
      * @Description
+     *  - @onhandleChangePhoneNumber 
+     */
+    const onhandleChangePhoneNumber = (value) => {
+        console.log(value);
+    }
+    /**
+     * @Description
      *  - @Show the @Cancel and @Add button
      */
     const switchShowFillInput = (e) => {
@@ -290,7 +303,7 @@ const TaskTableList = ({
             dispatch(updateTask(projectId, taskId, newTask))
         }
     }
-   
+
     return (
         <div 
             className={`p-3 ${styles["sub-project-list-container"]}`}
@@ -310,6 +323,8 @@ const TaskTableList = ({
                     handleClose={onhandleClosePhoneModal}
                     onhandleSubmit={onhandleSubmitPhoneNumberConsent}
                     title="hello"
+                    phoneValue={phoneNumber}
+                    onChangePhoneNumber={onhandleChangePhoneNumber}
                 />
                 <div className='d-flex mb-2'>
                     <div className='d-flex align-items-center'>

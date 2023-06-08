@@ -10,7 +10,10 @@ const PhoneNumberModal = ({
     handleClose,
     title,
     bodyText,
-    onhandleSubmit
+    onhandleSubmit,
+    phoneValue,
+    onChangePhoneNumber,
+    setPhoneNumber
 
 }) => {
     const [value, setValue] = useState()
@@ -21,24 +24,28 @@ const PhoneNumberModal = ({
                 onHide={handleClose}
                 animation={false}
             >
-                <Form className='border'>
+                <Form className='border' onSubmit={onhandleSubmit}>
                     <Modal.Header closeButton>
                         <Modal.Title>{title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <PhoneInput
-                            placeholder="Enter phone number"
-                            value={value}
-                            onChange={setValue} />
-                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                            <Form.Check type="checkbox" label="Check me out" />
-                        </Form.Group>
+                        <div className='d-flex flex-column justify-content-center'>
+                            <PhoneInput
+                      
+                                placeholder="Enter phone number"
+                                value={phoneValue}
+                                onChange={onChangePhoneNumber} />
+                            
+                            <Form.Group className="mb-3 d-flex justify-content-center mt-3" controlId="formBasicCheckbox">
+                                <Form.Check type="checkbox" label="I consent to providing my phone number" />
+                            </Form.Group>
+                        </div>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="light" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={onhandleSubmit}>Submit</Button>
+                        <Button variant="primary">Submit</Button>
                     </Modal.Footer>
                 </Form>
             </Modal>
