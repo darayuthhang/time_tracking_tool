@@ -23,7 +23,7 @@ const PhoneNumberModal = ({
     scheduleTimeError
 }) => {
     const error = {
-        phoneNumberMsg:"Please enter valid phone number.",
+        phoneNumberMsg:"Please select country and enter valid phone number.",
         tickBoxMsg:"Please tick the box.",
         scheduleDateMsg:"Schedule date cannot be empty.",
         scheduleTimeMsg: "Schedule time cannot be empty."
@@ -48,6 +48,7 @@ const PhoneNumberModal = ({
                                 <InputGroup.Text id="basic-addon1">Schedule date</InputGroup.Text>
                                 <Form.Control
                                     type="date"
+                                    min="2023-01-01" max="2023-12-31"
                                     onChange={onhandleChangeScheduleDate}
                                     aria-describedby="basic-addon1"
                                 />

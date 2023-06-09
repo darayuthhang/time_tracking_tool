@@ -317,11 +317,12 @@ const TaskTableList = ({
         e.preventDefault();
         if(!isValidPhoneNumber(phoneNumber)) setPhoneNumberError(true);
         if(!phoneNumberChecked) setPhoneNumberCheckedError(true);
-        if(!scheduleTimeError) setScheduleTimeError(true);
-        if(!scheduleDateError) setScheduleDateError(true);
+        if(!scheduleTime) setScheduleTimeError(true);
+        if(!scheduleDate) setScheduleDateError(true);
         if(isValidPhoneNumber(phoneNumber)){
             const phoneNumb = parsePhoneNumber(phoneNumber);
             const countryCode = phoneNumb?.countryCallingCode
+            console.log(countryCode);
         }
     }
     /**
@@ -348,7 +349,7 @@ const TaskTableList = ({
      */
     const onhandleChangeScheduleDate = (e) => {
         setScheduleDate(e.target.value)
-        if(scheduleDate) setScheduleDateError(false);
+        if(scheduleDateError) setScheduleDateError(false);
     }
     /**
     * @Description
@@ -356,7 +357,7 @@ const TaskTableList = ({
     */
     const onhandleChangeScheduleTime = (e) => {
         setScheduleTime(e.target.value);
-        if(scheduleTime) setScheduleTimeError(false);
+        if(scheduleTimeError) setScheduleTimeError(false);
     }
     return (
         <div 
