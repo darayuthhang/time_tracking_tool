@@ -18,7 +18,7 @@ import {
     ENTER } from '../../constant';
 import PhoneConfirmationBox from '../confirmation_box/PhoneConfirmationBox';
 import PhoneNumberModal from './PhoneNumberModal';
-
+import { isValidPhoneNumber } from 'react-phone-number-input'
 
 const TaskTableList = ({ 
     projectNameHeading, 
@@ -44,8 +44,14 @@ const TaskTableList = ({
     /**
      * @descipriotn
      *  -@UsestatePhoneNumber
+     *  -@UsestatephoneNumberError
+     *  -@UseStatePhoneNumberChecked
+     *  -@UseStatePhoneNumberCheckedError
      */
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneNumberError, setPhoneNumberError] = useState(false);
+    const [phoneNumberChecked, setPhoneNumberChecked] = useState(false);
+    const [phoneNumberCheckedError, setPhoneNumberCheckedError] = useState(false);
     /**
      * @description @Modal
      */
@@ -172,13 +178,7 @@ const TaskTableList = ({
         if (tasksIds.length > 0 )setTrackDeleteIds([...tasksIds]);
         dispatch(deleteTaskList(projectId, tasksIds))
     }
-    /**
-     * @description
-     *    - @onhandleSubmitPhoneNumberConsent
-     */
-    const onhandleSubmitPhoneNumberConsent = (e) => {
-        alert("submit phone conent phone number")
-    }
+
     /**
      * @description
      *   - @onHandleChange Task name
@@ -223,18 +223,11 @@ const TaskTableList = ({
             const newTask = tasksIds.filter((val, index) => val != value);
             setTasksIds(newTask);
         } else {
-            console.log("ticked");
             setTasksIds([...tasksIds, value]);
         }
         setIsChecked(true);
     }
-    /**
-     * @Description
-     *  - @onhandleChangePhoneNumber 
-     */
-    const onhandleChangePhoneNumber = (value) => {
-        console.log(value);
-    }
+ 
     /**
      * @Description
      *  - @Show the @Cancel and @Add button
@@ -303,7 +296,33 @@ const TaskTableList = ({
             dispatch(updateTask(projectId, taskId, newTask))
         }
     }
-
+    /**
+     * @description
+     *    - @onhandleSubmitPhoneNumberConsent
+     */
+    const onhandleSubmitPhoneNumberConsent = (e) => {
+        e.preventDefault();
+        if(!isValidPhoneNumber(phoneNumber)) setPhoneNumberError(true);
+        if(!phoneNumberChecked) setPhoneNumberCheckedError(true);
+    }
+    /**
+     * @Description
+     *  - @onhandleChangePhoneNumber 
+     */
+    const onhandleChangePhoneNumber = (value) => {
+        setPhoneNumber(value);
+        if(phoneNumberError) setPhoneNumberError(false);
+    }
+    /**
+     * @Description
+     *  - @onhandleChangeCheckPhoneNumber 
+     */
+    const onhandleChangeCheckPhoneNumber = (e) => {
+        const { checked, value } = e.target;
+        setPhoneNumberChecked(checked);
+        if(phoneNumberCheckedError) setPhoneNumberCheckedError(false)
+    }
+ 
     return (
         <div 
             className={`p-3 ${styles["sub-project-list-container"]}`}
@@ -324,7 +343,10 @@ const TaskTableList = ({
                     onhandleSubmit={onhandleSubmitPhoneNumberConsent}
                     title="hello"
                     phoneValue={phoneNumber}
+                    phoneNumberCheckedError={phoneNumberCheckedError}
+                    phoneNumberError={phoneNumberError}
                     onChangePhoneNumber={onhandleChangePhoneNumber}
+                    onhandleChangeCheckPhoneNumber={onhandleChangeCheckPhoneNumber}
                 />
                 <div className='d-flex mb-2'>
                     <div className='d-flex align-items-center'>
