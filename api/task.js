@@ -98,7 +98,6 @@ module.exports = (app) => {
         validationProjectIdAndTaskscodeRules(), 
         validateTaskData, 
         async (req, res, next) => {
-   
         const { projectId, taskIds } = req.params;
         
         /**

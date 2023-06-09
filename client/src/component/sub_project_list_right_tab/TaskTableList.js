@@ -18,7 +18,9 @@ import {
     ENTER } from '../../constant';
 import PhoneConfirmationBox from '../confirmation_box/PhoneConfirmationBox';
 import PhoneNumberModal from './PhoneNumberModal';
-import { isValidPhoneNumber } from 'react-phone-number-input'
+import { 
+        isValidPhoneNumber,
+        parsePhoneNumber } from 'react-phone-number-input'
 
 const TaskTableList = ({ 
     projectNameHeading, 
@@ -52,6 +54,17 @@ const TaskTableList = ({
     const [phoneNumberError, setPhoneNumberError] = useState(false);
     const [phoneNumberChecked, setPhoneNumberChecked] = useState(false);
     const [phoneNumberCheckedError, setPhoneNumberCheckedError] = useState(false);
+     /**
+     * @descipriotn
+     *  -@UsestateScheduleDate
+     *  -@UsestateScheduleDateError
+     *  -@UsestateScheduleTime
+     *  -@UsestateScheduleTimeError
+     */
+    const [scheduleDate, setScheduleDate] = useState('');
+    const [scheduleDateError, setScheduleDateError] = useState(false);
+    const [scheduleTime, setScheduleTime] = useState('');
+    const [scheduleTimeError, setScheduleTimeError] = useState(false);
     /**
      * @description @Modal
      */
@@ -304,12 +317,19 @@ const TaskTableList = ({
         e.preventDefault();
         if(!isValidPhoneNumber(phoneNumber)) setPhoneNumberError(true);
         if(!phoneNumberChecked) setPhoneNumberCheckedError(true);
+        if(!scheduleTimeError) setScheduleTimeError(true);
+        if(!scheduleDateError) setScheduleDateError(true);
+        if(isValidPhoneNumber(phoneNumber)){
+            const phoneNumb = parsePhoneNumber(phoneNumber);
+            const countryCode = phoneNumb?.countryCallingCode
+        }
     }
     /**
      * @Description
      *  - @onhandleChangePhoneNumber 
      */
     const onhandleChangePhoneNumber = (value) => {
+        console.log(value);
         setPhoneNumber(value);
         if(phoneNumberError) setPhoneNumberError(false);
     }
@@ -322,7 +342,22 @@ const TaskTableList = ({
         setPhoneNumberChecked(checked);
         if(phoneNumberCheckedError) setPhoneNumberCheckedError(false)
     }
- 
+    /**
+     * @Description
+     *  - @onhandleChangeScheduleDate
+     */
+    const onhandleChangeScheduleDate = (e) => {
+        setScheduleDate(e.target.value)
+        if(scheduleDate) setScheduleDateError(false);
+    }
+    /**
+    * @Description
+    *  - @onhandleChangeScheduleTime
+    */
+    const onhandleChangeScheduleTime = (e) => {
+        setScheduleTime(e.target.value);
+        if(scheduleTime) setScheduleTimeError(false);
+    }
     return (
         <div 
             className={`p-3 ${styles["sub-project-list-container"]}`}
@@ -342,10 +377,14 @@ const TaskTableList = ({
                     handleClose={onhandleClosePhoneModal}
                     onhandleSubmit={onhandleSubmitPhoneNumberConsent}
                     title="hello"
+                    scheduleDateError={scheduleDateError}
+                    scheduleTimeError={scheduleTimeError}
                     phoneValue={phoneNumber}
                     phoneNumberCheckedError={phoneNumberCheckedError}
                     phoneNumberError={phoneNumberError}
                     onChangePhoneNumber={onhandleChangePhoneNumber}
+                    onhandleChangeScheduleDate={onhandleChangeScheduleDate}
+                    onhandleChangeScheduleTime={onhandleChangeScheduleTime}
                     onhandleChangeCheckPhoneNumber={onhandleChangeCheckPhoneNumber}
                 />
                 <div className='d-flex mb-2'>
