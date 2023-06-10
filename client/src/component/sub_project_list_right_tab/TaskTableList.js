@@ -232,7 +232,6 @@ const TaskTableList = ({
         
         // console.log(tasksIds, value);
         if (checked === false) {
-    
             /**
              * 1. track and untrack -- done
              * 2. track all lot of items, and untrack one by one -- done
@@ -615,7 +614,6 @@ const TaskTableList = ({
                                                 rows="1"
                                                 className={`${styles.textarea} p-2`}
                                                 placeholder="Task name"
-                                                value={taskName}
                                                 onChange={onhandleChangeTaskName}
                                                 // onKeyDown={onhandleChangeTaskName}
                                                 onKeyUp={onhandleChangeTaskName}
@@ -629,7 +627,7 @@ const TaskTableList = ({
                                             <textarea
                                                 rows="1"
                                                 className={`${styles.textarea} p-2`}
-                                                value={taskDescription}
+                                           
                                                 placeholder="Leave your comment"
                                                 onChange={onhandleChangetaskDescriptionName}
                                                 onKeyUp={onhandleChangetaskDescriptionName}
@@ -664,7 +662,7 @@ const TaskTableList = ({
                                             type='date'
                                             className={`${styles['change-font-size-of-date']} border-0 mt-2 `}
 
-                                            value={taskDate}
+                                         
                                             onChange={onhandleChangeDate}
                                             onKeyUp={onhandleChangeDate}
                                         />
