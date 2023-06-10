@@ -22,9 +22,14 @@ module.exports = (app) => {
         async (req, res, next) => {
         logger.info(ApiRouteMessage(`${API_VERSION}/:userId/phone-number/consent`, "POST"))
         const task = JSON.parse(req.body.task);
+        const {userId} = req.params
         if(task.length === 0) return res.status(422).json({message: "Task cannot be empty"});
         try {
-            // await consentService.createPhoneNumberConsent(req.body);
+            /**
+             * @todo work on service to connect twilion
+             *  and set scheduel node cro
+             */
+            await consentService.createPhoneNumberConsent(req.body, userId);
             return res.status(200).json({success: true, message:"create successfully"});
         } catch (error) {
             next(error);

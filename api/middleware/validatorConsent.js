@@ -9,7 +9,9 @@ const validationPhoneNumberConsentRules = () => {
         param('userId').isUUID().withMessage('UserId is not uuid').trim(),
         body('phoneNumber').notEmpty().withMessage("PhoneNumber name cannot be empty.").trim(),
         body('countryCode').notEmpty().withMessage("CountryCode name cannot be empty and must be boolean.").trim(),
+        body('scheduleDate').notEmpty().withMessage("scheduleDate name cannot be empty and must be boolean.").trim(),
         body("consent").isBoolean().withMessage("Consent cannot be empty."),
+        body('scheduleTime').notEmpty().withMessage("scheduleTime name cannot be empty and must be boolean.").trim(),
     ]
 }
 const validatePhoneNumberConsentData = (req, res, next) => {

@@ -20,7 +20,8 @@ import PhoneConfirmationBox from '../confirmation_box/PhoneConfirmationBox';
 import PhoneNumberModal from './PhoneNumberModal';
 import { 
         isValidPhoneNumber,
-        parsePhoneNumber } from 'react-phone-number-input'
+        parsePhoneNumber,
+        formatPhoneNumber } from 'react-phone-number-input'
 import { createPhoneConsent } from '../../redux/action/ConsentAction';
 
 const TaskTableList = ({ 
@@ -316,20 +317,37 @@ const TaskTableList = ({
         if(!phoneNumberChecked) setPhoneNumberCheckedError(true);
         if(!scheduleTime) setScheduleTimeError(true);
         if(!scheduleDate) setScheduleDateError(true);
+        if (phoneNumberChecked
+            && scheduleTime
+            && scheduleDate
+            && isValidPhoneNumber(phoneNumber)) {
+            onhandleClosePhoneModal();
+        }
         if(isValidPhoneNumber(phoneNumber)){
             const phoneNumb = parsePhoneNumber(phoneNumber);
             const countryCode = phoneNumb?.countryCallingCode
             const task = tasksIds;
             const data = {
                 countryCode,
-                phoneNumber,
+                scheduleDate,
+                scheduleTime,
+                phoneNumber: formatPhoneNumber(phoneNumber),
                 task: JSON.stringify(task),
                 consent:phoneNumberChecked,
-                
             }
             dispatch(createPhoneConsent(data, userId))
-            onhandleClosePhoneModal();
         }
+        ResetPhoneScheduleAndTickBoxToDefaultState();
+    }
+    /**
+    * @Description
+    *  - @ResetPhoneScheduleAndTickBoxToDefaultState 
+    */
+    const ResetPhoneScheduleAndTickBoxToDefaultState = () => {
+        setScheduleDate("");
+        setScheduleTime("");
+        setPhoneNumber("");
+        setPhoneNumberChecked(false);
     }
     /**
      * @Description

@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const axios = require('axios');
 
+
 const { APIError, STATUS_CODES } = require("./app-errors");
 let _this = this;
 
@@ -103,6 +104,37 @@ module.exports.getGoogleUserInfo = async (googleToken) => {
         throw Error(error.message)
     }
 }
+module.exports.FormatTask = (input = []) => {
+    let result = ""
+    /**
+     * 
+     * [{"task_date":"06/10/2023",
+     * "id":"f7b2770b-0232-4a63-9aa0-f769be1cfba0",
+     * "task_name":"qwe","task_description":"qwe",
+     * "task_status":"Progress",
+     * task_description
+     * "project_id":"9dd3e977-f1e0-4c6f-95d3-dd8f5911f1c4"}]
+     */
+    if(input.length > 0){
+        for (let [index, data] of input.entries()) {
+            const newString = `${index + 1}. Task:\nName: ${data?.task_name}\nDescription: ${data?.task_description}\nDate: ${data?.task_date}\nstatus: ${data?.task_status}\n`;
+            result += newString;
+        }
+        return result;
+    }
+    return input;
+    
+    /**
+     * Task name: wer
+     * Task desciption: date
+     * Task date: "this is date"
+     * Task status: "progress"
+     */
+    // if(input.length > 0){
+    //     return input.map((val, index) => val.task)
+    // }
+}
+
 // module.exports.FormatData = (data) => {
 //     if (data) {
 //         return { data };

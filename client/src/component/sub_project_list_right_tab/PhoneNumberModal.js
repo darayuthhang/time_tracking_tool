@@ -43,6 +43,7 @@ const PhoneNumberModal = ({
                         <PhoneInput
                             placeholder="Enter phone number"
                             value={phoneValue}
+                            defaultCountry="US"
                             onChange={onChangePhoneNumber} />
                         {phoneNumberError && <div className='text-danger'>{error.phoneNumberMsg}</div>}   
                         <div className='mb-2 mt-2'>
