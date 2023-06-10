@@ -120,7 +120,7 @@ module.exports.FormatTask = (input = []) => {
             const newString = `${index + 1}. Task:\nName: ${data?.task_name}\nDescription: ${data?.task_description}\nDate: ${data?.task_date}\nstatus: ${data?.task_status}\n`;
             result += newString;
         }
-        return result;
+        return result + "To unsubscribe, reply with Stop .";
     }
     return input;
     
