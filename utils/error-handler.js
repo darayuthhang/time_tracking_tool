@@ -29,6 +29,7 @@ if(process.env.NODE_ENV === 'local'){
 }else{
     logger.add(new winston.transports.Console({
         format: winston.format.simple(),
+        handleExceptions: true
     }));
 }
     // logger.add(
