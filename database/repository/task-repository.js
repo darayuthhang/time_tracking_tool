@@ -41,6 +41,7 @@ module.exports = class TaskRepository{
     async deleteTask(projectId, taskId){
         logger.info(ApiRepositoryMessage(this.TaskRepository, "deleteTask"))
         try {
+           
             return await db(TABLE_TASKS).where({
                 id: taskId,
                 project_id:projectId

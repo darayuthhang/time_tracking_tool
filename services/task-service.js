@@ -35,6 +35,7 @@ module.exports = class TaskService{
         }
     }
     async deleteTask( projectId, taskId ) {
+       
         logger.info(ApiServiceMessage(this.taskService, "deleteTask"))
         try {
             await this.taskRepository.deleteTask(projectId, taskId);

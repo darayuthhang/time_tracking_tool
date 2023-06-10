@@ -98,6 +98,8 @@ module.exports = (app) => {
         validationProjectIdAndTaskscodeRules(), 
         validateTaskData, 
         async (req, res, next) => {
+        
+        logger.info(ApiRouteMessage(`${PROJECT_TASKS_ROUTE}/:taskIds`, "delete"))
         const { projectId, taskIds } = req.params;
         
         /**

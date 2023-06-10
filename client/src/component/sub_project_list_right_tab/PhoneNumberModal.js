@@ -4,6 +4,7 @@ import 'react-phone-number-input/style.css'
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { Row, Col, InputGroup } from 'react-bootstrap';
+import { defaultDate } from '../../uti';
 
 // import PhoneInput from 'react-phone-number-input'
 const PhoneNumberModal = ({
@@ -22,6 +23,7 @@ const PhoneNumberModal = ({
     scheduleDateError,
     scheduleTimeError
 }) => {
+
     const error = {
         phoneNumberMsg:"Please select country and enter valid phone number.",
         tickBoxMsg:"Please tick the box.",
@@ -48,7 +50,7 @@ const PhoneNumberModal = ({
                                 <InputGroup.Text id="basic-addon1">Schedule date</InputGroup.Text>
                                 <Form.Control
                                     type="date"
-                                    min="2023-01-01" max="2023-12-31"
+                                    min={defaultDate()} max="2023-12-31"
                                     onChange={onhandleChangeScheduleDate}
                                     aria-describedby="basic-addon1"
                                 />

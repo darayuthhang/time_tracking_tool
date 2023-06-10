@@ -21,6 +21,7 @@ import PhoneNumberModal from './PhoneNumberModal';
 import { 
         isValidPhoneNumber,
         parsePhoneNumber } from 'react-phone-number-input'
+import { createPhoneConsent } from '../../redux/action/ConsentAction';
 
 const TaskTableList = ({ 
     projectNameHeading, 
@@ -225,6 +226,11 @@ const TaskTableList = ({
     */
     const onhandleChangeTick = (e) => {
         const { checked, value } = e.target;
+
+        // const objString = JSON.stringify(value);
+        // console.log(JSON.parse(objString));
+        
+        // console.log(tasksIds, value);
         if (checked === false) {
     
             /**
@@ -322,7 +328,12 @@ const TaskTableList = ({
         if(isValidPhoneNumber(phoneNumber)){
             const phoneNumb = parsePhoneNumber(phoneNumber);
             const countryCode = phoneNumb?.countryCallingCode
-            console.log(countryCode);
+            const data = {
+                countryCode,
+                phoneNumber,
+                phoneNumberChecked
+            }
+            // dispatch(createPhoneConsent(data))
         }
     }
     /**
@@ -330,7 +341,6 @@ const TaskTableList = ({
      *  - @onhandleChangePhoneNumber 
      */
     const onhandleChangePhoneNumber = (value) => {
-        console.log(value);
         setPhoneNumber(value);
         if(phoneNumberError) setPhoneNumberError(false);
     }

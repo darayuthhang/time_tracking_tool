@@ -14,7 +14,9 @@ import {
     taskListReducers,
     taskListDeleteReducers,
     taskUpdateReducers } from './TaskReducers';
-
+import {
+    createPhoneConsentReducers
+} from './ConsentReducers'
 
 const allReducers = combineReducers({
     userSignUpReducers,
@@ -28,6 +30,7 @@ const allReducers = combineReducers({
     taskListDeleteReducers,
     taskUpdateReducers,
     projectUpdateReducers,
-    projectDeleteReducers
+    projectDeleteReducers,
+    createPhoneConsentReducers
 })
 export default allReducers;
