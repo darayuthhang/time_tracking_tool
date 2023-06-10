@@ -2,6 +2,7 @@ const { body, validationResult, query, param } = require('express-validator');
 const logger = require("../../utils/error-handler")
 
 let MIDDLEWARE = "MIDDLEWARE ===> "
+
 const validationPhoneNumberConsentRules = () => {
     logger.info(MIDDLEWARE + "validatePhoneNumberConsentData")
     return [

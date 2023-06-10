@@ -20,10 +20,11 @@ module.exports = (app) => {
         validationPhoneNumberConsentRules(),  
         validatePhoneNumberConsentData,
         async (req, res, next) => {
-
         logger.info(ApiRouteMessage(`${API_VERSION}/:userId/phone-number/consent`, "POST"))
+        const task = JSON.parse(req.body.task);
+        if(task.length === 0) return res.status(422).json({message: "Task cannot be empty"});
         try {
-            await consentService.createPhoneNumberConsent(req.body);
+            // await consentService.createPhoneNumberConsent(req.body);
             return res.status(200).json({success: true, message:"create successfully"});
         } catch (error) {
             next(error);

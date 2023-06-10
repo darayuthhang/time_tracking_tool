@@ -18,7 +18,6 @@ export const resetTaskSuccess = () => {
     }
 }
 
-
 export const getTaskList = (projectId) => async (dispatch) => {
     try {
         dispatch({ type: TaskTypes.GET_TASK_LIST_REQUEST })
@@ -39,7 +38,6 @@ export const deleteTaskList = (projectId, taskIds = []) => async(dispatch) => {
         logSuccess(listData);
         dispatch({ type: TaskTypes.TASKS_LIST_DELETE_SUCCESS })
     } catch (error) {
-       
         logError(error)
         dispatch({ type: TaskTypes.TASKS_LIST_DELETE_ERROR, payload: error.message })
     }

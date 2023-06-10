@@ -161,7 +161,7 @@ const Task = () => {
                                             <MemoizedTaskTableList 
                                                 projectNameHeading={val?.project_name}
                                                 projectId={projectId}
-
+                                                userId={user?.userId}
                                             />
                                         </Tab.Pane>
                                     )

@@ -1,10 +1,10 @@
 import React,{useState} from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import 'react-phone-number-input/style.css'
-import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { Row, Col, InputGroup } from 'react-bootstrap';
 import { defaultDate } from '../../uti';
+import { useSelector, useDispatch } from 'react-redux';
 
 // import PhoneInput from 'react-phone-number-input'
 const PhoneNumberModal = ({
@@ -23,7 +23,7 @@ const PhoneNumberModal = ({
     scheduleDateError,
     scheduleTimeError
 }) => {
-
+    const { createPhoneConsentRequest, createPhoneConsentSuccess } = useSelector((state) => state.createPhoneConsentReducers);
     const error = {
         phoneNumberMsg:"Please select country and enter valid phone number.",
         tickBoxMsg:"Please tick the box.",
@@ -80,7 +80,9 @@ const PhoneNumberModal = ({
                         </Button>
                         <Button 
                             type="submit"
-                            variant="primary">Submit</Button>
+                            variant="primary">
+                            {createPhoneConsentRequest ? "Loading" :"Submit"}
+                            </Button>
                     </Modal.Footer>
                 </Form>
             </Modal>

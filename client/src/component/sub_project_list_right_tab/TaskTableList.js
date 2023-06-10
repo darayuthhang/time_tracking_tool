@@ -26,6 +26,7 @@ import { createPhoneConsent } from '../../redux/action/ConsentAction';
 const TaskTableList = ({ 
     projectNameHeading, 
     projectId,
+    userId
   
      }) => {
     const [tasksIds, setTasksIds] = useState([]);
@@ -236,9 +237,7 @@ const TaskTableList = ({
         } catch (error) {
             
         }
-   
     }
- 
     /**
      * @Description
      *  - @Show the @Cancel and @Add button
@@ -324,12 +323,12 @@ const TaskTableList = ({
             const data = {
                 countryCode,
                 phoneNumber,
-                phoneNumberChecked,
-                task
+                task: JSON.stringify(task),
+                consent:phoneNumberChecked,
+                
             }
-            console.log(data);
-            setShowPhoneNumberModal(true);
-            // dispatch(createPhoneConsent(data))
+            dispatch(createPhoneConsent(data, userId))
+            onhandleClosePhoneModal();
         }
     }
     /**
@@ -420,19 +419,12 @@ const TaskTableList = ({
                                     onClick={handleShowDeleteModal}
                                     variant="outline-primary">
                                     <div className={` `} >
-                                        {/* <div className={`text-center`}>
-                                            <i className={`bi bi-trash`}></i>
-                                        </div> */}
                                         <i className={`bi bi-trash p-2`}></i>
                                         Delete
-                                        {/* <div className='fw-bold'>Delete</div> */}
                                     </div>
                                 </Button>
-                               
                             </div>
-                            {/* <PhoneConfirmationBox /> */}
                         </div>
-                       
                     }
                    
                 </Breadcrumb>
