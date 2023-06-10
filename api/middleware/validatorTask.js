@@ -47,8 +47,7 @@ const validationProjectIdAndTaskscodeRules = () => {
     return [
        
         // param('projectId').isUUID().withMessage('Projectid is not uuid').trim(),
-        param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
-        param("taskIds").notEmpty().withMessage("Task cannot be empty.")
+        param('projectId').isUUID().withMessage('ProjectId is not uuid').trim()
     ]
 }
 const validateTaskData = (req, res, next) => {

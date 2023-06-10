@@ -94,13 +94,14 @@ module.exports = (app) => {
      * Delete List of Items
      * @never send request body in delete route
      */
-    app.delete(`${PROJECT_TASKS_ROUTE}/:taskIds`, UserAuth,
+    app.post(`${PROJECT_TASKS_ROUTE}/bulk/delete`, UserAuth,
         validationProjectIdAndTaskscodeRules(), 
         validateTaskData, 
         async (req, res, next) => {
         
-        logger.info(ApiRouteMessage(`${PROJECT_TASKS_ROUTE}/:taskIds`, "delete"))
-        const { projectId, taskIds } = req.params;
+        logger.info(ApiRouteMessage(`${PROJECT_TASKS_ROUTE}/bulk/delete`, "Delete in Bluk"))
+        const { projectId } = req.params;
+        const {taskIds} = req.body;
         
         /**
          * if i need to delete project ,
@@ -109,6 +110,7 @@ module.exports = (app) => {
          * 
          */
         try {
+            
             await taskService.deleteTasks(projectId, JSON.parse(taskIds));
             return res.status(200).json({ success: true })
         } catch (error) {

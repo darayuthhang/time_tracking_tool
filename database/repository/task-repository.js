@@ -66,10 +66,12 @@ module.exports = class TaskRepository{
     }
     async deleteTasks(projectId, taskIds) {
         logger.info(ApiRepositoryMessage(this.TaskRepository, "deleteTask"))
+        let ids = [];
+        ids = taskIds.map((val, index) => val.id);
         try {
             return await db(TABLE_TASKS)
             .where('project_id', projectId)
-            .whereIn('id', taskIds).del()
+                .whereIn('id', ids).del()
         } catch (error) {
             throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to Delete task')
         }

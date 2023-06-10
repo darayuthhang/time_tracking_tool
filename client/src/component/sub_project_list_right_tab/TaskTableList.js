@@ -28,11 +28,6 @@ const TaskTableList = ({
     projectId,
   
      }) => {
-
-    const IS_CLCIKED = "is-clicked";
-  
-
-
     const [tasksIds, setTasksIds] = useState([]);
     const [trackDeleteIds, setTrackDeleteIds] = useState([]);
     const [taskName, setTasktName] = useState("");
@@ -45,16 +40,23 @@ const TaskTableList = ({
     const [editIndex, setEditIndex] = useState(0);
     const [isChecked, setIsChecked] = useState(false);
     /**
+     * @description
+     *  -@UseStatetaskList
+     */
+    const [taskList, setTaskList] = useState([]);
+    /**
      * @descipriotn
      *  -@UsestatePhoneNumber
      *  -@UsestatephoneNumberError
      *  -@UseStatePhoneNumberChecked
      *  -@UseStatePhoneNumberCheckedError
+     *  -@UsestatePhoneNumberModal
      */
     const [phoneNumber, setPhoneNumber] = useState('');
     const [phoneNumberError, setPhoneNumberError] = useState(false);
     const [phoneNumberChecked, setPhoneNumberChecked] = useState(false);
     const [phoneNumberCheckedError, setPhoneNumberCheckedError] = useState(false);
+    const [showPhoneNumberModal, setShowPhoneNumberModal] = useState(false);
      /**
      * @descipriotn
      *  -@UsestateScheduleDate
@@ -66,11 +68,7 @@ const TaskTableList = ({
     const [scheduleDateError, setScheduleDateError] = useState(false);
     const [scheduleTime, setScheduleTime] = useState('');
     const [scheduleTimeError, setScheduleTimeError] = useState(false);
-    /**
-     * @description @Modal
-     */
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [showPhoneNumberModal, setShowPhoneNumberModal] = useState(false);
+
     // const [trackChecked, setTrackChecked] = useState([]);
     /**
      * @REF
@@ -83,7 +81,7 @@ const TaskTableList = ({
     const { taskRequest, taskSuccess } = useSelector((state) => state.taskReducers);
     const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
     const { taskListDeleteRequest, taskListDeleteSuccess } = useSelector((state) => state.taskListDeleteReducers)
-        
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
    /**
     * @description 
     *   - useEffect once after mount(react app dom add to dom)
@@ -226,24 +224,19 @@ const TaskTableList = ({
     */
     const onhandleChangeTick = (e) => {
         const { checked, value } = e.target;
-
-        // const objString = JSON.stringify(value);
-        // console.log(JSON.parse(objString));
-        
-        // console.log(tasksIds, value);
-        if (checked === false) {
-            /**
-             * 1. track and untrack -- done
-             * 2. track all lot of items, and untrack one by one -- done
-             * 3. all item exist, click track one of item and delete
-             * 
-             */
-            const newTask = tasksIds.filter((val, index) => val != value);
-            setTasksIds(newTask);
-        } else {
-            setTasksIds([...tasksIds, value]);
+        try {
+            let newValue = JSON.parse(value);
+            if (checked === false) {
+                const newTask = tasksIds.filter((val, index) => val?.id != newValue?.id);
+                setTasksIds(newTask);
+            } else {
+                setTasksIds([...tasksIds, newValue]);
+            }
+            setIsChecked(true);
+        } catch (error) {
+            
         }
-        setIsChecked(true);
+   
     }
  
     /**
@@ -327,11 +320,15 @@ const TaskTableList = ({
         if(isValidPhoneNumber(phoneNumber)){
             const phoneNumb = parsePhoneNumber(phoneNumber);
             const countryCode = phoneNumb?.countryCallingCode
+            const task = tasksIds;
             const data = {
                 countryCode,
                 phoneNumber,
-                phoneNumberChecked
+                phoneNumberChecked,
+                task
             }
+            console.log(data);
+            setShowPhoneNumberModal(true);
             // dispatch(createPhoneConsent(data))
         }
     }
@@ -463,7 +460,7 @@ const TaskTableList = ({
                                             <div className='d-flex justify-content-center mt-1 '>
                                                 <input
                                                     type="checkbox"
-                                                    value={val?.id}
+                                                    value={JSON.stringify(val)}
                                                     onChange={onhandleChangeTick}
                                                 />
                                             </div>
@@ -477,7 +474,6 @@ const TaskTableList = ({
                                                     className={`${styles.textarea_edit} p-2`}
                                                     placeholder="Task name"
                                                     value={val?.task_name}
-                                                   
                                                     onChange={(e) => onhandleEditChangeTaskName(e, index)}
                                                     id="floatingTextarea">
                                                 </textarea>
@@ -570,7 +566,6 @@ const TaskTableList = ({
                                             >
                                                 <input
                                                     type='date'
-                                                    
                                                     className={`${styles['change-font-size-of-date']} border-0 mt-2`}
                                                     value={convertDateFormatToISOformat(val?.task_date)}
                                                     onChange={(e) => onhandleEditChangeTaskDate(e, index)}
@@ -580,13 +575,11 @@ const TaskTableList = ({
                                             <td className={`${styles['task-col']} ${styles['date-column']} `}
                                                 onClick={(e) => onhandleClickEditTask(e, index)}
                                             >
-                                                
                                                 <div className={`d-flex align-items-center justify-content-center
                                                 ${styles['sub-date-column change-font-size-of-date ']}`}
                                                 >
                                                     {val?.task_date}
                                                 </div>
-                                          
                                             </td>
                                         }
                                     </tr>
@@ -620,14 +613,12 @@ const TaskTableList = ({
                                                 id="floatingTextarea">
                                             </textarea>
                                         </div>
-
                                     </td>
                                     <td className={` p-0`}>
                                         <div className='d-flex align-items-center mt-2'>
                                             <textarea
                                                 rows="1"
                                                 className={`${styles.textarea} p-2`}
-                                           
                                                 placeholder="Leave your comment"
                                                 onChange={onhandleChangetaskDescriptionName}
                                                 onKeyUp={onhandleChangetaskDescriptionName}
@@ -661,8 +652,6 @@ const TaskTableList = ({
                                         <input
                                             type='date'
                                             className={`${styles['change-font-size-of-date']} border-0 mt-2 `}
-
-                                         
                                             onChange={onhandleChangeDate}
                                             onKeyUp={onhandleChangeDate}
                                         />
@@ -685,14 +674,13 @@ const TaskTableList = ({
                                 <div className={`d-flex justify-content-end gap-2 `}>
                                     <button 
                                     type="button" 
-                                    className={` ${styles['media-query-add-cancel-btn']} btn btn-light`} onClick={onhandleCloseInputFill}>Cancel</button>
+                                    className={` ${styles['media-query-add-cancel-btn']} btn btn-light`} 
+                                    onClick={onhandleCloseInputFill}>Cancel</button>
                                     <Button
-                                       
                                         variant="danger"
                                         className={` ${styles['media-query-add-cancel-btn']}`} 
                                         disabled={taskRequest || !taskName}
                                         onClick={onhandleAddTask}
-                                        
                                     >
                                         {taskRequest ? 'Loading…' : 'Add task'}
                                     </Button>

@@ -35,11 +35,11 @@ export const deleteTaskList = (projectId, taskIds = []) => async(dispatch) => {
     try {
         // console.log(JSON.stringify(taskIds));
         dispatch({ type: TaskTypes.TASKS_LIST_DELETE_REQUEST })
-
-        const listData = await axios.delete(`/api/v1/${projectId}/tasks/${JSON.stringify(taskIds)}`);
+        const listData = await axios.post(`/api/v1/${projectId}/tasks/bulk/delete`, { taskIds: JSON.stringify(taskIds) });
         logSuccess(listData);
         dispatch({ type: TaskTypes.TASKS_LIST_DELETE_SUCCESS })
     } catch (error) {
+       
         logError(error)
         dispatch({ type: TaskTypes.TASKS_LIST_DELETE_ERROR, payload: error.message })
     }

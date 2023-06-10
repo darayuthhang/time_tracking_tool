@@ -23,8 +23,6 @@ const ProjectListRightTabModal = ({
                 show={show}
                 onHide={handleClose}
                 animation={false}
-            // backdrop="static"
-            // // keyboard={false}
             >
                 <Modal.Header closeButton>
                     <Modal.Title>{title}</Modal.Title>

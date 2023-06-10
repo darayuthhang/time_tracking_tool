@@ -16,8 +16,6 @@ const DeleteProjectModal = ({
                 show={show}
                 onHide={handleClose}
                 animation={false}
-            // backdrop="static"
-            // // keyboard={false}
             >
                 <Modal.Header closeButton>
                     <div className='d-flex flex-column'>

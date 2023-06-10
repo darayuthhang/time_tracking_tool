@@ -26,6 +26,7 @@ module.exports = class ConsentService {
         consent,
         countryCode}) {
         try {
+            console.log(phoneNumber, consent, countryCode);
             /**
              * @Todo 
              * - front-end sent post with phone number and consent,
@@ -37,7 +38,7 @@ module.exports = class ConsentService {
             *  it can lead to performance issues and potential conflicts.
             * Consider the intervals and timings of your schedules to avoid excessive
              */
-            let data = await this.consentRepository.createPhoneNumberConsent(phoneNumber, consent, countryCode);
+            // let data = await this.consentRepository.createPhoneNumberConsent(phoneNumber, consent, countryCode);
             /**
              * @description 
              *  - bodytext - text

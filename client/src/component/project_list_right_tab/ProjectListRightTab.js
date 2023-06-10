@@ -42,7 +42,6 @@ const ProjectListRightTab = ({
      * @Redux dispatch
      */
     const dispatch = useDispatch();
-
     /**
      * @Useffect
      */
@@ -61,8 +60,6 @@ const ProjectListRightTab = ({
     /**
      * @Description 
      *  - @Modal update project
-     * 
-     * @Todo handle error
      */
     const onhandleUpdateProject = () => {
         dispatch(updateProject(userId, projectId, projectName, projectDescription))
@@ -90,7 +87,6 @@ const ProjectListRightTab = ({
         e.stopPropagation();
         setShowDeleteModal(true);
         setProjectName(projectName);
-        // setProjectDescription(projectDescription);
         setProjectId(projectId)
     }
     const onhandleCloseDeleteProjectModal = () => {
@@ -107,8 +103,6 @@ const ProjectListRightTab = ({
     const resetProjectErrorToDefault = () => {
         if(projectUpdateError) dispatch(resetStateProjectUpdateError(null));
     }
-
-   
     return (
         <div className='p-5'>
             {showUpdateModal &&
@@ -121,14 +115,13 @@ const ProjectListRightTab = ({
                     onhandleUpdateProject={onhandleUpdateProject}
                     projectName={projectName}
                     projectDescription={projectDescription}
-                lockProjectButton={projectName}
+                    lockProjectButton={projectName}
                 />
             }
             {showDeleteModal && 
                 <DeleteProjectModal 
                     title={`Delete this project ${projectName}?`}
                     show={showDeleteModal}
-                    
                     onhandleDeleteProject={onhandleDeleteProject}
                     handleClose={onhandleCloseDeleteProjectModal}
                 />
@@ -138,36 +131,19 @@ const ProjectListRightTab = ({
                 <Row className='mt-5'>
                     {projectListData.length > 0 &&
                         projectListData.map((val, index) =>
-                           
                             <Col
                                 className={`${styles['fixed-height-col']} mb-5`}
                                 key={val?.id}  
                                 md={3} onClick={() => onSelectActiveTab(val?.id)}>
-                      
                                 <Card
                                     bg="dark"
-                                
-                                    // text={'dark'}
                                     className={`shadow ${styles["card"]} `}
-                                     style={{ width: '18rem' }} >
-                                    {/* <Card.Header className={`${styles['']}`}>
-                                       
-                                    </Card.Header> */}
+                                    style={{ width: '18rem' }} >
                                     <Card.Body>
                                         <div className='d-flex mb-2 mt-2'>
-                                            <Card.Title className='fw-bold text-light'>
-                                                {val?.project_name}
-                                            </Card.Title>
+                                            <Card.Title className='fw-bold text-light'>{val?.project_name}</Card.Title>
                                         </div>
-                                        <Card.Text className='fw-bold' onClick={(e) => e.stopPropagation()}>
-                                            {/* <textarea
-                                                className={`bg-dark border border-dark text-light overflow-hidden`}
-                                                readOnly
-                                                rows="1"
-                                                value={val?.project_description}
-                                                id="floatingTextarea">
-                                                </textarea> */}
-                                         
+                                        <Card.Header className='fw-bold' onClick={(e) => e.stopPropagation()}>
                                             <Accordion >
                                                 <Card.Header>
                                                     <CustomToggle eventKey="0">Description
@@ -176,13 +152,12 @@ const ProjectListRightTab = ({
                                                 <Accordion.Collapse eventKey="0">
                                                     <Card.Body className='text-light '>
                                                         <div className={`${styles['t1']}`}>
-                                                            <div className={`${styles['t2']}`}> 
-                                                            {val?.project_description}</div>
+                                                            <div className={`${styles['t2']}`}> {val?.project_description}</div>
                                                         </div>
                                                     </Card.Body>
                                                 </Accordion.Collapse>
                                            </Accordion>
-                                        </Card.Text>
+                                        </Card.Header>
                                         <Card.Text className={`ms-auto ${styles['last-update']} text-secondary `}>
                                             Last updated {getLastUpdateAgo(val?.updated_at)}
                                         </Card.Text>
@@ -206,28 +181,6 @@ const ProjectListRightTab = ({
                         )
                     }
                 </Row>
-
-
-                {/* <ul className={`${styles['ul']} d-flex flex-column gap-2`}>
-                    {projectListData.length > 0 &&
-                        projectListData.map((val, index) => 
-                            <li className='d-flex '>
-                                <div
-                                    className={` w-100  ${styles['bullet-project-container']} d-flex fw-bold p-3 `}
-                                    onClick={() => onSelectActiveTab(val?.id)}>
-                                    <div className=''>&#8226;</div>
-                                    <div className='ms-3'>{val?.project_name}</div>
-                                </div>
-                                <div className='ms-auto d-flex gap-2 align-items-center'>
-                                    <i className={`${styles['trash']} bi bi-trash`}></i>
-                                    <i className={`${styles['pencil']} bi bi-pencil`}></i>
-                                </div>
-                                
-                            </li>
-                           
-                        ) 
-                    }
-                </ul> */}
 
             </Container>
         </div>
