@@ -123,16 +123,6 @@ module.exports.FormatTask = (input = []) => {
         return result + "To unsubscribe, reply with Stop .";
     }
     return input;
-    
-    /**
-     * Task name: wer
-     * Task desciption: date
-     * Task date: "this is date"
-     * Task status: "progress"
-     */
-    // if(input.length > 0){
-    //     return input.map((val, index) => val.task)
-    // }
 }
 
 // module.exports.FormatData = (data) => {

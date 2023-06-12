@@ -13,6 +13,7 @@ const validationTaskscodeRules = () => {
 const validationTaskcodeRules = () => {
     logger.info(MIDDLEWARE + "validationTaskcodeRules")
     return [
+        param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
         body('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
         body('taskName').notEmpty().withMessage("Task name cannot be empty.").trim(),
         body("taskDate").isDate().withMessage("Date is required.").trim(),

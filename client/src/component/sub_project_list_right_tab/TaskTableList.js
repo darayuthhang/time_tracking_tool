@@ -134,7 +134,7 @@ const TaskTableList = ({
             projectId,
             taskStatus: status
         }
-        dispatch(createTask(newTask))
+        dispatch(createTask(newTask, projectId))
         resetOnChangeStateToDefault();
     }
     /**
@@ -383,12 +383,12 @@ const TaskTableList = ({
         if(scheduleTimeError) setScheduleTimeError(false);
     }
     return (
+
         <div 
             className={`p-3 ${styles["sub-project-list-container"]}`}
             onClick={onClickOutsideTable}
             >
-            {/* <Container className={`${styles["sub-project-list-container"]} p-5 border border-danger `}> */}
-            <div className='container mt-5'>    
+            {taskRequest ? "Loading" : <div className='container mt-5'>
                 <TableModal
                     show={showDeleteModal}
                     handleClose={handleCloseDeleteModal}
@@ -396,7 +396,7 @@ const TaskTableList = ({
                     // bodyText="hello "
                     onhandleDeleteTask={onhandleDeleteTask}
                 />
-                <PhoneNumberModal 
+                <PhoneNumberModal
                     show={showPhoneNumberModal}
                     handleClose={onhandleClosePhoneModal}
                     onhandleSubmit={onhandleSubmitPhoneNumberConsent}
@@ -425,7 +425,7 @@ const TaskTableList = ({
                             <Dropdown>
                                 <Dropdown.Toggle variant="outline-danger" id="dropdown-basic">
                                     <i className={`bi bi-bell p-2 `}></i>
-                                        Reminder
+                                    Reminder
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     <Dropdown.Item href="#/action-1" onClick={onhandleShowPhoneModal}>Phone number</Dropdown.Item>
@@ -433,7 +433,7 @@ const TaskTableList = ({
                                 </Dropdown.Menu>
                             </Dropdown>
                             <div>
-                                <Button 
+                                <Button
                                     onClick={handleShowDeleteModal}
                                     variant="outline-primary">
                                     <div className={` `} >
@@ -444,7 +444,7 @@ const TaskTableList = ({
                             </div>
                         </div>
                     }
-                   
+
                 </Breadcrumb>
                 <div className={` table-responsive card  p-3 ${styles['media-query-all-task-texts']}  ${styles['border-table']} `}>
                     <table className=" table table-bordered rounded rounded-3    ">
@@ -461,7 +461,7 @@ const TaskTableList = ({
                         <tbody>
                             {/* 
                                 Show data that have already added.
-                            */} 
+                            */}
                             {taskListData.length > 0 ?
                                 taskListData.map((val, index) =>
                                     <tr key={val?.id}>
@@ -493,7 +493,7 @@ const TaskTableList = ({
                                             <td
                                                 onClick={(e) => onhandleClickEditTask(e, index)}
                                                 className={` text-break ${styles['task-col']}`}
-                                                >
+                                            >
                                                 <div >
                                                     {val?.task_name}
                                                 </div>
@@ -518,7 +518,7 @@ const TaskTableList = ({
                                                 onClick={(e) => onhandleClickEditTask(e, index)}
                                                 // onClick={(e) => onhandleClickEditTask(e, index)}
                                                 className={`text-break ${styles['task-col']}`}
-                                                >
+                                            >
                                                 <div>
                                                     {val?.task_description}
                                                 </div>
@@ -552,12 +552,12 @@ const TaskTableList = ({
                                             </td>
                                             :
                                             <td
-                                             
+
                                                 className={`${styles['task-col']} ${styles['progress-column']} `}
                                                 onClick={(e) => onhandleClickEditTask(e, index)}
                                             >
-                                                <div 
-                                                className={`d-flex align-items-center justify-content-center
+                                                <div
+                                                    className={`d-flex align-items-center justify-content-center
                                                 ${styles['sub-progress-column']}`}
                                                 >
                                                     <div
@@ -565,7 +565,7 @@ const TaskTableList = ({
                                                         {val?.task_status}
                                                     </div>
                                                 </div>
-                                                
+
                                             </td>
                                         }
 
@@ -599,7 +599,7 @@ const TaskTableList = ({
                             }
                             {/* 
                                 Show Cancel and Add Button 
-                            */} 
+                            */}
                             {showInputFill &&
                                 <tr className=''>
                                     <th scope="row" className=''>
@@ -682,13 +682,13 @@ const TaskTableList = ({
                         <Col md={3}>
                             {showInputFill &&
                                 <div className={`d-flex justify-content-end gap-2 `}>
-                                    <button 
-                                    type="button" 
-                                    className={` ${styles['media-query-add-cancel-btn']} btn btn-light`} 
-                                    onClick={onhandleCloseInputFill}>Cancel</button>
+                                    <button
+                                        type="button"
+                                        className={` ${styles['media-query-add-cancel-btn']} btn btn-light`}
+                                        onClick={onhandleCloseInputFill}>Cancel</button>
                                     <Button
                                         variant="danger"
-                                        className={` ${styles['media-query-add-cancel-btn']}`} 
+                                        className={` ${styles['media-query-add-cancel-btn']}`}
                                         disabled={taskRequest || !taskName}
                                         onClick={onhandleAddTask}
                                     >
@@ -699,7 +699,9 @@ const TaskTableList = ({
                         </Col>
                     </Row>
                 </div >
-            </div>
+            </div>}
+            {/* <Container className={`${styles["sub-project-list-container"]} p-5 border border-danger `}> */}
+         
             {/* </Container>
            */}
         </div>

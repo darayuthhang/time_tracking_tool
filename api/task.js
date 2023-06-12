@@ -12,7 +12,7 @@ const {
     validationProjectIdAndTaskscodeRules,
     validationUpdateProjectTaskcodeRules } = require("./middleware/validatorTask")
 const UserAuth = require('./middleware/auth')
-module.exports = (app) => {
+module.exports = (app, cache) => {
     /**
    * POST - CREATE SINGLE /api/v1/{projectId}/task
    * GET  - LIST   /api/v1/{projectId}/tasks 
@@ -42,11 +42,17 @@ module.exports = (app) => {
     //         next(error);
     //     }
     // })
+    const delCache = (id)=> {
+        cache.del(id);
+    }
     /**
      * Add single item
      */
     app.post(PROJECT_TASK_ROUTE, UserAuth, validationTaskcodeRules(), validateTaskData,  async (req, res, next) => {
+        logger.info(ApiRouteMessage(`${PROJECT_TASKS_ROUTE}`, "Create task"));
         try {
+            const { projectId } = req.params;
+            delCache(projectId)
             await taskService.createTask(req.body);
             return res.status(200).json({ success: true })
         } catch (error) {
@@ -61,13 +67,14 @@ module.exports = (app) => {
         validationUpdateProjectTaskcodeRules(), 
         validateTaskData, 
         async (req, res, next) => {
+            logger.info(ApiRouteMessage(`${PROJECT_TASKS_ROUTE}`, "Update task"));
             const {projectId, taskId} = req.params;
             try {
                 if (isObjectEmpty(req.body))throw new Error("Request body is empty.")
+                delCache(projectId);
                 await taskService.updateTask(projectId, taskId, req.body);
                 return res.status(200).json({ success: true })
             } catch (error) {
-
                 next(error);
             }
     })
@@ -102,7 +109,6 @@ module.exports = (app) => {
         logger.info(ApiRouteMessage(`${PROJECT_TASKS_ROUTE}/bulk/delete`, "Delete in Bluk"))
         const { projectId } = req.params;
         const {taskIds} = req.body;
-        
         /**
          * if i need to delete project ,
          * Delete task first and then delete project (befcause if we need to delete s3 files in the future)
@@ -110,7 +116,14 @@ module.exports = (app) => {
          * 
          */
         try {
-            
+            /**
+             * Ifdatabase operations can be time-consuming or prone to errors, 
+             * invalidating the cache first and then deleting 
+             * the item from the database can provide a better 
+             * user experience by serving valid data from the cache
+             *  while the database operation is underway.
+             */
+            delCache(projectId)
             await taskService.deleteTasks(projectId, JSON.parse(taskIds));
             return res.status(200).json({ success: true })
         } catch (error) {
@@ -121,9 +134,16 @@ module.exports = (app) => {
      * Get List of Item
      */
     app.get(PROJECT_TASKS_ROUTE, UserAuth, validationProjectIdTaskcodeRules(), validateTaskData, async (req, res, next) => {
-        const {projectId} = req.params;
+        logger.info(ApiRouteMessage(`${PROJECT_TASKS_ROUTE}`, "Get tasks"));
+        const { projectId } = req.params;
         try {
-            let data = await taskService.getTasks(projectId);
+            let data = null;
+            if(cache.has(projectId)){
+                data = cache.get(projectId);
+            }else{
+                data = await taskService.getTasks(projectId);
+                if(data.length > 0) cache.set(projectId, data);
+            }
             return res.status(200).json({ success: true, data })
         } catch (error) {
             next(error);
