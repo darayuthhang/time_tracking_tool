@@ -1,4 +1,6 @@
 require('dotenv').config();
+const logger = require("../utils/error-handler")
+const { APIError, STATUS_CODES } = require("../utils/app-errors");
 module.exports = class TwilioService {
     constructor() {
         const accountSid = process.env.TWILIO_ACCOUNT_ID;
@@ -12,8 +14,7 @@ module.exports = class TwilioService {
                 .create({ body: bodyText, from: this.VIRUAL_NUMBER, to: outBoundPhoneNumber })
             return true;
         } catch (error) {
-            return false;
-            console.log(error);
+            throw new APIError('API Error',error?.message)
         }
     }
 }

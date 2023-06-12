@@ -52,8 +52,8 @@ module.exports = (app, cache) => {
         logger.info(ApiRouteMessage(`${PROJECT_TASKS_ROUTE}`, "Create task"));
         try {
             const { projectId } = req.params;
-            delCache(projectId)
             await taskService.createTask(req.body);
+            delCache(projectId)
             return res.status(200).json({ success: true })
         } catch (error) {
             next(error);
@@ -71,8 +71,8 @@ module.exports = (app, cache) => {
             const {projectId, taskId} = req.params;
             try {
                 if (isObjectEmpty(req.body))throw new Error("Request body is empty.")
-                delCache(projectId);
                 await taskService.updateTask(projectId, taskId, req.body);
+                delCache(projectId);
                 return res.status(200).json({ success: true })
             } catch (error) {
                 next(error);
@@ -123,8 +123,9 @@ module.exports = (app, cache) => {
              * user experience by serving valid data from the cache
              *  while the database operation is underway.
              */
-            delCache(projectId)
+           
             await taskService.deleteTasks(projectId, JSON.parse(taskIds));
+            delCache(projectId)
             return res.status(200).json({ success: true })
         } catch (error) {
             next(error);
