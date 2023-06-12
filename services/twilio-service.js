@@ -14,6 +14,7 @@ module.exports = class TwilioService {
                 .create({ body: bodyText, from: this.VIRUAL_NUMBER, to: outBoundPhoneNumber })
             return true;
         } catch (error) {
+            console.log(error);
             throw new APIError('API Error',error?.message)
         }
     }
