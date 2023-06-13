@@ -18,10 +18,11 @@ const PhoneNumberModal = ({
     onhandleChangeCheckPhoneNumber,
     phoneNumberError,
     phoneNumberCheckedError,
-    onhandleChangeScheduleDate,
+    onhandleChangescheduleDateAndTime,
     onhandleChangeScheduleTime,
-    scheduleDateError,
-    scheduleTimeError
+    scheduleDateAndTimeError,
+    scheduleTimeError,
+
 }) => {
     const { createPhoneConsentRequest, createPhoneConsentSuccess } = useSelector((state) => state.createPhoneConsentReducers);
     const error = {
@@ -48,17 +49,18 @@ const PhoneNumberModal = ({
                         {phoneNumberError && <div className='text-danger'>{error.phoneNumberMsg}</div>}   
                         <div className='mb-2 mt-2'>
                             <InputGroup className="">
-                                <InputGroup.Text id="basic-addon1">Schedule date</InputGroup.Text>
+                                <InputGroup.Text id="basic-addon1">Schedule</InputGroup.Text>
                                 <Form.Control
-                                    type="date"
-                                    min={defaultDate()} max="2023-12-31"
-                                    onChange={onhandleChangeScheduleDate}
+                                    type="datetime-local"
+                                    // min={defaultDate()} max="2023-12-31"
+                                    onChange={onhandleChangescheduleDateAndTime}
                                     aria-describedby="basic-addon1"
                                 />
                             </InputGroup>
-                            {scheduleDateError && <div className='text-danger'>{error.scheduleDateMsg}</div>}
+                        
+                            {scheduleDateAndTimeError && <div className='text-danger'>{error.scheduleDateMsg}</div>}
                         </div>
-                        <InputGroup className="">
+                        {/* <InputGroup className="">
                             <InputGroup.Text id="basic-addon1">Schedule time</InputGroup.Text>
                             <Form.Control
                                 type="time"
@@ -66,7 +68,7 @@ const PhoneNumberModal = ({
                                 aria-describedby="basic-addon1"
                             />
                         </InputGroup>
-                        {scheduleTimeError && <div className='text-danger'>{error.scheduleTimeMsg}</div>}
+                        {scheduleTimeError && <div className='text-danger'>{error.scheduleTimeMsg}</div>} */}
                         <Form.Group className=" d-flex justify-content-center" controlId="formBasicCheckbox">
                             <Form.Check
                                 type="checkbox"

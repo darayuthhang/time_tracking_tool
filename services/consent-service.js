@@ -3,7 +3,7 @@
 // prevent circula depecy consent service ---> twilio--service ---> consent--service
 const TwilioService = require("../services/twilio-service");
 const { ConsentRepository } = require("../database/repository/index");
-const { FormatTask } = require("../utils/index");
+const { FormatTask, FormatScheduleDate } = require("../utils/index");
 const cron = require('node-cron');
 
 const {APIError} = require("../utils/app-errors");
@@ -28,30 +28,29 @@ module.exports = class ConsentService {
         consent,
         countryCode, 
         task,
-        scheduleDate, 
-        scheduleTime}, 
+        scheduleDateAndTime}, 
         userId) {
-        try {
+        try {    
             let scheduleTask = null;
             let data = await this.consentRepository.createPhoneNumberConsent(
-                phoneNumber, 
+                phoneNumber,
                 consent,
-                countryCode, 
-                scheduleDate, 
-                scheduleTime, 
+                countryCode,
+                scheduleDateAndTime,
                 userId);
-            /**
-             * @Concat the task as string
-             */
-            scheduleTask = cron.schedule('*/5 * * * * *', async () => {
-                await this.twilioService.sendOutBoundText(FormatTask(JSON.parse(task)), phoneNumber)
-                scheduleTask.stop();
-            });
-            scheduleTask.start();
+            // const croScheduleDateTime = FormatScheduleDate(scheduleDate, scheduleTime);
+            // scheduleTask = cron.schedule(croScheduleDateTime, async () => {
+            //     await this.twilioService.sendOutBoundText(FormatTask(JSON.parse(task)), phoneNumber)
+            //     scheduleTask.stop();
+            // });
+            // scheduleTask.start();
             return data;
         } catch (error) {
-           
             throw new APIError('Data Not found', error)           
         }
     }
 }
+/**
+ * 
+ * 2023-06-14 19:41
+ */

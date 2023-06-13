@@ -61,13 +61,13 @@ const TaskTableList = ({
     const [showPhoneNumberModal, setShowPhoneNumberModal] = useState(false);
      /**
      * @descipriotn
-     *  -@UsestateScheduleDate
-     *  -@UsestateScheduleDateError
+     *  -@UsestatescheduleDateAndTime
+     *  -@UsestatescheduleDateAndTimeError
      *  -@UsestateScheduleTime
      *  -@UsestateScheduleTimeError
      */
-    const [scheduleDate, setScheduleDate] = useState('');
-    const [scheduleDateError, setScheduleDateError] = useState(false);
+    const [scheduleDateAndTime, setscheduleDateAndTime] = useState('');
+    const [scheduleDateAndTimeError, setscheduleDateAndTimeError] = useState(false);
     const [scheduleTime, setScheduleTime] = useState('');
     const [scheduleTimeError, setScheduleTimeError] = useState(false);
 
@@ -316,26 +316,25 @@ const TaskTableList = ({
         if(!isValidPhoneNumber(phoneNumber)) setPhoneNumberError(true);
         if(!phoneNumberChecked) setPhoneNumberCheckedError(true);
         if(!scheduleTime) setScheduleTimeError(true);
-        if(!scheduleDate) setScheduleDateError(true);
+        if(!scheduleDateAndTime) setscheduleDateAndTimeError(true);
         if (phoneNumberChecked
-            && scheduleTime
-            && scheduleDate
+            && scheduleDateAndTime
             && isValidPhoneNumber(phoneNumber)) {
             onhandleClosePhoneModal();
         }
+  
         if(isValidPhoneNumber(phoneNumber)){
             const phoneNumb = parsePhoneNumber(phoneNumber);
             const countryCode = phoneNumb?.countryCallingCode
             const task = tasksIds;
             const data = {
                 countryCode,
-                scheduleDate,
-                scheduleTime,
+                scheduleDateAndTime,
                 phoneNumber: formatPhoneNumber(phoneNumber),
                 task: JSON.stringify(task),
                 consent:phoneNumberChecked,
             }
-            dispatch(createPhoneConsent(data, userId))
+            // dispatch(createPhoneConsent(data, userId))
         }
         ResetPhoneScheduleAndTickBoxToDefaultState();
     }
@@ -344,7 +343,7 @@ const TaskTableList = ({
     *  - @ResetPhoneScheduleAndTickBoxToDefaultState 
     */
     const ResetPhoneScheduleAndTickBoxToDefaultState = () => {
-        setScheduleDate("");
+        setscheduleDateAndTime("");
         setScheduleTime("");
         setPhoneNumber("");
         setPhoneNumberChecked(false);
@@ -368,11 +367,11 @@ const TaskTableList = ({
     }
     /**
      * @Description
-     *  - @onhandleChangeScheduleDate
+     *  - @onhandleChangescheduleDateAndTime
      */
-    const onhandleChangeScheduleDate = (e) => {
-        setScheduleDate(e.target.value)
-        if(scheduleDateError) setScheduleDateError(false);
+    const onhandleChangescheduleDateAndTime = (e) => {
+        setscheduleDateAndTime(e.target.value)
+        if(scheduleDateAndTimeError) setscheduleDateAndTimeError(false);
     }
     /**
     * @Description
@@ -401,13 +400,13 @@ const TaskTableList = ({
                     handleClose={onhandleClosePhoneModal}
                     onhandleSubmit={onhandleSubmitPhoneNumberConsent}
                     title="hello"
-                    scheduleDateError={scheduleDateError}
+                    scheduleDateAndTimeError={scheduleDateAndTimeError}
                     scheduleTimeError={scheduleTimeError}
                     phoneValue={phoneNumber}
                     phoneNumberCheckedError={phoneNumberCheckedError}
                     phoneNumberError={phoneNumberError}
                     onChangePhoneNumber={onhandleChangePhoneNumber}
-                    onhandleChangeScheduleDate={onhandleChangeScheduleDate}
+                    onhandleChangescheduleDateAndTime={onhandleChangescheduleDateAndTime}
                     onhandleChangeScheduleTime={onhandleChangeScheduleTime}
                     onhandleChangeCheckPhoneNumber={onhandleChangeCheckPhoneNumber}
                 />

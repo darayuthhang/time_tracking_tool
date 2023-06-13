@@ -125,10 +125,21 @@ module.exports.FormatTask = (input = []) => {
     return input;
 }
 
-// module.exports.FormatData = (data) => {
-//     if (data) {
-//         return { data };
-//     } else {
-//         throw new Error("Data Not found!");
-//     }
-// };
+
+ //<minute> <hour> <day of the month> <month> <day of the week>
+module.exports.FormatScheduleDate = (scheduleDate, scheduleTime) => {
+    if (scheduleDate && scheduleTime) {
+        /**
+         * [ '2023', '06', '14' ] [ '19', '52' ]
+         */
+        scheduleDate = scheduleDate?.split("-");
+        scheduleTime = scheduleTime?.split(":");
+        const mintue = scheduleTime[1];
+        const hour = scheduleTime[0]
+        const dayOfMonth = scheduleDate[2]
+        const month = scheduleDate[1]
+        const year = scheduleDate[0]
+        return `${mintue} ${hour} ${dayOfMonth} ${month} *`;
+    }
+    return null;
+}

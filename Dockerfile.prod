@@ -3,12 +3,8 @@ FROM node:18-alpine
 #tell docker to run configure in this app directory
 WORKDIR /usr/app
 #copy source code into image
-#copy our current ditrect to new folder call app
-COPY . /usr/app/
-
-COPY package.json .
+COPY package.json /usr/app/
 COPY knexfile.js .
-
 RUN npm install -g npm
 RUN npm install bcrypt
 RUN npm install -g knex
@@ -19,6 +15,7 @@ RUN npm install --prefix client
 #Builds React app
 RUN npm run --prefix client build
 
+COPY . /usr/app/
 
 
 EXPOSE 5000
