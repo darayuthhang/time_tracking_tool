@@ -34,6 +34,15 @@ const PhoneNumberModal = ({
         scheduleTimeMsg: "Schedule time cannot be empty.",
         timeZoneMsg:"Timezone cannot be empty"
     }
+    const timeZoneIdList = [
+        "America/New_York",
+        "America/Chicago",
+        "America/Denver",
+        "America/Phoenix",
+        "America/Los_Angeles",
+        "America/Anchorage",
+        "Pacific/Honolulu"
+    ]
     return (
         <div>
             <Modal
@@ -68,7 +77,9 @@ const PhoneNumberModal = ({
                                         {timeZone === '' ? "Timezone" : timeZone}
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu className="w-100 border">
-                                        <Dropdown.Item eventKey="America/Los_Angeles">America/Los_Angeles</Dropdown.Item>
+                                        {timeZoneIdList.map((val, index) => <Dropdown.Item eventKey={val}>{val}</Dropdown.Item>)}
+                                      
+                                      
                                     </Dropdown.Menu>
                                 </Dropdown>
                             {timeZoneError && <div className='text-danger'>{error.timeZoneMsg}</div>}
