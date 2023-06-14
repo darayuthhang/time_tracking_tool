@@ -20,6 +20,7 @@ module.exports = class ConsentRepository{
         consent,
         countryCode,
         scheduleDateAndTime,
+        timeZone,
         userId){
         let phoneConsentId = "";
         try {
@@ -35,6 +36,7 @@ module.exports = class ConsentRepository{
                 await trx(TABLE_SCHEDULES).insert({
                     user_consent_phone_number_id: phoneConsentId,
                     schedule_date_time: scheduleDateAndTime,
+                    time_zone: timeZone,
                     created_at: new Date()
                 })
             })

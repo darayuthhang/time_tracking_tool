@@ -3,8 +3,7 @@ const crypto = require('crypto');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const axios = require('axios');
-
-
+const { DateTime } = require("luxon");
 const { APIError, STATUS_CODES } = require("./app-errors");
 let _this = this;
 
@@ -127,19 +126,12 @@ module.exports.FormatTask = (input = []) => {
 
 
  //<minute> <hour> <day of the month> <month> <day of the week>
-module.exports.FormatScheduleDate = (scheduleDate, scheduleTime) => {
-    if (scheduleDate && scheduleTime) {
-        /**
-         * [ '2023', '06', '14' ] [ '19', '52' ]
-         */
-        scheduleDate = scheduleDate?.split("-");
-        scheduleTime = scheduleTime?.split(":");
-        const mintue = scheduleTime[1];
-        const hour = scheduleTime[0]
-        const dayOfMonth = scheduleDate[2]
-        const month = scheduleDate[1]
-        const year = scheduleDate[0]
-        return `${mintue} ${hour} ${dayOfMonth} ${month} *`;
-    }
-    return null;
+module.exports.FormatScheduleDate = (scheduleDateTime, timeZone) => {
+    const newScheDuleDateTime = DateTime.fromISO(scheduleDateTime, { zone: timeZone })
+    const month = newScheDuleDateTime.get('month');
+    const mintue = newScheDuleDateTime.get('minute');
+    const hour = newScheDuleDateTime.get('hour');
+    const dayOfMonth = newScheDuleDateTime.get('day');
+    return `${mintue} ${hour} ${dayOfMonth} ${month} *`;
+
 }

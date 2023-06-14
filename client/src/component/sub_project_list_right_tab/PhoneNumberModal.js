@@ -2,8 +2,7 @@ import React,{useState} from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
-import { Row, Col, InputGroup } from 'react-bootstrap';
-import { defaultDate } from '../../uti';
+import { Row, Col, InputGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 
 // import PhoneInput from 'react-phone-number-input'
@@ -22,6 +21,9 @@ const PhoneNumberModal = ({
     onhandleChangeScheduleTime,
     scheduleDateAndTimeError,
     scheduleTimeError,
+    onhandleChangeTimezone,
+    timeZone,
+    timeZoneError
 
 }) => {
     const { createPhoneConsentRequest, createPhoneConsentSuccess } = useSelector((state) => state.createPhoneConsentReducers);
@@ -29,7 +31,8 @@ const PhoneNumberModal = ({
         phoneNumberMsg:"Please select country and enter valid phone number.",
         tickBoxMsg:"Please tick the box.",
         scheduleDateMsg:"Schedule date cannot be empty.",
-        scheduleTimeMsg: "Schedule time cannot be empty."
+        scheduleTimeMsg: "Schedule time cannot be empty.",
+        timeZoneMsg:"Timezone cannot be empty"
     }
     return (
         <div>
@@ -47,28 +50,30 @@ const PhoneNumberModal = ({
                             defaultCountry="US"
                             onChange={onChangePhoneNumber} />
                         {phoneNumberError && <div className='text-danger'>{error.phoneNumberMsg}</div>}   
-                        <div className='mb-2 mt-2'>
-                            <InputGroup className="">
-                                <InputGroup.Text id="basic-addon1">Schedule</InputGroup.Text>
-                                <Form.Control
-                                    type="datetime-local"
-                                    // min={defaultDate()} max="2023-12-31"
-                                    onChange={onhandleChangescheduleDateAndTime}
-                                    aria-describedby="basic-addon1"
-                                />
-                            </InputGroup>
-                        
-                            {scheduleDateAndTimeError && <div className='text-danger'>{error.scheduleDateMsg}</div>}
+                        <div className=' w-100 d-flex flex-wrap justify-content-center'>
+                            <div className='w-100 mb-2 mt-2'>
+                                <InputGroup className="w-100">
+                                    <InputGroup.Text id="basic-addon1">Schedule</InputGroup.Text>
+                                    <Form.Control
+                                        type="datetime-local"
+                                        onChange={onhandleChangescheduleDateAndTime}
+                                        aria-describedby="basic-addon1"
+                                    />
+                                </InputGroup>
+                                {scheduleDateAndTimeError && <div className='text-danger'>{error.scheduleDateMsg}</div>}
+                            </div>
+                            <div className='w-100'>
+                                <Dropdown  onSelect={(eventKey, event) => onhandleChangeTimezone(eventKey, event)} className="ms-1 ">
+                                    <Dropdown.Toggle variant="success" id="dropdown-basic" className="w-100 ">
+                                        {timeZone === '' ? "Timezone" : timeZone}
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu className="w-100 border">
+                                        <Dropdown.Item eventKey="America/Los_Angeles">America/Los_Angeles</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            {timeZoneError && <div className='text-danger'>{error.timeZoneMsg}</div>}
+                            </div>
                         </div>
-                        {/* <InputGroup className="">
-                            <InputGroup.Text id="basic-addon1">Schedule time</InputGroup.Text>
-                            <Form.Control
-                                type="time"
-                                onChange={onhandleChangeScheduleTime}
-                                aria-describedby="basic-addon1"
-                            />
-                        </InputGroup>
-                        {scheduleTimeError && <div className='text-danger'>{error.scheduleTimeMsg}</div>} */}
                         <Form.Group className=" d-flex justify-content-center" controlId="formBasicCheckbox">
                             <Form.Check
                                 type="checkbox"

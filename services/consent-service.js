@@ -13,22 +13,13 @@ module.exports = class ConsentService {
         // this.twilioService = new TwilioService();
         this.twilioService = new TwilioService();
     }
-    /**
-     * @Todo 
-     * accept phone number
-     * consent 
-     * {
-     *  phoneNumber: string
-     *  consent: booleans
-     *  created_at: new Date()
-     * }
-     */
     async createPhoneNumberConsent({
         phoneNumber, 
         consent,
         countryCode, 
         task,
-        scheduleDateAndTime}, 
+        scheduleDateAndTime,
+        timeZone}, 
         userId) {
         try {    
             let scheduleTask = null;
@@ -37,13 +28,14 @@ module.exports = class ConsentService {
                 consent,
                 countryCode,
                 scheduleDateAndTime,
+                timeZone,
                 userId);
-            // const croScheduleDateTime = FormatScheduleDate(scheduleDate, scheduleTime);
-            // scheduleTask = cron.schedule(croScheduleDateTime, async () => {
-            //     await this.twilioService.sendOutBoundText(FormatTask(JSON.parse(task)), phoneNumber)
-            //     scheduleTask.stop();
-            // });
-            // scheduleTask.start();
+            const croScheduleDateTime = FormatScheduleDate(scheduleDateAndTime, timeZone);
+            scheduleTask = cron.schedule(croScheduleDateTime, async () => {
+                await this.twilioService.sendOutBoundText(FormatTask(JSON.parse(task)), phoneNumber)
+                scheduleTask.stop();
+            });
+            scheduleTask.start();
             return data;
         } catch (error) {
             throw new APIError('Data Not found', error)           

@@ -70,7 +70,13 @@ const TaskTableList = ({
     const [scheduleDateAndTimeError, setscheduleDateAndTimeError] = useState(false);
     const [scheduleTime, setScheduleTime] = useState('');
     const [scheduleTimeError, setScheduleTimeError] = useState(false);
-
+    /**
+    * @descipriotn
+    *  -@UseStateTimeZone
+    *  -@UseStateTimeZoneError
+    */
+    const [timeZone, setTimeZone] = useState('');
+    const [timeZoneError, setTimeZoneError] = useState(false);
     // const [trackChecked, setTrackChecked] = useState([]);
     /**
      * @REF
@@ -317,36 +323,39 @@ const TaskTableList = ({
         if(!phoneNumberChecked) setPhoneNumberCheckedError(true);
         if(!scheduleTime) setScheduleTimeError(true);
         if(!scheduleDateAndTime) setscheduleDateAndTimeError(true);
+        if (!timeZone) setTimeZoneError(true);
         if (phoneNumberChecked
+            && timeZone
             && scheduleDateAndTime
             && isValidPhoneNumber(phoneNumber)) {
             onhandleClosePhoneModal();
-        }
-  
-        if(isValidPhoneNumber(phoneNumber)){
             const phoneNumb = parsePhoneNumber(phoneNumber);
             const countryCode = phoneNumb?.countryCallingCode
             const task = tasksIds;
             const data = {
                 countryCode,
                 scheduleDateAndTime,
+                timeZone,
                 phoneNumber: formatPhoneNumber(phoneNumber),
                 task: JSON.stringify(task),
-                consent:phoneNumberChecked,
+                consent: phoneNumberChecked,
             }
-            // dispatch(createPhoneConsent(data, userId))
+            dispatch(createPhoneConsent(data, userId))
+            ResetStatePhoneNumberInputModalToDefault();
         }
-        ResetPhoneScheduleAndTickBoxToDefaultState();
+      
+      
     }
     /**
     * @Description
-    *  - @ResetPhoneScheduleAndTickBoxToDefaultState 
+    *  - @ResetStatePhoneNumberInputModalToDefault 
     */
-    const ResetPhoneScheduleAndTickBoxToDefaultState = () => {
+    const ResetStatePhoneNumberInputModalToDefault = () => {
         setscheduleDateAndTime("");
         setScheduleTime("");
         setPhoneNumber("");
         setPhoneNumberChecked(false);
+        setTimeZone("");
     }
     /**
      * @Description
@@ -381,6 +390,15 @@ const TaskTableList = ({
         setScheduleTime(e.target.value);
         if(scheduleTimeError) setScheduleTimeError(false);
     }
+    /**
+  * @Description
+  *  - @onhandleChangeTimezone
+  */
+    const onhandleChangeTimezone = (eventKey, e) => {
+        e.stopPropagation();
+        setTimeZone(eventKey);
+        if (timeZoneError) setTimeZoneError(false);
+    }
     return (
 
         <div 
@@ -409,6 +427,9 @@ const TaskTableList = ({
                     onhandleChangescheduleDateAndTime={onhandleChangescheduleDateAndTime}
                     onhandleChangeScheduleTime={onhandleChangeScheduleTime}
                     onhandleChangeCheckPhoneNumber={onhandleChangeCheckPhoneNumber}
+                    onhandleChangeTimezone={onhandleChangeTimezone}
+                    timeZoneError={timeZoneError}
+                    timeZone={timeZone}
                 />
                 <div className='d-flex mb-2'>
                     <div className='d-flex align-items-center'>
