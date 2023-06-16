@@ -89,8 +89,9 @@ const TaskTableList = ({
     const { taskRequest, taskSuccess } = useSelector((state) => state.taskReducers);
     const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
     const { taskListDeleteRequest, taskListDeleteSuccess } = useSelector((state) => state.taskListDeleteReducers)
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-   /**
+      const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const { createPhoneConsentError } = useSelector((state) => state.createPhoneConsentReducers);
+    /**
     * @description 
     *   - useEffect once after mount(react app dom add to dom)
     *     it means when user refresh the page, that when the react mount.         
@@ -328,7 +329,8 @@ const TaskTableList = ({
             && timeZone
             && scheduleDateAndTime
             && isValidPhoneNumber(phoneNumber)) {
-            onhandleClosePhoneModal();
+     
+      
             const phoneNumb = parsePhoneNumber(phoneNumber);
             const countryCode = phoneNumb?.countryCallingCode
             const task = tasksIds;
@@ -341,6 +343,7 @@ const TaskTableList = ({
                 consent: phoneNumberChecked,
             }
             dispatch(createPhoneConsent(data, userId))
+            if (!createPhoneConsentError) onhandleClosePhoneModal();
             ResetStatePhoneNumberInputModalToDefault();
         }
       

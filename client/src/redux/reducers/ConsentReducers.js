@@ -12,7 +12,7 @@ export function createPhoneConsentReducers(state = {
         // case ConsentTypes.PHONE_CONSENT_RESET_CREATE_LOADING:
         //     return { ...state, createPhoneConsentSuccess: false, createPhoneConsentRequest:  };
         case ConsentTypes.PHONE_CONSENT_CREATE_ERROR:
-            return { ...state, createPhoneConsentError: action.payload };
+            return { ...state, createPhoneConsentError: action.payload, createPhoneConsentRequest: false };
         default: return state;
     }
 }
