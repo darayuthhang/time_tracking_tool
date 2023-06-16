@@ -502,14 +502,23 @@ const TaskTableList = ({
                                             <td
                                                 onClick={(e) => { e.stopPropagation() }}
                                             >
-                                                <textarea
-                                                    rows="1"
-                                                    className={`${styles.textarea_edit} p-2`}
-                                                    placeholder="Task name"
-                                                    value={val?.task_name}
-                                                    onChange={(e) => onhandleEditChangeTaskName(e, index)}
-                                                    id="floatingTextarea">
-                                                </textarea>
+                                                <div className='d-flex align-items-center mt-2'>
+                                                    <textarea
+                                                        rows="2"
+                                                        className={`text-break ${styles.textarea} p-2`}
+                                                        placeholder="Task name"
+                                                        value={val?.task_name}
+                                                        onChange={(e) => onhandleEditChangeTaskName(e, index)}
+                                                        id="floatingTextarea">
+                                                    </textarea>
+                                                    {/* <input
+                                                        className={`text-break ${styles.textarea}  p-2`}
+                                                        placeholder="Task name"
+                                                        value={val?.task_name}
+                                                        onChange={(e) => onhandleEditChangeTaskName(e, index)}
+                                                    /> */}
+                                                </div>
+                                              
                                             </td>
 
                                             :
@@ -526,15 +535,17 @@ const TaskTableList = ({
                                             <td
                                                 onClick={(e) => { e.stopPropagation() }}
                                             >
-                                                <textarea
-                                                    rows="1"
-                                                    className={`${styles.textarea} p-2`}
-                                                    placeholder="Task description"
-                                                    value={val?.task_description}
-                                                    onClick={(e) => { e.stopPropagation() }}
-                                                    onChange={(e) => onhandleEditChangeTaskDescription(e, index)}
-                                                    id="floatingTextarea">
-                                                </textarea>
+                                                <div className='d-flex align-items-center mt-2'>
+                                                    <textarea
+                                                        rows="2"
+                                                        className={`${styles.textarea} p-2`}
+                                                        placeholder="Task description"
+                                                        value={val?.task_description}
+                                                        onClick={(e) => { e.stopPropagation() }}
+                                                        onChange={(e) => onhandleEditChangeTaskDescription(e, index)}
+                                                        id="floatingTextarea">
+                                                    </textarea>
+                                                </div>
                                             </td>
                                             :
                                             <td
@@ -550,7 +561,7 @@ const TaskTableList = ({
                                         }
                                         {isEditTask && editIndex === index ?
                                             <td
-                                                className={`d-flex justify-content-center ${styles['task-col']}`}
+                                                className={`d-flex justify-content-center align-items-center `}
                                                 onClick={(e) => { e.stopPropagation() }}
                                             >
                                                 <Dropdown onSelect={(eventKey, event) => onhandleEditDropDownStatus(eventKey, event, index)}>
