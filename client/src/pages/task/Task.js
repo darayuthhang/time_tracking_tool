@@ -141,7 +141,7 @@ const Task = () => {
                     </Col>
                     <Col 
                         md={10} 
-                        className={` right-tab-container  ${styles.right_tab_bar}`}>
+                        className={` overflow-auto right-tab-container ${styles.right_tab_bar} h-100`}>
                         <Tab.Content className=''>
                             <Tab.Pane className='' eventKey="first">
                                     <MemoizedProjectListRightTab 
@@ -152,7 +152,7 @@ const Task = () => {
                                 {projectListData.length > 0 &&
                                     projectListData.map((val, index) =>
                                         <Tab.Pane 
-                                            className=""
+                                            className=" "
                                             key={val?.id} 
                                             eventKey={val?.id.toString()} 
                                      

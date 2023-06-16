@@ -155,8 +155,9 @@
 }
 .sub-project-list-container{
     /* height: 600px; */
-    min-height: 100vh;
-    height: auto;
+    /* min-height: 100vh;
+    height: auto; */
+   
 }
 .progress-column{
     position: relative;

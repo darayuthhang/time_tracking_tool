@@ -469,8 +469,8 @@ const TaskTableList = ({
                     }
 
                 </Breadcrumb>
-                <div className={` table-responsive card  p-3 ${styles['media-query-all-task-texts']}  ${styles['border-table']} `}>
-                    <table className=" table table-bordered rounded rounded-3    ">
+                <div className={`table-responsive card  p-3  ${styles['media-query-all-task-texts']}  ${styles['border-table']} `}>
+                    <table className=" table table-bordered rounded rounded-3  ">
                         <thead>
                             <tr>
                                 <th scope="col" className={`${styles.tick_box_heading}`}>
