@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const axios = require('axios');
-const { DateTime } = require("luxon");
+const { DateTime, Interval } = require("luxon");
 const { APIError, STATUS_CODES } = require("./app-errors");
 let _this = this;
 
@@ -127,11 +127,14 @@ module.exports.FormatTask = (input = []) => {
 
  //<minute> <hour> <day of the month> <month> <day of the week>
 module.exports.FormatScheduleDate = (scheduleDateTime, timeZone) => {
-    const newScheDuleDateTime = DateTime.fromISO(scheduleDateTime, { zone: timeZone })
-    const month = newScheDuleDateTime.get('month');
-    const mintue = newScheDuleDateTime.get('minute');
-    const hour = newScheDuleDateTime.get('hour');
-    const dayOfMonth = newScheDuleDateTime.get('day');
-    return `${mintue} ${hour} ${dayOfMonth} ${month} *`;
+    const targetTimestamp = DateTime.fromISO(scheduleDateTime, { zone: 'utc' });
+
+    const minutes = targetTimestamp.minute;
+    const hours = targetTimestamp.hour;
+    const dayOfMonth = targetTimestamp.day;
+    const month = targetTimestamp.month;
+
+    const cronExpression = `${minutes} ${hours} ${dayOfMonth} ${month} *`;
+    return cronExpression
 
 }

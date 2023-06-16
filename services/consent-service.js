@@ -23,6 +23,11 @@ module.exports = class ConsentService {
         userId) {
         try {    
             let scheduleTask = null;
+            /***
+             * 
+             * Why do i need to store this schedule data in database ?
+             * for what?
+             */
             let data = await this.consentRepository.createPhoneNumberConsent(
                 phoneNumber,
                 consent,
@@ -30,10 +35,18 @@ module.exports = class ConsentService {
                 scheduleDateAndTime,
                 timeZone,
                 userId);
+             /**
+             * @description
+             *  59   21     14              6       * (wildcard task can execute anytime)
+             *  min  hour   day of month    month   day of the week
+             */
             const croScheduleDateTime = FormatScheduleDate(scheduleDateAndTime, timeZone);
             scheduleTask = cron.schedule(croScheduleDateTime, async () => {
                 await this.twilioService.sendOutBoundText(FormatTask(JSON.parse(task)), phoneNumber)
                 scheduleTask.stop();
+            }, {
+                scheduled: true,
+                timezone: timeZone
             });
             scheduleTask.start();
             return data;
