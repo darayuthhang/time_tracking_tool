@@ -126,15 +126,28 @@ module.exports.FormatTask = (input = []) => {
 
 
  //<minute> <hour> <day of the month> <month> <day of the week>
-module.exports.FormatScheduleDate = (scheduleDateTime, timeZone) => {
-    const targetTimestamp = DateTime.fromISO(scheduleDateTime, { zone: 'utc' });
-
-    const minutes = targetTimestamp.minute;
-    const hours = targetTimestamp.hour;
-    const dayOfMonth = targetTimestamp.day;
-    const month = targetTimestamp.month;
-
-    const cronExpression = `${minutes} ${hours} ${dayOfMonth} ${month} *`;
-    return cronExpression
-
+module.exports.FormatScheduleDate = (scheduleDateTime) => {
+  
+        const zoneUTC = { zone: 'utc' }
+        let minutes = "", hours = "", dayOfMonth = "", month = "";
+        //const targetTimestamp = DateTime.fromJSDate(scheduleDateTime);
+   
+        const targetTimestamp = DateTime.fromISO(scheduleDateTime, zoneUTC);
+        if(targetTimestamp.isValid){
+            minutes = targetTimestamp.minute;
+            hours = targetTimestamp.hour;
+            dayOfMonth = targetTimestamp.day;
+            month = targetTimestamp.month;
+        }else{
+            const targetTimestampJsFormat = DateTime.fromJSDate(scheduleDateTime, zoneUTC);
+            minutes = targetTimestampJsFormat.minute;
+            hours = targetTimestampJsFormat.hour;
+            dayOfMonth = targetTimestampJsFormat.day;
+            month = targetTimestampJsFormat.month;
+        }
+        const cronExpression = `${minutes} ${hours} ${dayOfMonth} ${month} *`;
+        return cronExpression
+}
+module.exports.FormatPhoneNumber = (phoneNumber, countryCode) => {
+    return countryCode + phoneNumber;
 }

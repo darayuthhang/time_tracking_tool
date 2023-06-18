@@ -21,11 +21,13 @@ module.exports = class ConsentRepository{
         countryCode,
         scheduleDateAndTime,
         timeZone,
+        taskTosend,
         userId){
         let phoneConsentId = "";
+        let scheduleId = null;
         try {
             await db.transaction(async trx => {
-                let consentData = await db(TABLE_USER_CONSENT_PHONE_NUMBER).insert({
+                let consentData = await trx(TABLE_USER_CONSENT_PHONE_NUMBER).insert({
                     phone_number: phoneNumber,
                     consent: consent,
                     country_code: countryCode,
@@ -33,20 +35,57 @@ module.exports = class ConsentRepository{
                     user_id:userId
                 }).returning('id');
                 phoneConsentId = consentData[0]?.id;
-                await trx(TABLE_SCHEDULES).insert({
+                let scheduelData = await trx(TABLE_SCHEDULES).insert({
                     user_consent_phone_number_id: phoneConsentId,
                     schedule_date_time: scheduleDateAndTime,
                     time_zone: timeZone,
+                    task_to_send: taskTosend,
                     created_at: new Date()
-                })
+                }).returning("id")
+                scheduleId = scheduelData[0]?.id;
             })
-        
-           return true;
+            return scheduleId;
         } catch (error) {
             throw new APIError(
             'API Error', 
             STATUS_CODES.INTERNAL_ERROR, 
             `Unable to CreatePhoneNumberConsent`)
+        }
+    }
+    async getPhoneConsentInfoPending(){
+        try {
+            //scheduleDateAndTime, timeZone, phoneNumbe, countrycode
+            let data = await db(TABLE_USER_CONSENT_PHONE_NUMBER)
+                .join(TABLE_SCHEDULES, `${TABLE_SCHEDULES}.user_consent_phone_number_id`, '=', `${TABLE_USER_CONSENT_PHONE_NUMBER}.id`)
+                .where(`${TABLE_SCHEDULES}.is_sent`, false)
+                .select(`${TABLE_SCHEDULES}.schedule_date_time`, 
+                `${TABLE_SCHEDULES}.time_zone`, 
+                `${TABLE_SCHEDULES}.id`, 
+                `${TABLE_SCHEDULES}.is_sent`,
+                `${TABLE_SCHEDULES}.task_to_send`,
+                `${TABLE_USER_CONSENT_PHONE_NUMBER}.phone_number`,
+                `${TABLE_USER_CONSENT_PHONE_NUMBER}.country_code`
+            )
+            return data;
+        } catch (error) {
+            throw new APIError(
+                'API Error',
+                STATUS_CODES.INTERNAL_ERROR,
+                `Unable to GetPhoneNumberConsentInfo`)
+        }
+    }
+    async updateIsSent(scheduleId, isSent){
+        try {
+            return await db(TABLE_SCHEDULES)
+                .update({ is_sent: isSent })
+                .where({
+                    id: scheduleId
+                })
+        } catch (error) {
+            throw new APIError(
+                'API Error',
+                STATUS_CODES.INTERNAL_ERROR,
+                `Unable to updateIsSent`)
         }
     }
 }

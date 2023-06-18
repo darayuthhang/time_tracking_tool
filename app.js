@@ -2,10 +2,11 @@ const express = require('express');
 
 const {databaseConnection} = require("./database/index");
 const expressApp = require('./express-app');
+const ScheduleUtil = require("./utils/schedule-util");
 const path = require('path');
 
 const StartServer = async () => {
-
+    const configSchedule = new ScheduleUtil();
     const app = express();
 
     await databaseConnection();
@@ -17,9 +18,15 @@ const StartServer = async () => {
             res.sendFile(path.join(__dirname + '/client/build/index.html'));
         });
     }
-    app.listen(PORT, () => {
-        console.log(`listening to port ${PORT}`);
-    })
+    configSchedule.configCronjob()
+        .then(() => {
+            app.listen(PORT, () => {
+                console.log(`listening to port ${PORT}`);
+            })
+        })
+        .catch((error) => {
+            console.error('Error confisgusring cron jobsssss:', error);
+        });
     // .on('error', (err) => {
     //     console.log(err);
     //     process.exit();
