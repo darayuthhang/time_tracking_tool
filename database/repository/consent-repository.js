@@ -71,7 +71,7 @@ module.exports = class ConsentRepository{
             throw new APIError(
                 'API Error',
                 STATUS_CODES.INTERNAL_ERROR,
-                `Unable to GetPhoneNumberConsentInfo`)
+                `Unable to getPhoneConsentInfoPending`)
         }
     }
     async updateIsSent(scheduleId, isSent){

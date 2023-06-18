@@ -49,7 +49,7 @@ const Navigation = ({
     return (
         
         <Navbar expand="lg" className={`${styles['bg-color']}`}>
-            <Container className=''>
+            {/* <Container className=''> */}
                 <span style={{ fontSize: "16px" }} className='m-2'>&#9200;</span>  
                 {isAuth ? 
                     <Navbar.Brand
@@ -127,7 +127,7 @@ const Navigation = ({
 
                         }
                 </Navbar.Collapse>
-            </Container>
+            {/* </Container> */}
         </Navbar>
     );
 };
