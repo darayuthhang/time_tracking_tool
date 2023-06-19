@@ -1,5 +1,7 @@
 import React from 'react';
 import {Card, Button} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import ReactEndPoint from '../../constant/ReactEndPoint';
 const PricingCard = ({
     firstText,
     secondText,
@@ -30,9 +32,12 @@ const PricingCard = ({
                         {fourthText}
                     </label>
                 </div>
-                <button type="button" className={`btn ${buttonColor} btn-sm`}>
+                <Link to={ReactEndPoint.SIGN_UP} className={`btn ${buttonColor} btn-sm`}>
                     {fifthText}
-                </button>
+                </Link>
+              
+                
+              
             </Card>
         </div>
     );
