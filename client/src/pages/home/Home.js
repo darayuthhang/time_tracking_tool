@@ -64,7 +64,7 @@ const Home = () => {
                      
                     </main>
 
-                    <footer className='bg-dark '>
+                    <footer className='bg-dark' style={{height: 300}}>
                         <div className='d-flex justify-content-center gap-3 p-3'>
                            
                             <div className={styles['font-size']}>Copyright &copy;2023 TaskKru</div>
