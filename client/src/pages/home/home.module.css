@@ -11,3 +11,8 @@
     text-decoration: none;
     color:white;
 }
+.footer {
+
+   /* min-height: calc(100vh - (20px + 20px)); */
+/* min-height: 30vh; */
+}

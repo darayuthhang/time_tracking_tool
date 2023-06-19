@@ -64,9 +64,20 @@ const Home = () => {
                      
                     </main>
 
-                    <footer className='bg-dark' style={{height: 300}}>
-                        <div className='d-flex justify-content-center gap-3 p-3'>
-                           
+                    <footer  className={`  bg-dark `}>
+                        <div className='container p-4 mb-4 mt-4'>
+                            <Row>
+                                <Col>
+                                    <div className="fs-5 text-white">Have a question?</div>
+                                    <p className={`${styles['font-size']}`}>Contact our customer support team anytime via email</p>
+                                    <Link className={`${styles['font-size']} mt-2 mb-2`}>
+                                        <button className='btn btn-danger'>Customer Support</button>
+                                        
+                                    </Link>
+                                </Col>
+                            </Row>
+                        </div>
+                        <div className={`d-flex align-items-end gap-3 p-3 ${styles['footer']} `}>
                             <div className={styles['font-size']}>Copyright &copy;2023 TaskKru</div>
                             <Link
                                 className={styles['font-size']}
@@ -76,7 +87,7 @@ const Home = () => {
                             </Link>
                             <Link
                                 className={styles['font-size']}
-                            
+
                                 to={ReactEndPoint.TERM_CONDITION}
                             >
                                 Terms & Conditions
@@ -87,12 +98,10 @@ const Home = () => {
                             >
                                 Disclaimer
                             </Link>
-                        </div>
-                        {/* <TermCondition 
-                        name="Taskkru"
-                    />
-                    <PrivacyPolicy /> */}
+                        </div> 
+                       
                       
+                       
                     </footer>
                 </div>
          
