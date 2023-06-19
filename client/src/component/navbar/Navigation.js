@@ -85,16 +85,16 @@ const Navigation = ({
                             >   Sigup
                             </Nav.Link >
                         }
-                        {!isAuth &&
+                        {/* {!isAuth &&
                             <Nav.Link
                                 className={`${styles['text-hover']} text-dark fw-medium`}
-                                // href={ReactEndPoint.SIGN_UP}
+                             
                                 as={Link}
-                                to={ReactEndPoint.SIGN_UP}
+                                // to={ReactEndPoint.SIGN_UP}
 
                             >   Pricing
                             </Nav.Link >
-                        }
+                        } */}
                     </Nav>
                     {isAuth ?
                         <Nav className='ms-auto'>
