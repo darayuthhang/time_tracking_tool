@@ -19,7 +19,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import PrivacyPolicy from "./pages/privacy_policy/PrivacyPolicy";
 import TermCondition from "./pages/term_condition/TermCondition";
 import Disclaimer from "./pages/disclaimer/Disclaimer";
-
+import './index.css';
 
 function App() {  
   return (
@@ -32,9 +32,9 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path={ReactEndPoint.SIGN_UP} element={<SignUp />} />
           <Route path={ReactEndPoint.LOGIN} element={<Login />} />
-          <Route path={ReactEndPoint.PRIVACY_POLICY} element={<PrivacyPolicy />} />
-          <Route path={ReactEndPoint.TERM_CONDITION} element={<TermCondition />}/>
-          <Route path={ReactEndPoint.DISCLAIMER} element={<Disclaimer />} />
+          <Route path={ReactEndPoint.PRIVACY_POLICY} element={<PrivacyPolicy companyName="Kru LLC" />} />
+          <Route path={ReactEndPoint.TERM_CONDITION} element={<TermCondition companyName="Kru LLC " />}/>
+          <Route path={ReactEndPoint.DISCLAIMER} element={<Disclaimer companyName="Kru LLC" />} />
           <Route path={ReactEndPoint.RESET_PASSWORD} element={<ResetPassword />} />
           <Route path={ReactEndPoint.UPDATE_PASSWORD + "/:token"} element={<UpdatePassword />} />
           <Route path={ReactEndPoint.VERIFY_USER} element={<VerifyUser />} />

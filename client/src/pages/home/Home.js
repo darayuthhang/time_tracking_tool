@@ -3,6 +3,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import task_kru from '../../assets/task_kru.mp4';
+import PricingCard from '../../component/pricing_card/PricingCard';
 
 import ReactEndPoint from '../../constant/ReactEndPoint';
 
@@ -16,9 +17,8 @@ const Home = () => {
         <div>
 
             <div className={`${styles['bg-color']} text-dark`} style={{ height: "100vh" }}>
-                Home
-                <div className='container '>
-                    <header className=' p-4'>
+                <div className=' '>
+                    <header className=' container p-4'>
                         <Row>
                             <Col>
                                 <h1 className='fw-bold'>Reminders at Your Fingertips!</h1>
@@ -37,23 +37,52 @@ const Home = () => {
                             </Col>
                         </Row>
                     </header>
-                    <main>
-                        main
+                    <main >
+                        <div className='d-flex justify-content-center mb-3 mt-2 gap-5 flex-wrap'>
+                            <PricingCard
+                                firstText="Free"
+                                secondText="Monthly"
+                                thirdText="3 text messages"
+                                fourthText="7 projects"
+                                fifthText="Subscribe"
+                                feeText="$0"
+                                bgColor="bg-light"
+                                buttonColor="btn-dark"
+                            />
+                            <PricingCard
+                                firstText="Pro"
+                                secondText="Monthly"
+                                thirdText="200 text messages"
+                                fourthText="300 projects"
+                                fifthText="Subscribe"
+                                feeText="$8"
+                                bgColor="bg-dark"
+                                textColor="text-white"
+                                buttonColor="btn-light"
+                            />
+                        </div>
+                     
                     </main>
 
-                    <footer>
-                        <div className='d-flex justify-content-center gap-3'>
+                    <footer className='bg-dark '>
+                        <div className='d-flex justify-content-center gap-3 p-3'>
+                           
+                            <div className={styles['font-size']}>Copyright &copy;2023 TaskKru</div>
                             <Link
+                                className={styles['font-size']}
                                 to={ReactEndPoint.PRIVACY_POLICY}
                             >
                                 Privacy Policy
                             </Link>
                             <Link
+                                className={styles['font-size']}
+                            
                                 to={ReactEndPoint.TERM_CONDITION}
                             >
-                                Term & Condition
+                                Terms & Conditions
                             </Link>
                             <Link
+                                className={styles['font-size']}
                                 to={ReactEndPoint.DISCLAIMER}
                             >
                                 Disclaimer
@@ -63,7 +92,7 @@ const Home = () => {
                         name="Taskkru"
                     />
                     <PrivacyPolicy /> */}
-                        footer
+                      
                     </footer>
                 </div>
          
