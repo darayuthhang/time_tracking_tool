@@ -11,8 +11,31 @@
     text-decoration: none;
     color:white;
 }
+ .video{
+    height: 200px;
+ }
 .footer {
 
    /* min-height: calc(100vh - (20px + 20px)); */
 /* min-height: 30vh; */
+}
+@media only screen and (max-width: 600px) {
+    /* Styles for mobile devices */
+   
+}
+@media only screen and (min-width: 601px) and (max-width: 992px) {
+    /* Styles for tablets */
+}
+@media only screen and (min-width: 993px) {
+    /* Styles for desktops and laptops */
+}
+@media only screen and (orientation: landscape) {
+    /* Styles for landscape orientation */
+}
+@media only screen and (orientation: portrait) {
+    /* Styles for portrait orientation */
+}
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+    /* Styles for high-density retina displays */
 }

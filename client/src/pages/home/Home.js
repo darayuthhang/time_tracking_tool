@@ -19,26 +19,32 @@ const Home = () => {
             <div className={`${styles['bg-color']} text-dark`} style={{ height: "100vh" }}>
                 <div className=' '>
                     <header className=' container p-4'>
-                        <Row>
-                            <Col>
+                        <Row className=' mb-3 mt-3 p-3'>
+                            <Col md={7}>
                                 <h1 className='fw-bold'>Reminders at Your Fingertips!</h1>
                                 <p>Never forget a task again! Seamlessly send timely reminders to your phone and inbox, keeping you on top of your game.</p>
+                            </Col>
+                            <Col md={5}>
                                 <Link to={ReactEndPoint.SIGN_UP}>
                                     <Button className=' p-3 fw-bold'>Get Started for Free</Button>
                                 </Link>
-                                
-                               
                             </Col>
-                            <Col>
-                                <video   width="750" height="100%" autoPlay loop muted>
-                                    <source src={task_kru} type="video/mp4" className='' />
-                                    {/* <source src="https://assets.mixkit.co/videos/preview/mixkit-tropical-island-landscape-view-4692-large.mp4" type="video/mp4" /> */}
-                                </video>
-                            </Col>
+                            {/* <Col md={7}>
+                                <div class="embed-responsive embed-responsive-21by9">
+                                    <video className={`embed-responsive-item w-100`} autoPlay loop muted>
+                                        <source src={task_kru} type="video/mp4"  />
+                                    </video>
+                                </div>
+                            </Col> */}
                         </Row>
+                        <div class="embed-responsive embed-responsive-21by9">
+                            <video className={`embed-responsive-item w-100`} autoPlay loop muted>
+                                <source src={task_kru} type="video/mp4" />
+                            </video>
+                        </div>
                     </header>
                     <main >
-                        <div className='d-flex justify-content-center mb-3 mt-2 gap-5 flex-wrap'>
+                        <div className='d-flex justify-content-center mb-3 mt-5 gap-5 flex-wrap'>
                             <PricingCard
                                 firstText="Free"
                                 secondText="Monthly"
