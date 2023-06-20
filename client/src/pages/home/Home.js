@@ -29,13 +29,6 @@ const Home = () => {
                                     <Button className=' p-3 fw-bold'>Get Started for Free</Button>
                                 </Link>
                             </Col>
-                            {/* <Col md={7}>
-                                <div class="embed-responsive embed-responsive-21by9">
-                                    <video className={`embed-responsive-item w-100`} autoPlay loop muted>
-                                        <source src={task_kru} type="video/mp4"  />
-                                    </video>
-                                </div>
-                            </Col> */}
                         </Row>
                         <div class="embed-responsive embed-responsive-21by9">
                             <video className={`embed-responsive-item w-100`} autoPlay loop muted>
