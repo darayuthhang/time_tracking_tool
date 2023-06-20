@@ -6,13 +6,13 @@ const NodeCache = require("node-cache");
 const https = require('https');
 const cache = new NodeCache({ stdTTL: 100, checkperiod: 100 });
 module.exports = async (app) => {
-    app.use((req, res, next) => {
-        if (req.protocol === 'http') {
-            const httpsUrl = `https://${req.headers.host}${req.url}`;
-            return res.redirect(301, httpsUrl);
-        }
-        next();
-    });
+    // app.use((req, res, next) => {
+    //     if (req.protocol === 'http') {
+    //         const httpsUrl = `https://${req.headers.host}${req.url}`;
+    //         return res.redirect(301, httpsUrl);
+    //     }
+    //     next();
+    // });
     app.use(express.json());
     app.use(cors());
 
