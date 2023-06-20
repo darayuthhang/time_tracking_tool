@@ -3,6 +3,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import task_kru from '../../assets/task_kru.mp4';
+import task_img from '../../assets/squirrel.png'
 import PricingCard from '../../component/pricing_card/PricingCard';
 
 import ReactEndPoint from '../../constant/ReactEndPoint';
@@ -18,16 +19,17 @@ const Home = () => {
 
             <div className={`${styles['bg-color']} text-dark`} style={{ height: "100vh" }}>
                 <div className=' '>
-                    <header className=' container p-4'>
+                    <header className=' container p-4 '>
                         <Row className=' mb-3 mt-3 p-3'>
-                            <Col md={7}>
+                            <Col md={6}>
                                 <h1 className='fw-bold'>Reminders at Your Fingertips!</h1>
                                 <p>Never forget a task again! Seamlessly send timely reminders to your phone and inbox, keeping you on top of your game.</p>
-                            </Col>
-                            <Col md={5}>
                                 <Link to={ReactEndPoint.SIGN_UP}>
                                     <Button className=' p-3 fw-bold'>Get Started for Free</Button>
                                 </Link>
+                            </Col>
+                            <Col md={5} className='p-3 d-flex justify-content-center'>
+                                <img src={task_img} className="rounded w-75" alt="..." />
                             </Col>
                         </Row>
                         <div class="embed-responsive embed-responsive-21by9">
