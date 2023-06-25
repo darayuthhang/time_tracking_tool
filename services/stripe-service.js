@@ -23,8 +23,9 @@ module.exports = class StripeService {
         if(process.env.NODE_ENV === 'local'){
             this.clientUrl = process.env.CLIENT_URL
         }else{
-            this.clientUrl = process.env.CLIENT_URL_IN_PROD
+            this.clientUrl = "https://www.taskkru.com"
         }
+      
     }
     async createCheckout() {
         const session = await this.stripe.checkout.sessions.create({
@@ -37,10 +38,10 @@ module.exports = class StripeService {
                 },
             ],
             mode: "subscription",
-            success_url: `${process.env.CLIENT_URL}/stripe-payment/success`,
-            cancel_url: `${process.env.CLIENT_URL}/stripe-payment/failure`,
+            success_url: `${this.clientUrl}/stripe-payment/success`,
+            cancel_url: `${this.clientUrl}/stripe-payment/failure`,
         });
-        
+       
         // await this.UserRepository.updateAccountType(userId, accountType)
         return session.id
     }
