@@ -11,10 +11,10 @@ const useStripePayment = (initialValue, loadingValue) => {
     let publicKey = "";
   
     if (process.env.REACT_APP_STAGE === 'local'){
-        const public_keyTest = "pk_test_51McF1jEHMSSFUM4oN3TEldrqEvncNMzwE4dsPn0yrQOCLV4nDrt6SDtNyPcn8E91pCSWgAU00PCJlJQgKes8bOaD00ImS9XRmF";
+        const public_keyTest = process.env.REACT_APP_STRIPE_TEST_PUBLISHABLE_KEY
         publicKey = public_keyTest
     }else{
-        const livePublicKey = "pk_live_51McF1jEHMSSFUM4oUOymcB4bgrrAQlHAuDF92t2gp4gTV1jr00bbUO8LNB6ehO1FhaFL1yCiT11ac0Fqq3Jo5y7s00wS13lJhO"
+        const livePublicKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
         publicKey = livePublicKey
     }
    
