@@ -1,6 +1,7 @@
 require('dotenv').config()
 const { UserRepository } = require("../database/repository/index")
 const { APIError, STATUS_CODES } = require("../utils/app-errors");
+
 module.exports = class StripeService {
     /**
      * @Todo update user to pro when user successful 
@@ -18,6 +19,12 @@ module.exports = class StripeService {
         }
         this.stripe = require("stripe")(this.stripeSecretKey);
         this.userRepository = new UserRepository();
+        this.clientUrl = ""
+        if(process.env.NODE_ENV === 'local'){
+            this.clientUrl = process.env.CLIENT_URL
+        }else{
+            this.clientUrl = process.env.CLIENT_URL_IN_PROD
+        }
     }
     async createCheckout() {
         const session = await this.stripe.checkout.sessions.create({
