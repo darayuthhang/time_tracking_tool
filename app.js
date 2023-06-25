@@ -25,7 +25,7 @@ const StartServer = async () => {
             })
         })
         .catch((error) => {
-            console.error('Error confisgusring cron jobsssss:', error);
+            console.error('Error confisgusring cron jobssssss:', error);
         });
     // .on('error', (err) => {
     //     console.log(err);

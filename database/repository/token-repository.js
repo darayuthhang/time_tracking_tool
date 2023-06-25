@@ -5,13 +5,12 @@ const {
 } = require("../../utils/app-errors");
 const db = require("../../config/index");
 const logger = require("../../utils/error-handler")
+const TimeConstant = require("../../constant/time-constant");
 const { ApiRepositoryMessage } = require('../../constant/message');
 const TOKENS = "tokens";
 module.exports = class TokenRepository{
     constructor () {
-        this._24HOUR = 24 * 3600 * 1000;
-        this._10SECOND = 10000
-        this.time = Date.now() + this._24HOUR // an hour
+
     }
     async findCode(verficationCode) {
         logger.info(ApiRepositoryMessage('TokenRepository', "findCode"))
@@ -36,7 +35,7 @@ module.exports = class TokenRepository{
             await db(TOKENS).insert({
                 user_id: userId,
                 verfication_code: verficationCode,
-                expired_in: this.time
+                expired_in: TimeConstant.getSixMinute()
             })
         } catch (error) {
           
@@ -78,9 +77,16 @@ module.exports = class TokenRepository{
     }
     async updateOtpWithExpiredTimeByUserId(userId, verificationCode) {
         logger.info(ApiRepositoryMessage('TokenRepository', "verificationCode"))
+        // const timestamp = 1687652758445;
+        // const date = new Date(timestamp);
+
+        // const options = { timeZone: 'America/New_York', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+        // const lowellTime = date.toLocaleString('en-US', options);
+        // console.log(Date.now());
+        // console.log(lowellTime);
         try {
             const user = await db(TOKENS).where('user_id', userId)
-                .update({ verfication_code: verificationCode, expired_in: this.time })
+                .update({ verfication_code: verificationCode, expired_in: TimeConstant.getSixMinute() })
             if (user) {
                 return user
             }

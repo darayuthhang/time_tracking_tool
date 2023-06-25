@@ -97,11 +97,6 @@ const TaskTableList = ({
     *     it means when user refresh the page, that when the react mount.         
     */
     useEffect(() => { 
-        // const targetElement = document.getElementById('target-element');
-
-        // targetElement.addEventListener('click', handleClick);
-       
-        //document.addEventListener("click", onClickOutsideTable)
         if (taskSuccess) {
             //reset task success
             dispatch(resetTaskSuccess());

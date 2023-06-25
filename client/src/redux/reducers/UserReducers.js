@@ -12,6 +12,10 @@ export function userSignUpReducers(state = {
     switch (action.type) {
         case UserTypes.SIGN_UP_USER_REQUEST:
             return {...state, signUpRequest:true};
+        case UserTypes.RESET_SIGN_UP_USER_ERROR:
+            return { ...state, signUpError: null };
+        case UserTypes.RESET_SIGN_UP_USER_SUCCESS:
+            return { ...state, signUpSuccess: false, signUpError:null};
         case UserTypes.SIGN_UP_USER_SUCCESS:
             //Cookies.set("userId", action.payload?.data?.userId, { expires: 1})
             return { ...state, signUpSuccess: true, signUpRequest: false, email: Cookie.getEmail() };
@@ -48,6 +52,8 @@ export function googleUserLoginReducers(state = {
     switch (action.type) {
         case UserTypes.GOOGLE_LOGIN_USER_REQUEST:
             return { ...state, googleLoginRequest: true };
+        case UserTypes.RESET_GOOGLE_SIGN_UP_USER_SUCCESS:
+            return { ...state, googleLoginSuccess: false, googleLoginError:null };
         case UserTypes.GOOGLE_LOGIN_USER_SUCCESS:
             return { ...state, googleLoginSuccess: true, googleLoginRequest: false };
         case UserTypes.GOOGLE_LOGIN_USER_ERROR:

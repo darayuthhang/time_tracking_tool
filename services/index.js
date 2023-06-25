@@ -5,5 +5,6 @@ module.exports = {
     TaskService:require('./task-service'),
     TwilioService: require("./twilio-service"),
     ConsentService:require('./consent-service'),
+    StripeService:require("./stripe-service")
    
 }

@@ -4,3 +4,22 @@
 .bg-color{
     background-color: #f2f2f2 !important;
 }
+.fixed-size-button {
+    width: 12em;
+    /* Set the desired fixed width */
+
+    /* Set the desired fixed height */
+}
+/* Add media query for responsive behavior */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .fixed-size-button {
+        width: 100%;
+        /* Adjust the width for iPad screens */
+    }
+}
+@media (max-width: 767.98px) {
+    .fixed-size-button {
+        width: 100%;
+        /* Set the width to 100% for smaller screens */
+    }
+}

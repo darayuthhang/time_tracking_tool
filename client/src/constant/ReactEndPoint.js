@@ -9,6 +9,9 @@ class ReactEndPoint{
     TERM_CONDITION = "/term-condition"
     PRIVACY_POLICY = "/privacy-policy"
     DISCLAIMER = "/disclaimer"
+    STRIPE_PAYMENT="/stripe-payment"
+    STRIPE_PAYMENT_SUCCESS="/stripe-payment/success"
+    STRIPE_PAMENT_FAILURE="/stripe-payment/failure"
   
 }
 export default new ReactEndPoint();

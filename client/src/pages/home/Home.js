@@ -3,7 +3,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import task_kru from '../../assets/task_kru.mp4';
-import task_img from '../../assets/squirrel.png'
+import task_img from '../../assets/squirrel_write_journal.png'
 import PricingCard from '../../component/pricing_card/PricingCard';
 
 import ReactEndPoint from '../../constant/ReactEndPoint';
@@ -16,7 +16,6 @@ const Home = () => {
     if(isAuth) return (<Navigate to={ReactEndPoint.TASK}/>)
     return (
         <div>
-
             <div className={`${styles['bg-color']} text-dark`} style={{ height: "100vh" }}>
                 <div className=' '>
                     <header className=' container p-4 '>
@@ -49,6 +48,7 @@ const Home = () => {
                                 feeText="$0"
                                 bgColor="bg-light"
                                 buttonColor="btn-dark"
+                                accountType="Free"
                             />
                             <PricingCard
                                 firstText="Pro"
@@ -60,11 +60,10 @@ const Home = () => {
                                 bgColor="bg-dark"
                                 textColor="text-white"
                                 buttonColor="btn-light"
+                                accountType="Pro"
                             />
                         </div>
-                     
                     </main>
-
                     <footer  className={`  bg-dark `}>
                         <div className='container p-4 mb-4 mt-4'>
                             <Row>
@@ -100,9 +99,6 @@ const Home = () => {
                                 Disclaimer
                             </Link>
                         </div> 
-                       
-                      
-                       
                     </footer>
                 </div>
          

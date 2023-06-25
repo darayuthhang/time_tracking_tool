@@ -11,6 +11,7 @@ export const signup = (firstName, lastName, email, password) => async (dispatch)
     try {
         dispatch({ type: UserTypes.SIGN_UP_USER_REQUEST });
         const { data } = await axios.post(BackEndPoint.SIGN_UP, { firstName, lastName, email, password });
+        Cookie.saveUser(data?.data);
         Cookie.saveEmail(email);
         dispatch({ type: UserTypes.SIGN_UP_USER_SUCCESS, payload: email });
     } catch (error) {
@@ -34,10 +35,11 @@ export const login = (email, password) => async (dispatch) => {
         dispatch({ type: UserTypes.LOGIN_USER_ERROR, payload: error?.response?.status });
     }
 }
-export const googleLogin = (accessToken) => async (dispatch) => {
+export const googleLogin = (accessToken, signUpOrLogin) => async (dispatch) => {
+    console.log(signUpOrLogin);
     try {
         dispatch({ type: UserTypes.GOOGLE_LOGIN_USER_REQUEST });
-        const { data } = await axios.post(BackEndPoint.GOOGLE_LOGIN, { googleToken: accessToken });
+        const { data } = await axios.post(BackEndPoint.GOOGLE_LOGIN, { googleToken: accessToken, signUpOrLogin: signUpOrLogin });
         logSuccess(data);
         Cookie.saveUser(data?.data);
         dispatch(getAuth())
@@ -53,8 +55,24 @@ export const resetLoginError = () => {
         type:UserTypes.RESET_LOGIN_USER_ERROR
     }
 }
+
+export const resetSignupError = () => {
+    return {
+        type: UserTypes.RESET_SIGN_UP_USER_ERROR
+    }
+}
 export const resetGoogleLoginError = () => {
     return {
         type: UserTypes.GOOGLE_RESET_LOGIN_USER_ERROR
+    }
+}
+export const resetSignupSuccess = () => {
+    return {
+        type: UserTypes.RESET_SIGN_UP_USER_SUCCESS
+    }
+}
+export const resetGoogleSignupSuccess = () => {
+    return {
+        type: UserTypes.RESET_GOOGLE_SIGN_UP_USER_SUCCESS
     }
 }

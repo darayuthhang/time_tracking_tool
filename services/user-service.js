@@ -56,7 +56,7 @@ module.exports = class UserService {
             //save in database
             let userId = await this.userRepository.createUserTrx(email, firstName, lastName, hashPassword, verificationCode)
             //send valdiation code to user
-            await userEmail.sendEmail("yuth", "hello world", email, "hello world", verificationCode)
+            await userEmail.sendEmail("Taskkru", "Taskkru", email, "Taskkru's verificationcode", verificationCode)
             return userId;  
         } catch (error) {
     
@@ -80,7 +80,9 @@ module.exports = class UserService {
         try {
             let userId = await this.userRepository.findUserByemail(email);
             const getCode = await this.tokenRepository.findCode(verificationCode);
-            if (Date.now() >= getCode?.expired_in) throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Invalid verificationCode or expired timestamp.')
+            if (getCode && getCode?.expired_in){
+                if (Date.now() >= getCode?.expired_in) throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Invalid verificationCode or expired timestamp.')
+            }
             await this.userRepository.updateActiveUser(userId?.id, true)
             await this.tokenRepository.deleteCode(verificationCode)
         } catch (error) {
@@ -103,7 +105,7 @@ module.exports = class UserService {
             // generate new code 
             const verificationCode = GetVerificationCode();
             await this.tokenRepository.updateOtpWithExpiredTimeByUserId(userId, verificationCode);
-            await userEmail.sendEmail("yuth", "hello world", email, "hello world", verificationCode)
+            await userEmail.sendEmail("Taskkru", "Taskkru", email, "Taskkru's verificationcode", verificationCode)
         } catch (error) {
        
             if (error instanceof APIError) {
@@ -160,15 +162,29 @@ module.exports = class UserService {
             }
         }
     }
-    async googleLogin({ googleToken }) {
+    async googleLogin({ googleToken, signUpOrLogin }) {
         logger.info(ApiServiceMessage(this.userService, "googleLogin"))
-      
+        const SIGN_UP = "sign_up";
+        const LOGIN = "login;"
+       
         //if google user exist, return true
         //else create google user
         let user = null, userData = {}, userObject = {};
         try {
+          
             let payload = await getGoogleUserInfo(googleToken);
             const googleId = payload.sub; 
+            /**
+            * @Description
+            * if user sign up and email exist 
+            *  return email already exist
+            *  
+            */
+       
+            if (signUpOrLogin === SIGN_UP) {
+                let user = await this.userRepository.finduserByEmailWithoutAuthMethod(payload?.email);
+                if(user) throw new APIError('API Error', STATUS_CODES.NOT_FOUND)
+            }
             /**
            * @Description if google email exist in customer user, 
            * tell user email already
@@ -245,12 +261,17 @@ module.exports = class UserService {
              * @Store resetToken in tokens table
              */
             await this.tokenRepository.createToken(resetToken, user?.id);
-            this.subject = "Reset your Wheel Strategy tracker password."
+            this.subject = "Reset your Taskkru password."
             this.typeEmail = "resetPassword"
-            this.text = `Someone (hopefully you) has requested a password reset for your WheelStrategyTracker account.`;
+            this.text = `Someone (hopefully you) has requested a password reset for your Taskkru's account.`;
             const link = `${this.url}/update-password/${resetToken}`
-            await userEmail.sendEmail(this.from, this.text, email,
-                this.subject, link, this.typeEmail)
+            await userEmail.sendEmail(
+                this.from, 
+                this.text, 
+                email,
+                this.subject, 
+                link, 
+                this.typeEmail)
         } catch (error) {
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)

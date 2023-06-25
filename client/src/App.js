@@ -21,6 +21,9 @@ import TermCondition from "./pages/term_condition/TermCondition";
 import Disclaimer from "./pages/disclaimer/Disclaimer";
 import './index.css';
 
+import StripePaymentSuccess from "./component/stripe_payment_sucess/StripePaymentSuccess";
+import StripePaymentFailure from "./component/stripe_payment_failure/StripePaymentFailure";
+
 function App() {  
   return (
     <div className="font-monospace">
@@ -31,6 +34,9 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path={ReactEndPoint.SIGN_UP} element={<SignUp />} />
+   
+          <Route path={ReactEndPoint.STRIPE_PAYMENT_SUCCESS} element={<StripePaymentSuccess />} />
+          <Route path={ReactEndPoint.STRIPE_PAMENT_FAILURE} element={<StripePaymentFailure />} />
           <Route path={ReactEndPoint.LOGIN} element={<Login />} />
           <Route path={ReactEndPoint.PRIVACY_POLICY} element={<PrivacyPolicy companyName="Kru LLC" />} />
           <Route path={ReactEndPoint.TERM_CONDITION} element={<TermCondition companyName="Kru LLC " />}/>

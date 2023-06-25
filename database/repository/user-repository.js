@@ -7,15 +7,12 @@ const {
 const db = require("../../config/index");
 const logger = require("../../utils/error-handler")
 const { ApiRepositoryMessage } = require('../../constant/message');
-
+const TimeConstant = require("../../constant/time-constant");
 
 const TABLE_USERS = "users";
 const TABLE_TOKENS = "tokens";
 module.exports = class UserRespository {
     constructor() {
-        this._24HOUR = 24 * 3600 * 1000;
-        this._10SECOND = 10000
-        this.time = Date.now() + this._24HOUR // an hour
     }
     async createUserTrx(email, firstName, lastName, password, verificationcode) {
         logger.info(ApiRepositoryMessage('UserRespository', "createUserTrx"))
@@ -33,7 +30,7 @@ module.exports = class UserRespository {
                 await trx(TABLE_TOKENS).insert({
                     user_id: person[0]?.id,
                     verfication_code: verificationcode,
-                    expired_in: this.time
+                    expired_in: TimeConstant.getSixMinute()
                 })
             })
             return id;
@@ -92,6 +89,16 @@ module.exports = class UserRespository {
             } else {
                 throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Invalid link.')
             }
+        }
+    }
+    async updateAccountType(userId, accountType) {
+        try {
+            const user = await db(TABLE_USERS).where('id', userId).update({ 
+                account_type: accountType, 
+                updated_at: new Date() })
+            return user
+        } catch (error) {
+            throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Invalid link.')
         }
     }
     async createGoogleUser({ googleId, email, firstName, lastName }) {
@@ -166,7 +173,20 @@ module.exports = class UserRespository {
         } catch (error) {
             throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Invalid link.')
         }
-
+    }
+    async finduserByEmailWithoutAuthMethod(email){
+        try {
+            const user = await db(TABLE_USERS).where(
+                {
+                    email: email
+                }
+            ).first();
+          
+            return user;
+        } catch (error) {
+          
+            throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Invalid link.')
+        }
     }
 
 }

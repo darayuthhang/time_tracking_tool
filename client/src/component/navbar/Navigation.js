@@ -1,14 +1,22 @@
 import React, { useEffect } from 'react';
-import { Container, Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
+import { Container, 
+    Navbar, 
+    Nav,
+     NavDropdown, 
+     Button, 
+     Spinner, Row, Col } from 'react-bootstrap';
 // import { Link, useNavigate } from 'react-router-dom';
 import ReactEndPoint from '../../constant/ReactEndPoint';
+import useStripePayment from '../../hooks/useStripePayment';
 import styles from './navigation.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import Cookie from '../../uti/Cookie';
 import { removeAuth } from '../../redux/action/AuthAction';
+
 import {
     useNavigate,
-    Link
+    Link,
+    Navigate
 } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 const Navigation = ({
@@ -19,6 +27,7 @@ const Navigation = ({
   
 }) => {
     const { user, isAuth } = useSelector((state) => state.authReducers)
+    const [stripePayment, makePayment, loading] = useStripePayment('', false);
     const dispatch = useDispatch();
     const refreshToken = Cookie.getLocalRefreshToken();
     const navigate = useNavigate();
@@ -97,21 +106,25 @@ const Navigation = ({
                         } */}
                     </Nav>
                     {isAuth ?
-                        <Nav className='ms-auto'>
-                                <Button variant='dark'
-                                className={`text-white fw-medium`}
-                                >
-                                    Upgrade to pro
-                                </Button>
+                        <Nav className='ms-auto text-center'>
+                            <Button
+                                onClick={makePayment}
+                                variant='dark'
+                                className={`text-white fw-medium ${styles['fixed-size-button']}`}
                            
-                                <Nav.Link
-                                    className={`${styles['text-hover']} text-dark fw-medium`}
-                                    onClick={handleLogout}
                                 >
-                                    Logout
-                                </Nav.Link >
-                               
-                             
+                                {loading ?
+                                    <Spinner animation="border" size="sm" />
+                                :
+                                    "Upgrade to pro"}
+                            </Button>
+
+                            <Nav.Link
+                                className={`${styles['text-hover']} text-dark fw-medium`}
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </Nav.Link >    
                         </Nav>
                             :
                         <Nav className='ms-auto'>

@@ -13,6 +13,7 @@ exports.up = function (knex) {
         table.string('password');
         table.string('google_id').unique();
         table.string('auth_method').notNullable();
+        table.string('account_type').defaultTo("free");
         table.timestamp('created_at').defaultTo(knex.fn.now());
         table.timestamp('updated_at').defaultTo(knex.fn.now());
         table.boolean('validated').notNullable().defaultTo(false);

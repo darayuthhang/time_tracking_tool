@@ -62,7 +62,7 @@ const Login = () => {
         const googleTokenExist = response?.access_token;
      
         if (googleTokenExist) {
-            dispatch(googleLogin(googleTokenExist))
+            dispatch(googleLogin(googleTokenExist, "login"))
         } else {
             console.log("Google token does not exist. ");
         }
@@ -93,7 +93,6 @@ const Login = () => {
                                     />
                                     {loginError === 500 && <Alert variant="danger">Unable to Find active user</Alert>}
                                 </Form.Group>
-                               
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                     <Form.Label>Password</Form.Label>
                                     <Form.Control
@@ -128,6 +127,11 @@ const Login = () => {
                                 <Button onClick={(e) => GoogleApiLogin()} className="w-100">
                                     Sign in with Google 🚀{' '}
                                 </Button>
+                                {googleLoginError === 500 &&
+                                    <Alert variant="danger">
+                                        User already exist in customer user.
+                                    </Alert>
+                                }
                                 {/* <GoogleLogin
                                     onSuccess={credentialResponse => {
                                         console.log(credentialResponse);

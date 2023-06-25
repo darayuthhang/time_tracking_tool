@@ -11,7 +11,8 @@ const PricingCard = ({
     feeText,
     bgColor,
     textColor,
-    buttonColor
+    buttonColor,
+    accountType
 }) => {
     return (
         <div>
@@ -32,7 +33,10 @@ const PricingCard = ({
                         {fourthText}
                     </label>
                 </div>
-                <Link to={ReactEndPoint.SIGN_UP} className={`btn ${buttonColor} btn-sm`}>
+                <Link 
+                    state={{ accountType }}
+                    to={ReactEndPoint.SIGN_UP} 
+                    className={`btn ${buttonColor} btn-sm`}>
                     {fifthText}
                 </Link>
               
