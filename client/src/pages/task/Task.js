@@ -144,10 +144,15 @@ const Task = () => {
                         className={` overflow-auto right-tab-container ${styles.right_tab_bar} h-100`}>
                         <Tab.Content className=''>
                             <Tab.Pane className='' eventKey="first">
-                                    <MemoizedProjectListRightTab 
+                                    {/* <MemoizedProjectListRightTab 
                                         onSelectActiveTab={onSelectActiveTab}
                                         userId={user?.userId}
-                                    />  
+                                    />   */}
+                                 <ProjectListRightTab
+                                        onSelectActiveTab={onSelectActiveTab}
+                                        userId={user?.userId}
+                                    />   
+                                    
                                 </Tab.Pane>
                                 {projectListData.length > 0 &&
                                     projectListData.map((val, index) =>
@@ -158,7 +163,12 @@ const Task = () => {
                                      
                                             // className="h-100"
                                         >
-                                            <MemoizedTaskTableList 
+                                            {/* <MemoizedTaskTableList 
+                                                projectNameHeading={val?.project_name}
+                                                projectId={projectId}
+                                                userId={user?.userId}
+                                            /> */}
+                                            <TaskTableList
                                                 projectNameHeading={val?.project_name}
                                                 projectId={projectId}
                                                 userId={user?.userId}
