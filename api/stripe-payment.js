@@ -16,9 +16,10 @@ module.exports = (app, cache) => {
         validationStripePaymentRule,
         async (req, res, next) => {
             try {
+                const fiveMintues = 300;
                 const { userId } = req.body;
                 const sessionid = await stripeService.createCheckout();
-                cache.set('userIdForStripe', userId);
+                cache.set('userIdForStripe', userId, fiveMintues);
                 //update account to pro.
                 res.json({ id: sessionid });
             } catch (error) {
