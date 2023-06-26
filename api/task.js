@@ -1,5 +1,8 @@
 const apiVersion = require("../constant/api_version");
 const { ApiRouteMessage } = require("../constant/message");
+const {
+    taskTimeLimit } = require("./middleware/rate-limit");
+
 const TaskService = require("../services/task-service");
 const logger = require("../utils/error-handler");
 const {isObjectEmpty} = require('../utils/index');
@@ -48,7 +51,12 @@ module.exports = (app, cache) => {
     /**
      * Add single item
      */
-    app.post(PROJECT_TASK_ROUTE, UserAuth, validationTaskcodeRules(), validateTaskData,  async (req, res, next) => {
+    app.post(PROJECT_TASK_ROUTE, 
+        taskTimeLimit,
+        UserAuth, 
+        validationTaskcodeRules(), 
+        validateTaskData,  
+        async (req, res, next) => {
         logger.info(ApiRouteMessage(`${PROJECT_TASKS_ROUTE}`, "Create task"));
         try {
             const { projectId } = req.params;
@@ -63,6 +71,7 @@ module.exports = (app, cache) => {
      * Put single item
      */
     app.put(`${PROJECT_TASK_ROUTE}/:taskId`, 
+        taskTimeLimit,
         UserAuth, 
         validationUpdateProjectTaskcodeRules(), 
         validateTaskData, 
@@ -101,7 +110,9 @@ module.exports = (app, cache) => {
      * Delete List of Items
      * @never send request body in delete route
      */
-    app.post(`${PROJECT_TASKS_ROUTE}/bulk/delete`, UserAuth,
+    app.post(`${PROJECT_TASKS_ROUTE}/bulk/delete`, 
+        taskTimeLimit,
+        UserAuth,
         validationProjectIdAndTaskscodeRules(), 
         validateTaskData, 
         async (req, res, next) => {
@@ -134,7 +145,11 @@ module.exports = (app, cache) => {
     /**
      * Get List of Item
      */
-    app.get(PROJECT_TASKS_ROUTE, UserAuth, validationProjectIdTaskcodeRules(), validateTaskData, async (req, res, next) => {
+    app.get(PROJECT_TASKS_ROUTE, 
+        taskTimeLimit,
+        UserAuth,
+        validationProjectIdTaskcodeRules(),
+        validateTaskData, async (req, res, next) => {
         logger.info(ApiRouteMessage(`${PROJECT_TASKS_ROUTE}`, "Get tasks"));
         const { projectId } = req.params;
         try {

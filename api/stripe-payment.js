@@ -3,7 +3,8 @@ const apiVersion = require("../constant/api_version");
 const UserAuth = require('./middleware/auth')
 const logger = require("../utils/error-handler");
 const { ApiRouteMessage } = require("../constant/message")
-const { StripeService } = require("../services/index")
+const { StripeService } = require("../services/index");
+const { stripeTimeLimit } = require("./middleware/rate-limit");
 const {
     validationStripePaymentData,
     validationStripePaymentRule } = require("./middleware/validatorStripePayment")
@@ -11,7 +12,8 @@ module.exports = (app, cache) => {
     const { API_VERSION } = apiVersion;
     const stripeService = new StripeService();
     //test number --> 4242 4242 4242 4242
-    app.post(`${API_VERSION}/create-checkout-session`, 
+    app.post(`${API_VERSION}/create-checkout-session`,
+        stripeTimeLimit, 
         validationStripePaymentData(), 
         validationStripePaymentRule,
         async (req, res, next) => {

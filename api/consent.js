@@ -1,5 +1,7 @@
 const apiVersion = require("../constant/api_version");
 const logger = require("../utils/error-handler");
+const {
+    consentTimeLimit } = require("./middleware/rate-limit");
 const { ApiRouteMessage } = require("../constant/message")
 const { validationPhoneNumberConsentRules, validatePhoneNumberConsentData } = require("./middleware/validatorConsent");
 const { ConsentService } = require("../services/index");
@@ -17,6 +19,7 @@ module.exports = (app) => {
      */
     app.post(
         `${API_VERSION}/:userId/phone-number/consent`, 
+        consentTimeLimit,
         validationPhoneNumberConsentRules(),  
         validatePhoneNumberConsentData,
         async (req, res, next) => {

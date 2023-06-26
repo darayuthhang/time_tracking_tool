@@ -7,7 +7,8 @@ const {
     resentOtpLimiter, 
     resentPasswordLimiter,
     updatePasswordLimiter,
-    accessTokenLimitter } = require("./middleware/rate-limit");
+    accessTokenLimitter,
+    userRateLimit } = require("./middleware/rate-limit");
 
 const { 
     validationUserDataRules, 
@@ -37,7 +38,7 @@ module.exports = (app) => {
      * put:   /api/v1/user/update-password
      */
 
-    app.post(`${API_VERSION}/user/signup`, validationUserDataRules(), validateUserData, async(req, res, next) => {
+    app.post(`${API_VERSION}/user/signup`, userRateLimit, validationUserDataRules(), validateUserData, async(req, res, next) => {
         logger.info(ApiRouteMessage(`${API_VERSION}/user/signup`, "POST"))
         try {
             let userId = await userService.createUser(req.body);
@@ -50,7 +51,7 @@ module.exports = (app) => {
        
     })
 
-    app.post(`${API_VERSION}/user/verify`, validationVerificationCodeRules(), validateUserData, async (req, res, next) => {
+    app.post(`${API_VERSION}/user/verify`, userRateLimit, validationVerificationCodeRules(), validateUserData, async (req, res, next) => {
         logger.info(ApiRouteMessage(`${API_VERSION}/user/verify`, "POST"))
         try {
             // await userService.createUser(req.body);
@@ -75,7 +76,7 @@ module.exports = (app) => {
         
     })
 
-    app.post(`${API_VERSION}/user/login`, validationUserLoginDataRules(), validateUserData, async (req, res, next) => {
+    app.post(`${API_VERSION}/user/login`, userRateLimit, validationUserLoginDataRules(), validateUserData, async (req, res, next) => {
         logger.info(ApiRouteMessage(`${API_VERSION}/user/login`, "POST"))
         try {
             let userData = await userService.login(req.body);
@@ -89,7 +90,7 @@ module.exports = (app) => {
 
     })
 
-    app.post(`${API_VERSION}/user/google-login`, async(req, res) => {
+    app.post(`${API_VERSION}/user/google-login`, userRateLimit,  async(req, res) => {
         logger.info(ApiRouteMessage(`${API_VERSION}/user/google-login`, "POST"))
         try {
             let user = await userService.googleLogin(req.body);
@@ -112,7 +113,7 @@ module.exports = (app) => {
         }
     })
 
-    app.put(`${API_VERSION}/user/update-password`, validationUserPasswordDataRules(), validateUserData, async (req, res) => {
+    app.put(`${API_VERSION}/user/update-password`, resentPasswordLimiter, validationUserPasswordDataRules(), validateUserData, async (req, res) => {
         logger.info(ApiRouteMessage(`${API_VERSION}/user/update-password`, "POST"))
         try {
             await userService.updatePassword(req.body);
