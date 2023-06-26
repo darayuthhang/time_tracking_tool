@@ -16,14 +16,15 @@ module.exports = async (app) => {
         }
     };
     // app.use(express.static('public'));
-    app.use(express.json(setupForStripeWebhooks));
+    app.use(express.json())
+    //app.use(express.json(setupForStripeWebhooks));
     app.use(cors());
 
     user(app);
     task(app, cache);
     project(app);
     consent(app);
-    stripePayment(app, cache)
+    //stripePayment(app, cache)
     
     //api
     // customer(app);
