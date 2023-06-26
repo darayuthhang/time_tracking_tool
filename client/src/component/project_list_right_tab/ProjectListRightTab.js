@@ -187,7 +187,7 @@ const ProjectListRightTab = ({
 
     );
 };
-//export default ProjectListRightTab;
+export default ProjectListRightTab;
 
-const MemoizedProjectListRightTab = React.memo(ProjectListRightTab);
-export default MemoizedProjectListRightTab;
+// const MemoizedProjectListRightTab = React.memo(ProjectListRightTab);
+// export default MemoizedProjectListRightTab;

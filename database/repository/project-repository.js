@@ -7,7 +7,7 @@ const {
 const db = require("../../config/index");
 const logger = require("../../utils/error-handler")
 const { ApiRepositoryMessage } = require('../../constant/message');
-const { TABLE_PROJECTS, TABLE_TASKS } = require("../table-name");
+const { TABLE_PROJECTS, TABLE_TASKS, TABLE_USERS } = require("../table-name");
 
 
 module.exports = class ProjectRepository {
@@ -30,19 +30,25 @@ module.exports = class ProjectRepository {
         }
     }
     async getProjectByUserId(userId) {
+        /**
+         * knex('users')
+  .join('contacts', 'users.id', '=', 'contacts.user_id')
+  .select('users.id', 'contacts.phone')
+         */
         logger.info(ApiRepositoryMessage(this.project, "getProjectByUserId"))
         try {
             const projects = await db(TABLE_PROJECTS)
-                .where(
-                    {
-                        user_id: userId
-                    }
-                )
-                .orderBy('created_at', 'asc');
-
+            .join(`${TABLE_USERS}`, `${TABLE_USERS}.id`, `${TABLE_PROJECTS}.user_id`)
+            .select(`${TABLE_PROJECTS}.*`, `${TABLE_USERS}.account_type`)
+            .where(
+                {
+                    user_id: userId
+                }
+            )
+            .orderBy('created_at', 'asc')
             return projects;
         } catch (error) {
-            throw new APIError('API Error', STATUS_CODES.NOT_FOUND, `Unable to GET project:${error.message}`)
+             throw new APIError('API Error', STATUS_CODES.NOT_FOUND, `Unable to GET project:${error.message}`)
         }
     }
     async updateProject(userId, projectId, project) {

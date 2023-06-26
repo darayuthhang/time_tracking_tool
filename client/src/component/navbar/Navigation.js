@@ -31,12 +31,13 @@ const Navigation = ({
     const dispatch = useDispatch();
     const refreshToken = Cookie.getLocalRefreshToken();
     const navigate = useNavigate();
-    
+    const { projectListData } = useSelector((state) => state.projectListReducers)
+  
     const navigateToHomePage = () => {
         dispatch(removeAuth());
         window.location.reload()
     }
-  
+   
     if (refreshToken) {
       
         var decoded = jwt_decode(refreshToken);

@@ -34,7 +34,9 @@ const Task = () => {
     const user = Cookie.getUser();
     const { projectRequest, projectSuccess } = useSelector((state) => state.projectReducers);
     const { projectListData } = useSelector((state) => state.projectListReducers)
-    
+    let accountType = "";
+    // i forget i use redux, i can share state to another component.
+    if (projectListData.length > 0) accountType = projectListData[0]?.account_type;
     useEffect(() => {
         if(projectSuccess){
             dispatch(resetStateCreateSuccess());
@@ -69,11 +71,11 @@ const Task = () => {
         /**
          * @this we need 
          */
-        // const LENGTH_PROJECTS = 2;
-        // if (projectListData.length === LENGTH_PROJECTS){
-        //     alert("Please upgrade to pro");
-        //     return;
-        // }
+        const LENGTH_PROJECTS = 7;
+        if (projectListData.length === LENGTH_PROJECTS){
+            alert("Please upgrade to pro");
+            return;
+        }
         setShowProject(true);
         resetProjectToEmpty();
     }

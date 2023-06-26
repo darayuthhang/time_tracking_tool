@@ -89,7 +89,7 @@ const TaskTableList = ({
     const { taskRequest, taskSuccess } = useSelector((state) => state.taskReducers);
     const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
     const { taskListDeleteRequest, taskListDeleteSuccess } = useSelector((state) => state.taskListDeleteReducers)
-      const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const { createPhoneConsentError } = useSelector((state) => state.createPhoneConsentReducers);
     /**
     * @description 
