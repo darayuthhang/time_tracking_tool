@@ -18,15 +18,22 @@ const StartServer = async () => {
             res.sendFile(path.join(__dirname + '/client/build/index.html'));
         });
     }
-    configSchedule.configCronjob()
-        .then(() => {
-            app.listen(PORT, () => {
-                console.log(`listening to port ${PORT}`);
-            })
-        })
-        .catch((error) => {
-            console.error('Error confisgusring cron jobssssss:', error);
-        })
+    app.listen(PORT, () => {
+        console.log(`listening to port ${PORT}`);
+    })
+    /**
+     * @description
+     *  - Node cron job causing the spike 
+     */
+    // configSchedule.configCronjob()
+    //     .then(() => {
+    //         app.listen(PORT, () => {
+    //             console.log(`listening to port ${PORT}`);
+    //         })
+    //     })
+    //     .catch((error) => {
+    //         console.error('Error confisgusring cron jobssssss:', error);
+    //     })
         // .on('error', (err) => {
         // console.log(err);
         // process.exit();
