@@ -30,6 +30,7 @@ module.exports = (app, cache) => {
      * @The best way is to use stripe webhook
      */
     app.post('/webhook', async (req, res) => {
+        console.log("stripe webhook");
         try {
             const event = req.body;
             // Handle the event
