@@ -23,7 +23,7 @@ module.exports = async (app) => {
     task(app, cache);
     project(app);
     consent(app);
-    stripePayment(app, cache)
+    // stripePayment(app, cache)
     
     //api
     // customer(app);
