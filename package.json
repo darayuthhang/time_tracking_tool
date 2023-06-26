@@ -6,7 +6,7 @@
   "scripts": {
     "migrate": "knex migrate:latest",
     "start": "node app.js",
-    "server": "NODE_ENV='local' nodemon app.js | pino-pretty",
+    "server": "NODE_ENV='local' nodemon --inspect app.js | pino-pretty",
     "dev": "npm run migrate && npm run server",
     "project_test": "npx mocha ./test/project.test.js",
     "user_test": "npx mocha ./test/user.test.js",
