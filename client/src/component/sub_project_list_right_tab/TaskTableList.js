@@ -739,6 +739,6 @@ const TaskTableList = ({
     );
 };
 
-// export default TaskTableList;
-const MemoizedTaskTableList = React.memo(TaskTableList);
-export default MemoizedTaskTableList;
+export default TaskTableList;
+// const MemoizedTaskTableList = React.memo(TaskTableList);
+// export default MemoizedTaskTableList;
