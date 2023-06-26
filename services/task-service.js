@@ -28,7 +28,7 @@ module.exports = class TaskService{
         } catch (error) {
          
             if (error instanceof APIError) {
-                throw new APIError('API Error', error?.statusCode, error?.message)
+                throw new APIError('API Errosr', error?.statusCode, error?.message)
             } else {
                 throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot Create task')
             }

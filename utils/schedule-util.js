@@ -30,8 +30,6 @@ module.exports = class ScheduleUtil {
                 //update is sent to true to validate schedule has sent
                 await this.consentRepository.updateIsSent(scheduleId, true);
                 scheduleTask.stop();
-              
-               
             }, {
                 scheduled: true,
                 timezone: timeZone
@@ -62,13 +60,19 @@ module.exports = class ScheduleUtil {
              */
             if(resData.length > 0){
                for(let data of resData){
-                   await this.sendScheduleThroughPhone(
-                       data?.schedule_date_time,
-                       data?.time_zone,
-                       data?.task_to_send,
-                       FormatPhoneNumber(data?.phoneNumber, data?.country_code),
-                       data?.id
-                   )
+                /**
+                 * @description
+                 *   - we dont need to check is_sent since we use where caluse is_sent = false
+                   *   in consentRepository.getPhoneConsentInfoPending
+                 *   
+                 */
+                await this.sendScheduleThroughPhone(
+                    data?.schedule_date_time,
+                    data?.time_zone,
+                    data?.task_to_send,
+                    FormatPhoneNumber(data?.phoneNumber, data?.country_code),
+                    data?.id
+                )
                }
             }
 

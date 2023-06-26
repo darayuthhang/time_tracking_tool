@@ -3,7 +3,6 @@ const logger = require("../../utils/error-handler")
 
 let MIDDLEWARE = "MIDDLEWARE ===> "
 const validationPhoneNumberConsentRules = () => {
-    logger.info(MIDDLEWARE + "validatePhoneNumberConsentData")
     return [
         param('userId').isUUID().withMessage('UserId is not uuid').trim(),
         body('phoneNumber').notEmpty().withMessage("PhoneNumber name cannot be empty.").trim(),

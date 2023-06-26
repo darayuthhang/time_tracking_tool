@@ -61,7 +61,6 @@ module.exports = class ConsentRepository{
                 .select(`${TABLE_SCHEDULES}.schedule_date_time`, 
                 `${TABLE_SCHEDULES}.time_zone`, 
                 `${TABLE_SCHEDULES}.id`, 
-                `${TABLE_SCHEDULES}.is_sent`,
                 `${TABLE_SCHEDULES}.task_to_send`,
                 `${TABLE_USER_CONSENT_PHONE_NUMBER}.phone_number`,
                 `${TABLE_USER_CONSENT_PHONE_NUMBER}.country_code`
