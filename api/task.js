@@ -139,12 +139,12 @@ module.exports = (app, cache) => {
         const { projectId } = req.params;
         try {
             let data = null;
-            // if(cache.has(projectId)){
-            //     data = cache.get(projectId);
-            // }else{
+            if(cache.has(projectId)){
+                data = cache.get(projectId);
+            }else{
                 data = await taskService.getTasks(projectId);
-                // if(data.length > 0) cache.set(projectId, data);
-            //}
+                if(data.length > 0) cache.set(projectId, data);
+            }
             return res.status(200).json({ success: true, data })
         } catch (error) {
             next(error);

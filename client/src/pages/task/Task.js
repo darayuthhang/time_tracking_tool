@@ -4,7 +4,7 @@ import {
     Row,Col,Nav, Container, Modal, InputGroup, Form,
     Button, Tab, Breadcrumb
 } from 'react-bootstrap';
-import TaskTableList from '../../component/sub_project_list_right_tab/TaskTableList';
+
 import './task.css';
 import styles from './task.module.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,9 +14,9 @@ import { projectList } from '../../redux/action/ProjectAction';
 import ProjectListRightTab from '../../component/project_list_right_tab/ProjectListRightTab';
 
 import { useRef } from 'react';
-// import MemoizedTaskTableList from '../../component/sub_project_list_right_tab/TaskTableList';
+import MemoizedTaskTableList from '../../component/sub_project_list_right_tab/TaskTableList';
 // import MemoizedProjectListRightTab from '../../component/project_list_right_tab/ProjectListRightTab';
-
+//import TaskTableList from '../../component/sub_project_list_right_tab/TaskTableList';
 
 
 const Task = () => {
@@ -165,16 +165,16 @@ const Task = () => {
                                      
                                             // className="h-100"
                                         >
-                                            {/* <MemoizedTaskTableList 
-                                                projectNameHeading={val?.project_name}
-                                                projectId={projectId}
-                                                userId={user?.userId}
-                                            /> */}
-                                            <TaskTableList
+                                            <MemoizedTaskTableList 
                                                 projectNameHeading={val?.project_name}
                                                 projectId={projectId}
                                                 userId={user?.userId}
                                             />
+                                            {/* <TaskTableList
+                                                projectNameHeading={val?.project_name}
+                                                projectId={projectId}
+                                                userId={user?.userId}
+                                            /> */}
                                         </Tab.Pane>
                                     )
                                 }
