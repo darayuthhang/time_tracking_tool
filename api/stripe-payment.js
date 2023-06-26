@@ -54,7 +54,7 @@ module.exports = (app, cache) => {
                 //     break;
                 // ... handle other event types
                 default:
-                    console.log(`Unhandled event type ${event.type}`);
+                    console.log(`Unhandled evesnt type ${event.type}`);
             }
 
             // Return a response to acknowledge receipt of the event
