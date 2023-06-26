@@ -12,60 +12,60 @@ class UserMailer {
         });
     }
     async getUserEmailInfo(fromText, text, email, subject, code, typeOfEmail) {
-        let object = {
-            from: fromText,
-            to: email,
-            subject: subject,
-            text: text,
-            html: `
-                <html>
-                <body>
-                    <h1>Taskkru</h1>
-                    <img  style="width:50px" src="cid:taskkru-id" alt="Image">
-                    <div style="font-weight:bold; font-size:35px">Verification code</div>
-                    <div style="font-size:40px">${code}</div>
-                    <p>Here is your OTP verification code.</p>
-                    <p>It will expire in 6 minutes.</p>
-                </body>
-                </html>
-            `,
-            attachments: [
-                {
-                    filename: 'squirrel_write_journal.png',
-                    path: path.join(__dirname, 'public/images/squirrel_write_journal_192.png'),
-                    cid: 'taskkru-id', // Use this ID in the HTML img tag
-                },
-            ],
-        }
-        if (typeOfEmail === "resetPassword") {
-            object = {
-                from: fromText,
-                to: email,
-                subject: subject,
-                text: text,
-                html: `
-                <html>
-                <body>
-                    <h1>Taskkru</h1>
-                    <img style="width:50px" src="cid:taskkru-id" alt="Image">
-                    <p>${text} </p>
-                    <a href="${code}">${code}</a>
-                    <p>Here is your link.</p>
-                    <p>It will expire in 6 minutes.</p>
-                </body>
-                </html>
-            `,
-                attachments: [
-                    {
-                        filename: 'squirrel_write_journal.png',
-                        path: path.join(__dirname, 'public/images/squirrel_write_journal_192.png'),
-                        cid: 'taskkru-id', // Use this ID in the HTML img tag
-                    },
-                ],
+        // let object = {
+        //     from: fromText,
+        //     to: email,
+        //     subject: subject,
+        //     text: text,
+        //     html: `
+        //         <html>
+        //         <body>
+        //             <h1>Taskkru</h1>
+        //             <img  style="width:50px" src="cid:taskkru-id" alt="Image">
+        //             <div style="font-weight:bold; font-size:35px">Verification code</div>
+        //             <div style="font-size:40px">${code}</div>
+        //             <p>Here is your OTP verification code.</p>
+        //             <p>It will expire in 6 minutes.</p>
+        //         </body>
+        //         </html>
+        //     `,
+        //     attachments: [
+        //         {
+        //             filename: 'squirrel_write_journal.png',
+        //             path: path.join(__dirname, 'public/images/squirrel_write_journal_192.png'),
+        //             cid: 'taskkru-id', // Use this ID in the HTML img tag
+        //         },
+        //     ],
+        // }
+        // if (typeOfEmail === "resetPassword") {
+        //     object = {
+        //         from: fromText,
+        //         to: email,
+        //         subject: subject,
+        //         text: text,
+        //         html: `
+        //         <html>
+        //         <body>
+        //             <h1>Taskkru</h1>
+        //             <img style="width:50px" src="cid:taskkru-id" alt="Image">
+        //             <p>${text} </p>
+        //             <a href="${code}">${code}</a>
+        //             <p>Here is your link.</p>
+        //             <p>It will expire in 6 minutes.</p>
+        //         </body>
+        //         </html>
+        //     `,
+        //         attachments: [
+        //             {
+        //                 filename: 'squirrel_write_journal.png',
+        //                 path: path.join(__dirname, 'public/images/squirrel_write_journal_192.png'),
+        //                 cid: 'taskkru-id', // Use this ID in the HTML img tag
+        //             },
+        //         ],
                
-            }
-        }
-        return object;
+        //     }
+        // }
+        // return object;
 
     }
     /**
