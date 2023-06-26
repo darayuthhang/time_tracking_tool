@@ -12,8 +12,6 @@ import { createProject, resetStateCreateSuccess } from '../../redux/action/Proje
 import Cookie from '../../uti/Cookie';
 import { projectList } from '../../redux/action/ProjectAction';
 import ProjectListRightTab from '../../component/project_list_right_tab/ProjectListRightTab';
-
-import { useRef } from 'react';
 //import MemoizedTaskTableList from '../../component/sub_project_list_right_tab/TaskTableList';
 // import MemoizedProjectListRightTab from '../../component/project_list_right_tab/ProjectListRightTab';
 import TaskTableList from '../../component/sub_project_list_right_tab/TaskTableList';

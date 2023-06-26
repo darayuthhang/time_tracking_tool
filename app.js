@@ -8,7 +8,7 @@ const path = require('path');
 const StartServer = async () => {
     const configSchedule = new ScheduleUtil();
     const app = express();
-
+    var WORKERS = process.env.WEB_CONCURRENCY || 1;
     await databaseConnection();
     await expressApp(app);
     const PORT = process.env.PORT || 5000;
@@ -32,7 +32,7 @@ const StartServer = async () => {
             })
         })
         .catch((error) => {
-            console.error('Error confisgusring cron jobssssss:', error);
+            console.error('Error confisgusring cron jobsssssss:', error);
         })
         // .on('error', (err) => {
         // console.log(err);
