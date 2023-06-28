@@ -15,7 +15,7 @@ const validationPhoneNumberConsentRules = () => {
     ]
 }
 const validatePhoneNumberConsentData = (req, res, next) => {
-    logger.info(MIDDLEWARE + "validatePhoneNumberConsentData")
+
     const errors = validationResult(req);
 
     //there is no error.

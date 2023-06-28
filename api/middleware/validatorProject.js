@@ -4,7 +4,7 @@ const logger = require("../../utils/error-handler")
 let MIDDLEWARE = "MIDDLEWARE ===> "
 
 const validationProjectcodeRules = () => {
-    logger.info(MIDDLEWARE + "validationResentPasswordCodeRules")
+
     return [
         param('userId').isUUID().withMessage('UserId is not uuid').trim(),
         body('projectName')
@@ -16,13 +16,13 @@ const validationProjectcodeRules = () => {
 }
 
 const validationUserIdcodeRules = () => {
-    logger.info(MIDDLEWARE + "validationUserIdcodeRules")
+   
     return [
         param('userId').isUUID().withMessage('UserId is not uuid').trim()
     ]
 }
 const validationUserAndProjectIdProjectNamecodeRules = () => {
-    logger.info(MIDDLEWARE + "validationUserIdcodeRules")
+   
     return [
         param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
         param('userId').isUUID().withMessage('userId is not uuid').trim(),
@@ -33,14 +33,14 @@ const validationUserAndProjectIdProjectNamecodeRules = () => {
     ]
 }
 const validationUserAndProjectIdcodeRules = () => {
-    logger.info(MIDDLEWARE + "validationUserIdcodeRules")
+ 
     return [
         param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
         param('userId').isUUID().withMessage('userId is not uuid').trim()
     ]
 }
 const validateProjectData = (req, res, next) => {
-    logger.info(MIDDLEWARE + "validateProjectData")
+
     const errors = validationResult(req);
 
     //there is no error.

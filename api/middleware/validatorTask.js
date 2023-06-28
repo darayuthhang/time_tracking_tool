@@ -4,7 +4,7 @@ const logger = require("../../utils/error-handler")
 let MIDDLEWARE = "MIDDLEWARE ===> "
 
 const validationTaskscodeRules = () => {
-    logger.info(MIDDLEWARE + "validationTaskscodeRules")
+    
     return [
         // param('projectId').isUUID().withMessage('Projectid is not uuid').trim(),
         body('tasks').isArray().withMessage("Tasks are not array")
@@ -21,21 +21,21 @@ const validationTaskcodeRules = () => {
     ]
 }
 const validationProjectIdTaskcodeRules = () => {
-    logger.info(MIDDLEWARE + "validationTaskscodeRules")
+    
     return [
         // param('projectId').isUUID().withMessage('Projectid is not uuid').trim(),
         param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
     ]
 }
 const validationDeleteProjectTaskcodeRules = () => {
-    logger.info(MIDDLEWARE + "validationDeleteProjectTaskcodeRules")
+  
     return [
         param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
         param('taskId').isUUID().withMessage('taskId is not uuid').trim(),
     ]
 }
 const validationUpdateProjectTaskcodeRules = () => {
-    logger.info(MIDDLEWARE + "validationDeleteProjectTaskcodeRules")
+  
     return [
         param('projectId').isUUID().withMessage('ProjectId is not uuid').trim(),
         param('taskId').isUUID().withMessage('taskId is not uuid').trim(),
@@ -43,7 +43,7 @@ const validationUpdateProjectTaskcodeRules = () => {
     ]
 }
 const validationProjectIdAndTaskscodeRules = () => {
-    logger.info(MIDDLEWARE + "validationTaskscodeRules")
+    
 
     return [
        
@@ -52,7 +52,7 @@ const validationProjectIdAndTaskscodeRules = () => {
     ]
 }
 const validateTaskData = (req, res, next) => {
-    logger.info(MIDDLEWARE + "validateTaskData")
+   
     const errors = validationResult(req);
 
     //there is no error.

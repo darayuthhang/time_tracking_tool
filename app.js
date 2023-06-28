@@ -11,12 +11,12 @@ const StartServer = async () => {
     const configSchedule = new ScheduleUtil();
     const app = express();
 
-    const REDIS_PORT = process.env.REDIS_URL || 'redis://redis:6379'
+    const REDIS_PORT = process.env.REDIS_URL;
     let client = ""
     // Create a Redis client
     if(process.env.NODE_ENV === 'local'){
         client = await redis.createClient({
-            url: REDIS_PORT
+            url: "redis://redis:6379"
         });
     }else{
         //production

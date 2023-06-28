@@ -70,7 +70,7 @@ const Task = () => {
          * @this we need 
          */
         const LENGTH_PROJECTS = 7;
-        if (projectListData.length === LENGTH_PROJECTS){
+        if (projectListData.length >= LENGTH_PROJECTS){
             alert("Please upgrade to pro");
             return;
         }

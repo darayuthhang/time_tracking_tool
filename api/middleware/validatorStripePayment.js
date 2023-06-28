@@ -3,7 +3,7 @@ const logger = require("../../utils/error-handler")
 
 let MIDDLEWARE = "MIDDLEWARE ===> "
 const validationStripePaymentData = () => {
-    logger.info(MIDDLEWARE + "validationStripePaymentData")
+  
     return [
         body('userId')
         .isUUID()
@@ -11,7 +11,7 @@ const validationStripePaymentData = () => {
     ]
 }
 const validationStripePaymentRule = (req, res, next) => {
-    logger.info(MIDDLEWARE + "validationStripePaymentRule")
+  
     const errors = validationResult(req);
 
     //there is no error.
