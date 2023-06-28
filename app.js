@@ -20,12 +20,15 @@ const StartServer = async () => {
         });
     }else{
         //production
-        client = await redis.createClient({
-            url: process.env.REDIS_URL,
-            socket: {
-                tls: true,
-                rejectUnauthorized: false,
-            }
+        // client = await redis.createClient({
+        //     url: REDIS_PORT,
+        //     socket: {
+        //         tls: true,
+        //         rejectUnauthorized: false,
+        //     }
+        // });
+         client = await redis.createClient({
+            url: REDIS_PORT
         });
     }
     
