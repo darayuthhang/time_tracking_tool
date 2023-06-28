@@ -21,7 +21,10 @@ module.exports = (app, cache) => {
                 const fiveMintues = 300;
                 const { userId } = req.body;
                 const sessionid = await stripeService.createCheckout();
-                cache.set('userIdForStripe', userId, fiveMintues);
+                await cache.set('userIdForStripe', userId, {
+                    EX: fiveMintues,
+                    NX: true
+                });
                 //update account to pro.
                 res.json({ id: sessionid });
             } catch (error) {
@@ -39,15 +42,15 @@ module.exports = (app, cache) => {
             switch (event.type) {
                 case 'payment_intent.succeeded':
                     // const paymentIntent = event.data.object;
-                    const userId = cache.get('userIdForStripe')
+                    const userId = await cache.get('userIdForStripe')
                     if (userId) {
                         await stripeService.paymentPaid(userId, "pro");
-                        cache.del(userId)
+                        await cache.del(userId)
                     }
                     break;
                 case 'payment_intent.payment_failed':
                     //const paymentMethod = event.data.object;
-                    cache.del('userIdForStripe')    
+                    await cache.del('userIdForStripe')    
                     break;
                 // case 'payment_method.attached':
                 //     const paymentMethod = event.data.object;
