@@ -1,7 +1,15 @@
 version: "3.8"
 #project name api does not have to be the samel name
 services:
+  redis: 
+    image: redis:latest
+    container_name: redis_c
+    restart: unless-stopped
+    expose:
+      - 6379
   back_end:
+    depends_on:
+      - redis
    #find docker file in our code to build it
     build: 
       context: .
@@ -15,6 +23,8 @@ services:
       - .:/usr/app
       #maksure node modules app container does not delete.
       - /usr/app/node_modules
+    environment:
+      - REDIS_URL=redis://cache
   db:
     container_name: postgres
     image: postgres
@@ -57,4 +67,3 @@ services:
     #computer or electronic device to respond to a user’s input.
     stdin_open: true
     tty: true
-

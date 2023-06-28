@@ -6,6 +6,7 @@ const {
 const TaskService = require("../services/task-service");
 const logger = require("../utils/error-handler");
 const {isObjectEmpty} = require('../utils/index');
+
 const { 
     validateTaskData, 
     validationTaskscodeRules,
@@ -30,6 +31,8 @@ module.exports = (app, cache) => {
 
     const PROJECT_TASK_ROUTE = `${API_VERSION}/:projectId/task`
     const PROJECT_TASKS_ROUTE = `${API_VERSION}/:projectId/tasks`
+    // Handle Redis client connection errors
+  
     /**
      * add Bulk of items
      */
@@ -46,7 +49,13 @@ module.exports = (app, cache) => {
     //     }
     // })
     const delCache = (id)=> {
-        cache.del(id);
+        cache.del(id, (error, result) => {
+            if (error) {
+                console.error('Error deleting key:', error);
+            } else {
+                console.log('Key deleted:', result);
+            }
+        });
     }
     /**
      * Add single item
@@ -152,15 +161,28 @@ module.exports = (app, cache) => {
         validateTaskData, async (req, res, next) => {
         logger.info(ApiRouteMessage(`${PROJECT_TASKS_ROUTE}`, "Get tasks"));
         const { projectId } = req.params;
+        const expiration = 3600 //second = 1 hour
         try {
-            let data = null;
-            if(cache.has(projectId)){
-                data = cache.get(projectId);
-            }else{
-                data = await taskService.getTasks(projectId);
-                if(data.length > 0) cache.set(projectId, data);
+            //@Dont delete 
+            //EX: accepts a value with the cache duration in seconds.
+            // NX: when set to true, 
+            //it ensures that the set() 
+            //method should only set a key that doesn’t already exist in Redis.
+            try {
+                let cacheResult = await cache.get(projectId);
+                if (cacheResult) {
+                    data = JSON.parse(cacheResult);
+                } else {
+                    data = await taskService.getTasks(projectId);
+                    if (data.length > 0) await cache.set(projectId, JSON.stringify(data), {
+                        EX: expiration,
+                        NX: true
+                    });
+                }
+                return res.status(200).json({ success: true, data })
+            } catch (error) {
+                next(error);
             }
-            return res.status(200).json({ success: true, data })
         } catch (error) {
             next(error);
         }

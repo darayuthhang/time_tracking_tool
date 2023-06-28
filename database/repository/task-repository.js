@@ -71,7 +71,7 @@ module.exports = class TaskRepository{
         try {
             return await db(TABLE_TASKS)
             .where('project_id', projectId)
-                .whereIn('id', ids).del()
+            .whereIn('id', ids).del()
         } catch (error) {
             throw new APIError('API Error', STATUS_CODES.NOT_FOUND, 'Unable to Delete task')
         }
