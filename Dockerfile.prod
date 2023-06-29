@@ -1,26 +1,18 @@
-FROM node:18-alpine
+FROM node:alpine
 
-#tell docker to run configure in this app directory
 WORKDIR /usr/app
-#copy source code into image
-#copy our current ditrect to new folder call app
+
+COPY package.json knexfile.js ./
 COPY . /usr/app/
 
-COPY package.json .
-COPY knexfile.js .
-
-RUN npm install -g npm
-RUN npm install bcrypt
-RUN npm install -g knex
-
-RUN npm install && npm cache clean --force
-#Installs packages for React app
-RUN npm install --prefix client
-#Builds React app
-RUN npm run --prefix client build
-
-
+RUN npm install --global npm && \
+    npm install --global knex && \
+    npm install bcrypt && \
+    npm install && \
+    npm cache clean --force && \
+    npm install --prefix client && \
+    npm run --prefix client build
 
 EXPOSE 5000
 
-CMD ["npm", "run" , "start"]
+CMD ["npm", "run", "start"]
