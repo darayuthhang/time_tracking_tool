@@ -27,7 +27,7 @@ export function taskListReducers(state = {
 }, action) {
     switch (action.type) {
         case TaskTypes.UPDATE_TASKS_LIST_STATE:
-            return { ...state, taskListData:action.payload }
+            return { ...state, taskListData: [...action.payload] }
         case TaskTypes.GET_TASK_LIST_REQUEST:
             return { ...state, taskListRequest: true };
         case TaskTypes.GET_TASK_LIST_SUCCESS:

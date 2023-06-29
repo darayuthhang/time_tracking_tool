@@ -262,26 +262,34 @@ const TaskTableList = ({
         const {value} = e.target;
       
         setTasktName(value)
-        taskListData[index].task_name = value;
-        dispatch(updateTaskListState(taskListData))
+        // taskListData[index].task_name = value;
+        const updatedTaskListData = [...taskListData]; // Create a new array
+        updatedTaskListData[index] = { ...updatedTaskListData[index], task_name: value }; // Update the specific task
+        dispatch(updateTaskListState(updatedTaskListData))
     }
     const onhandleEditChangeTaskDescription = (e, index) => {
         const {value} = e.target;
         setTaskDescription(value)
-        taskListData[index].task_description = value;
-        dispatch(updateTaskListState(taskListData))
+        // taskListData[index].task_name = value;
+        const updatedTaskListData = [...taskListData]; // Create a new array
+        updatedTaskListData[index] = { ...updatedTaskListData[index], task_description: value }; // Update the specific task
+        dispatch(updateTaskListState(updatedTaskListData))
     }
     const onhandleEditDropDownStatus = (eventKey, event, index) => {
         event.stopPropagation();
         setStatus(eventKey);
-        taskListData[index].task_status = eventKey;
-        dispatch(updateTaskListState(taskListData))
+        const updatedTaskListData = [...taskListData]; // Create a new array
+        updatedTaskListData[index] = { ...updatedTaskListData[index], task_status: eventKey }; // Update the specific task
+        dispatch(updateTaskListState(updatedTaskListData))
+  
     }
     const onhandleEditChangeTaskDate = (e, index) => {
         const { value } = e.target;
         setTaskDate(value)
-        taskListData[index].task_date = value;
-        dispatch(updateTaskListState(taskListData))
+        const updatedTaskListData = [...taskListData]; // Create a new array
+        updatedTaskListData[index] = { ...updatedTaskListData[index], task_status: value }; // Update the specific task
+        dispatch(updateTaskListState(updatedTaskListData))
+
     }
     const onhandleClickEditTask = (e, index) => {
         e.stopPropagation();
