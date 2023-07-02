@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:18-alpine
 
 
 #tell docker to run configure in this app directory
@@ -7,8 +7,10 @@ WORKDIR /usr/app
 #copy our current ditrect to new folder call app
 # RUN mkdir -p /var/lib/docker/tmp/buildkit-mount4223905971/
 
+# RUN npm install -g nodemon && \
+#     npm install bcrypt && \
+#     npm install -g knex
 RUN npm install -g nodemon && \
-    npm install bcrypt && \
     npm install -g knex
 
 
@@ -21,3 +23,4 @@ COPY . .
 EXPOSE 5000
 
 CMD ["npm", "run" , "server"]
+    

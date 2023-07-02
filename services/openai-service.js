@@ -4,7 +4,7 @@ const { Configuration, OpenAIApi } = require('openai')
 module.exports = class OpenAIService {
     constructor(){
         this.configuration = new Configuration({
-            apiKey: "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",
+
         });
         this.openai = new OpenAIApi(this.configuration);
     }

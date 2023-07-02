@@ -15,7 +15,7 @@ import ProjectListRightTab from '../../component/project_list_right_tab/ProjectL
 //import MemoizedTaskTableList from '../../component/sub_project_list_right_tab/TaskTableList';
 // import MemoizedProjectListRightTab from '../../component/project_list_right_tab/ProjectListRightTab';
 import TaskTableList from '../../component/sub_project_list_right_tab/TaskTableList';
-
+import { fetchAccountType } from '../../redux/action/UserAction';
 
 const Task = () => {
     
@@ -24,17 +24,21 @@ const Task = () => {
     const [projectError, setProjectError] = useState(false);
     const [projectDescription, setProjectDescription] = useState("");
     const [projectId, setProjectId] = useState("first"); //this projectTab iD
-  
-
+    const {
+        getAccountTypeData,
+        // getAccountTypeRequest,
+        // getAccountTypeSuccess,
+        // getAccountTypeError
+    } = useSelector((state) => state.accountTypeReducers)
+    const accountType = getAccountTypeData?.data?.account_type
     const dispatch = useDispatch();
 
     //const {user} = useSelector((state) => state.authReducers);
     const user = Cookie.getUser();
+ 
     const { projectRequest, projectSuccess } = useSelector((state) => state.projectReducers);
     const { projectListData } = useSelector((state) => state.projectListReducers)
-    let accountType = "";
-    // i forget i use redux, i can share state to another component.
-    if (projectListData.length > 0) accountType = projectListData[0]?.account_type;
+   
     useEffect(() => {
         if(projectSuccess){
             dispatch(resetStateCreateSuccess());
@@ -44,6 +48,12 @@ const Task = () => {
         
       }
     }, [projectSuccess])
+    useEffect(() => {
+        if (user?.userId) {
+            dispatch(fetchAccountType(user?.userId));
+        }
+        return () => { }
+    }, [])
     /**
      * 
      * @Description onhandleAddProject() is handle sending post request to back-end.
@@ -70,10 +80,19 @@ const Task = () => {
          * @this we need 
          */
         const LENGTH_PROJECTS = 7;
-        if (projectListData.length >= LENGTH_PROJECTS){
-            alert("Please upgrade to pro");
-            return;
+        const LENGTH_PRO_PROJECTS = 300;
+        if (accountType === "pro"){
+            if (projectListData.length >= LENGTH_PRO_PROJECTS) {
+                alert("Reach Maximum limit of pro account.");
+                return;
+            }
+        }else{
+            if (projectListData.length >= LENGTH_PROJECTS) {
+                alert("Please upgrade to pro");
+                return;
+            }
         }
+       
         setShowProject(true);
         resetProjectToEmpty();
     }
@@ -100,6 +119,7 @@ const Task = () => {
         <div 
         style={{height: "100vh"}} 
         className={`${styles['bg-color']}`}>
+           
             <Tab.Container 
                 id="left-tabs-example" 
                 className=""

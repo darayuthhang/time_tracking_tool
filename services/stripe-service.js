@@ -45,7 +45,21 @@ module.exports = class StripeService {
         // await this.UserRepository.updateAccountType(userId, accountType)
         return session.id
     }
-    async paymentPaid(userId, accountType){
+    async subscribe(userId, accountType){
+        try {
+            await this.userRepository.updateAccountType(userId, accountType);
+        } catch (error) {
+            throw new APIError('API Error', error?.message);
+        }
+    }
+    async unsubscribe(userId, accountType) {
+        /**
+         * accept unsubscribe input and send stripe api
+         * then strip api talk to webhook
+         * then we update user to free account.
+         * 
+         * 
+         */
         try {
             await this.userRepository.updateAccountType(userId, accountType);
         } catch (error) {

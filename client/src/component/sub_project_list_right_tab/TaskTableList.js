@@ -5,6 +5,7 @@ import {
     Breadcrumb,
     Dropdown, Row, Col,
     Button, Container,
+    Spinner
     
 } from 'react-bootstrap';
 import { validate as uuidValidate } from 'uuid';
@@ -484,6 +485,7 @@ const TaskTableList = ({
                                 <th scope="col" className={`${styles['date-heading']}`}>Date</th>
                             </tr>
                         </thead>
+                        
                         <tbody>
                             {/* 
                                 Show data that have already added.
@@ -632,7 +634,18 @@ const TaskTableList = ({
                                     </tr>
                                 )
                                 :
-                                ""
+                                <div className='text-center'>
+                                    {taskListRequest ? 
+                                        <Spinner
+                                        as="span"
+                                        animation="border"
+                                        size="sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                     />
+                                    : ""}
+                                </div>
+                                
                             }
                             {/* 
                                 Show Cancel and Add Button 

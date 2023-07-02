@@ -63,3 +63,20 @@ export function googleUserLoginReducers(state = {
         default: return state;
     }
 }
+
+export function accountTypeReducers(state = {
+    getAccountTypeRequest: false,
+    getAccountTypeSuccess: false,
+    getAccountTypeError: null,
+    getAccountTypeData: null
+}, action) {
+    switch (action.type) {
+        case UserTypes.GET_ACCOUNT_TYPE_REQUEST:
+            return { ...state, getAccountTypeRequest: true };
+        case UserTypes.GET_ACCOUNT_TYPE_ERROR:
+            return { ...state, getAccountTypeError: action.payload, getAccountTypeRequest: false };
+        case UserTypes.GET_ACCOUNT_TYPE_SUCCESS:
+            return { ...state, getAccountTypeSuccess: false, getAccountTypeRequest: null, getAccountTypeData:action.payload };
+        default: return state;
+    }
+}

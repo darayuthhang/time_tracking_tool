@@ -8,6 +8,7 @@ class BackEndPoint{
     RESET_PASSWORD = `${API_VERSION}/user/reset-password`
     UPDATE_PASSWORD = `${API_VERSION}/user/update-password`
     AUTH_TOKEN = `${API_VERSION}/user/auth/token`
+    FETCH_ACCOUNT_TYPE = `${API_VERSION}/user/account-type`
     
 }
 export default new BackEndPoint();

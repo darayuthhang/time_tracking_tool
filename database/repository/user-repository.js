@@ -188,5 +188,19 @@ module.exports = class UserRespository {
             throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Invalid link.')
         }
     }
+    async findUserAccountTypeByUserId(userId){
+        try {
+            const accountType = await db(TABLE_USERS)
+                .select('account_type')
+                .where(
+                {
+                    id: userId
+                }
+            ).first();
+            return accountType;
+        } catch (error) {
+            throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, 'Cannot find accountType')
+        }
+    }
 
 }

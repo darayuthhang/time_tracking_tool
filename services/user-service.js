@@ -297,12 +297,18 @@ module.exports = class UserService {
             let hashPassword = await GeneratePassword(password, await GenerateSalt());
             await this.userRepository.updateActiveUserPassword(code?.user_id, hashPassword);
         } catch (error) {
-        
             if (error instanceof APIError) {
                 throw new APIError('API Error', error.statusCode, error.message)
             } else {
                 throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, "Cannot update password")
             }
+        }
+    }
+    async findAccountType({userId}){
+        try {
+            return await this.userRepository.findUserAccountTypeByUserId(userId);
+        } catch (error) {
+            throw new APIError('API Error', error.message)
         }
     }
 }

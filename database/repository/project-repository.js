@@ -37,14 +37,17 @@ module.exports = class ProjectRepository {
          */
         logger.info(ApiRepositoryMessage(this.project, "getProjectByUserId"))
         try {
+            // const projects = await db(TABLE_PROJECTS)
+            // .join(`${TABLE_USERS}`, `${TABLE_USERS}.id`, `${TABLE_PROJECTS}.user_id`)
+            // .select(`${TABLE_PROJECTS}.*`, `${TABLE_USERS}.account_type`)
+            // .where(
+            //     {
+            //         user_id: userId
+            //     }
+            // )
             const projects = await db(TABLE_PROJECTS)
-            .join(`${TABLE_USERS}`, `${TABLE_USERS}.id`, `${TABLE_PROJECTS}.user_id`)
-            .select(`${TABLE_PROJECTS}.*`, `${TABLE_USERS}.account_type`)
-            .where(
-                {
-                    user_id: userId
-                }
-            )
+            .select('*')
+            .where({ user_id: userId})
             .orderBy('created_at', 'asc')
             return projects;
         } catch (error) {

@@ -23,7 +23,7 @@ const {
     GenerateAccessToken,
     VerifyToken} = require('../utils/index');
 
-
+const UserAuth = require('./middleware/auth')
 module.exports = (app) => {
     const { API_VERSION } = apiVersion;
     const userService = new UserService(); 
@@ -138,9 +138,19 @@ module.exports = (app) => {
         }
         return res.status(404).json({ success: false, message: "Nothing is found." })
     })
-
-
-
-   
     
+
+    app.get(`${API_VERSION}/user/account-type/:userId`, 
+        UserAuth,
+        async (req, res, next) => {
+        logger.info(ApiRouteMessage(`${API_VERSION}/user/account-type/:userId`, "POST"))
+        console.log(req.params?.userId);
+        try {
+            let data = await userService.findAccountType(req.params)
+            return res.status(200).json({ success: true, data })
+        } catch (error) {
+            next(error)
+        }
+    })
+
 }

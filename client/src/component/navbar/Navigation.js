@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
-import { Container, 
-    Navbar, 
+import {Navbar, 
     Nav,
-     NavDropdown, 
      Button, 
-     Spinner, Row, Col } from 'react-bootstrap';
+     Spinner } from 'react-bootstrap';
 // import { Link, useNavigate } from 'react-router-dom';
 import ReactEndPoint from '../../constant/ReactEndPoint';
 import useStripePayment from '../../hooks/useStripePayment';
@@ -12,6 +10,7 @@ import styles from './navigation.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import Cookie from '../../uti/Cookie';
 import { removeAuth } from '../../redux/action/AuthAction';
+import { fetchAccountType } from '../../redux/action/UserAction';
 
 import {
     useNavigate,
@@ -26,20 +25,27 @@ const Navigation = ({
     // Link
   
 }) => {
-    const { user, isAuth } = useSelector((state) => state.authReducers)
+    const { isAuth } = useSelector((state) => state.authReducers)
     const [stripePayment, makePayment, loading] = useStripePayment('', false);
     const dispatch = useDispatch();
+    const user = Cookie.getUser();
     const refreshToken = Cookie.getLocalRefreshToken();
+    const {
+        getAccountTypeData,
+        getAccountTypeRequest,
+        getAccountTypeSuccess,
+        getAccountTypeError
+    } = useSelector((state) => state.accountTypeReducers)
+ 
+    const accountType = getAccountTypeData?.data?.account_type
     const navigate = useNavigate();
-    const { projectListData } = useSelector((state) => state.projectListReducers)
-  
+
     const navigateToHomePage = () => {
         dispatch(removeAuth());
         window.location.reload()
     }
-   
+
     if (refreshToken) {
-      
         var decoded = jwt_decode(refreshToken);
         //if token expire.
         if (decoded?.exp * 1000 < Date.now()) {
@@ -59,6 +65,7 @@ const Navigation = ({
     return (
         
         <Navbar expand="lg" className={`${styles['bg-color']}`}>
+         
             {/* <Container className=''> */}
                 <span style={{ fontSize: "16px" }} className='m-2'>&#9200;</span>  
                 {isAuth ? 
@@ -108,17 +115,34 @@ const Navigation = ({
                     </Nav>
                     {isAuth ?
                         <Nav className='ms-auto text-center'>
+                        {accountType === 'pro' ?
+                            <Button
+                                // onClick={makePayment}
+                                variant='success'
+                                className={`text-white fw-medium ${styles['fixed-size-button']}`}
+
+                            >
+                                {getAccountTypeRequest ?
+                                    <Spinner animation="border" size="sm" />
+                                    :
+                                    "Unsubcribe"
+                                }
+                            </Button>
+                            :
                             <Button
                                 onClick={makePayment}
                                 variant='dark'
                                 className={`text-white fw-medium ${styles['fixed-size-button']}`}
-                           
-                                >
+
+                            >
                                 {loading ?
                                     <Spinner animation="border" size="sm" />
-                                :
-                                    "Upgrade to pro"}
+                                    :
+                                    "Upgrade to pro"
+                                }
                             </Button>
+                        }
+                         
 
                             <Nav.Link
                                 className={`${styles['text-hover']} text-dark fw-medium`}

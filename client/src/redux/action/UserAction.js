@@ -76,3 +76,15 @@ export const resetGoogleSignupSuccess = () => {
         type: UserTypes.RESET_GOOGLE_SIGN_UP_USER_SUCCESS
     }
 }
+
+export const fetchAccountType = (userId) => async (dispatch) => {
+    try {
+        dispatch({ type: UserTypes.GET_ACCOUNT_TYPE_REQUEST });
+        const { data } = await axios.get(BackEndPoint.FETCH_ACCOUNT_TYPE + "/" + userId);
+        logSuccess(data);
+        dispatch({ type: UserTypes.GET_ACCOUNT_TYPE_SUCCESS, payload: data });
+    } catch (error) {
+        logError(error, error.message)
+        dispatch({ type: UserTypes.GOOGLE_LOGIN_USER_ERROR, payload: error?.response?.status });
+    }
+}

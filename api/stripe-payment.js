@@ -35,7 +35,6 @@ module.exports = (app, cache) => {
      * @The best way is to use stripe webhook
      */
     app.post('/webhook', async (req, res) => {
-        console.log("stripe webhook");
         try {
             const event = req.body;
             // Handle the event
@@ -44,7 +43,7 @@ module.exports = (app, cache) => {
                     // const paymentIntent = event.data.object;
                     const userId = await cache.get('userIdForStripe')
                     if (userId) {
-                        await stripeService.paymentPaid(userId, "pro");
+                        await stripeService.subscribe(userId, "pro");
                         await cache.del(userId)
                     }
                     break;
@@ -69,5 +68,16 @@ module.exports = (app, cache) => {
         }
       
     });
+    app.post(`${API_VERSION}/create-checkout-session`,
+        stripeTimeLimit,
+
+        async (req, res, next) => {
+            try {
+                
+            } catch (error) {
+                next(error);
+            }
+        });
+
 
 }

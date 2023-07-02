@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import { 
     userSignUpReducers,
     userLoginReducers,
-    googleUserLoginReducers } from './UserReducers';
+    googleUserLoginReducers,
+    accountTypeReducers } from './UserReducers';
 import { authReducers } from './AuthReducers';
 import { 
     projectReducers,
@@ -31,6 +32,7 @@ const allReducers = combineReducers({
     taskUpdateReducers,
     projectUpdateReducers,
     projectDeleteReducers,
-    createPhoneConsentReducers
+    createPhoneConsentReducers,
+    accountTypeReducers
 })
 export default allReducers;
