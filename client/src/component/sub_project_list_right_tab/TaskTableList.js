@@ -473,282 +473,287 @@ const TaskTableList = ({
                     }
 
                 </Breadcrumb>
-                <div className={`table-responsive card  p-3  ${styles['media-query-all-task-texts']}  ${styles['border-table']} `}>
-                    <table className=" table table-bordered rounded rounded-3  ">
-                        <thead>
-                            <tr>
-                                <th scope="col" className={`${styles.tick_box_heading}`}>
-                                </th>
-                                <th scope="col" className={`${styles.td}`}>Task name</th>
-                                <th scope="col" className={`${styles.td}`}>Description</th>
-                                <th scope="col" className={`${styles['status-heading']}`}>Status</th>
-                                <th scope="col" className={`${styles['date-heading']}`}>Date</th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-                            {/* 
+                {taskListRequest ?
+                    <div className='d-flex justify-content-center'>
+                            <Spinner
+                                as="span"
+                                animation="border"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                            />
+                    </div>
+                 
+                    :
+                    <div className={`table-responsive card  p-3  ${styles['media-query-all-task-texts']}  ${styles['border-table']} `}>
+                        <table className=" table table-bordered rounded rounded-3  ">
+                            <thead>
+                                <tr>
+                                    <th scope="col" className={`${styles.tick_box_heading}`}>
+                                    </th>
+                                    <th scope="col" className={`${styles.td}`}>Task name</th>
+                                    <th scope="col" className={`${styles.td}`}>Description</th>
+                                    <th scope="col" className={`${styles['status-heading']}`}>Status</th>
+                                    <th scope="col" className={`${styles['date-heading']}`}>Date</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {/* 
                                 Show data that have already added.
                             */}
-                            {taskListData.length > 0 ?
-                                taskListData.map((val, index) =>
-                                    <tr key={val?.id}>
-                                        <th scope="col" onClick={(e) => { e.stopPropagation() }}
-                                        >
-                                            <div className='d-flex justify-content-center mt-1 '>
-                                                <input
-                                                    type="checkbox"
-                                                    value={JSON.stringify(val)}
-                                                    onChange={onhandleChangeTick}
-                                                />
-                                            </div>
-                                        </th>
-                                        {isEditTask && editIndex === index ?
-                                            <td
-                                                onClick={(e) => { e.stopPropagation() }}
+
+                                {taskListData.length > 0 ?
+                                    taskListData.map((val, index) =>
+                                        <tr key={val?.id}>
+                                            <th scope="col" onClick={(e) => { e.stopPropagation() }}
                                             >
-                                                <div className='d-flex align-items-center mt-2'>
-                                                    <textarea
-                                                        rows="2"
-                                                        className={`text-break ${styles.textarea} p-2`}
-                                                        placeholder="Task name"
-                                                        value={val?.task_name}
-                                                        onChange={(e) => onhandleEditChangeTaskName(e, index)}
-                                                        id="floatingTextarea">
-                                                    </textarea>
-                                                    {/* <input
+                                                <div className='d-flex justify-content-center mt-1 '>
+                                                    <input
+                                                        type="checkbox"
+                                                        value={JSON.stringify(val)}
+                                                        onChange={onhandleChangeTick}
+                                                    />
+                                                </div>
+                                            </th>
+                                            {isEditTask && editIndex === index ?
+                                                <td
+                                                    onClick={(e) => { e.stopPropagation() }}
+                                                >
+                                                    <div className='d-flex align-items-center mt-2'>
+                                                        <textarea
+                                                            rows="2"
+                                                            className={`text-break ${styles.textarea} p-2`}
+                                                            placeholder="Task name"
+                                                            value={val?.task_name}
+                                                            onChange={(e) => onhandleEditChangeTaskName(e, index)}
+                                                            id="floatingTextarea">
+                                                        </textarea>
+                                                        {/* <input
                                                         className={`text-break ${styles.textarea}  p-2`}
                                                         placeholder="Task name"
                                                         value={val?.task_name}
                                                         onChange={(e) => onhandleEditChangeTaskName(e, index)}
                                                     /> */}
-                                                </div>
-                                              
-                                            </td>
+                                                    </div>
 
-                                            :
-                                            <td
-                                                onClick={(e) => onhandleClickEditTask(e, index)}
-                                                className={` text-break ${styles['task-col']}`}
-                                            >
-                                                <div >
-                                                    {val?.task_name}
-                                                </div>
-                                            </td>
-                                        }
-                                        {isEditTask && editIndex === index ?
-                                            <td
-                                                onClick={(e) => { e.stopPropagation() }}
-                                            >
-                                                <div className='d-flex align-items-center mt-2'>
-                                                    <textarea
-                                                        rows="2"
-                                                        className={`${styles.textarea} p-2`}
-                                                        placeholder="Task description"
-                                                        value={val?.task_description}
-                                                        onClick={(e) => { e.stopPropagation() }}
-                                                        onChange={(e) => onhandleEditChangeTaskDescription(e, index)}
-                                                        id="floatingTextarea">
-                                                    </textarea>
-                                                </div>
-                                            </td>
-                                            :
-                                            <td
-                                                onClick={(e) => onhandleClickEditTask(e, index)}
-                                                // onClick={(e) => onhandleClickEditTask(e, index)}
-                                                className={`text-break ${styles['task-col']}`}
-                                            >
-                                                <div>
-                                                    {val?.task_description}
-                                                </div>
+                                                </td>
 
-                                            </td>
-                                        }
-                                        {isEditTask && editIndex === index ?
-                                            <td
-                                                className={`d-flex justify-content-center align-items-center `}
-                                                onClick={(e) => { e.stopPropagation() }}
-                                            >
-                                                <Dropdown onSelect={(eventKey, event) => onhandleEditDropDownStatus(eventKey, event, index)}>
-                                                    <Dropdown.Toggle
-                                                        className={`${styles['dropdown-toggle']}`}
-                                                        variant={val?.task_status === DONE ? "success" : "danger"}
-                                                        id="dropdown-basic" >
-                                                        {val?.task_status}
-                                                    </Dropdown.Toggle>
-                                                    <Dropdown.Menu
-                                                        className={`${styles['dropdown-menu']}`}>
-                                                        <Dropdown.Item
-                                                            eventKey={val?.task_status === PROGRESS ? DONE : PROGRESS}
-                                                            className={
-                                                                `${val?.task_status !== DONE ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}`
-                                                            }
-                                                        >
-                                                            {val?.task_status === PROGRESS ? DONE : PROGRESS}
-                                                        </Dropdown.Item>
-                                                    </Dropdown.Menu>
-                                                </Dropdown>
-                                            </td>
-                                            :
-                                            <td
+                                                :
+                                                <td
+                                                    onClick={(e) => onhandleClickEditTask(e, index)}
+                                                    className={` text-break ${styles['task-col']}`}
+                                                >
+                                                    <div >
+                                                        {val?.task_name}
+                                                    </div>
+                                                </td>
+                                            }
+                                            {isEditTask && editIndex === index ?
+                                                <td
+                                                    onClick={(e) => { e.stopPropagation() }}
+                                                >
+                                                    <div className='d-flex align-items-center mt-2'>
+                                                        <textarea
+                                                            rows="2"
+                                                            className={`${styles.textarea} p-2`}
+                                                            placeholder="Task description"
+                                                            value={val?.task_description}
+                                                            onClick={(e) => { e.stopPropagation() }}
+                                                            onChange={(e) => onhandleEditChangeTaskDescription(e, index)}
+                                                            id="floatingTextarea">
+                                                        </textarea>
+                                                    </div>
+                                                </td>
+                                                :
+                                                <td
+                                                    onClick={(e) => onhandleClickEditTask(e, index)}
+                                                    // onClick={(e) => onhandleClickEditTask(e, index)}
+                                                    className={`text-break ${styles['task-col']}`}
+                                                >
+                                                    <div>
+                                                        {val?.task_description}
+                                                    </div>
 
-                                                className={`${styles['task-col']} ${styles['progress-column']} `}
-                                                onClick={(e) => onhandleClickEditTask(e, index)}
-                                            >
-                                                <div
-                                                    className={`d-flex align-items-center justify-content-center
-                                                ${styles['sub-progress-column']}`}
+                                                </td>
+                                            }
+                                            {isEditTask && editIndex === index ?
+                                                <td
+                                                    className={`d-flex justify-content-center align-items-center `}
+                                                    onClick={(e) => { e.stopPropagation() }}
+                                                >
+                                                    <Dropdown onSelect={(eventKey, event) => onhandleEditDropDownStatus(eventKey, event, index)}>
+                                                        <Dropdown.Toggle
+                                                            className={`${styles['dropdown-toggle']}`}
+                                                            variant={val?.task_status === DONE ? "success" : "danger"}
+                                                            id="dropdown-basic" >
+                                                            {val?.task_status}
+                                                        </Dropdown.Toggle>
+                                                        <Dropdown.Menu
+                                                            className={`${styles['dropdown-menu']}`}>
+                                                            <Dropdown.Item
+                                                                eventKey={val?.task_status === PROGRESS ? DONE : PROGRESS}
+                                                                className={
+                                                                    `${val?.task_status !== DONE ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}`
+                                                                }
+                                                            >
+                                                                {val?.task_status === PROGRESS ? DONE : PROGRESS}
+                                                            </Dropdown.Item>
+                                                        </Dropdown.Menu>
+                                                    </Dropdown>
+                                                </td>
+                                                :
+                                                <td
+
+                                                    className={`${styles['task-col']} ${styles['progress-column']} `}
+                                                    onClick={(e) => onhandleClickEditTask(e, index)}
                                                 >
                                                     <div
-                                                        className={`${val.task_status === PROGRESS ? `badge bg-danger` : `badge bg-success`}`}>
-                                                        {val?.task_status}
+                                                        className={`d-flex align-items-center justify-content-center
+                                                ${styles['sub-progress-column']}`}
+                                                    >
+                                                        <div
+                                                            className={`${val.task_status === PROGRESS ? `badge bg-danger` : `badge bg-success`}`}>
+                                                            {val?.task_status}
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                            </td>
-                                        }
+                                                </td>
+                                            }
 
-                                        {isEditTask && editIndex === index ?
-                                            <td
-                                                className={`${styles['task-col']}`}
-                                                onClick={(e) => { e.stopPropagation() }}
-                                            >
-                                                <input
-                                                    type='date'
-                                                    className={`${styles['change-font-size-of-date']} border-0 mt-2`}
-                                                    value={convertDateFormatToISOformat(val?.task_date)}
-                                                    onChange={(e) => onhandleEditChangeTaskDate(e, index)}
-                                                />
-                                            </td>
-                                            :
-                                            <td className={`${styles['task-col']} ${styles['date-column']} `}
-                                                onClick={(e) => onhandleClickEditTask(e, index)}
-                                            >
-                                                <div className={`d-flex align-items-center justify-content-center
-                                                ${styles['sub-date-column change-font-size-of-date ']}`}
+                                            {isEditTask && editIndex === index ?
+                                                <td
+                                                    className={`${styles['task-col']}`}
+                                                    onClick={(e) => { e.stopPropagation() }}
                                                 >
-                                                    {val?.task_date}
-                                                </div>
-                                            </td>
-                                        }
-                                    </tr>
-                                )
-                                :
-                                <div className='text-center'>
-                                    {taskListRequest ? 
-                                        <Spinner
-                                        as="span"
-                                        animation="border"
-                                        size="sm"
-                                        role="status"
-                                        aria-hidden="true"
-                                     />
-                                    : ""}
-                                </div>
-                                
-                            }
-                            {/* 
+                                                    <input
+                                                        type='date'
+                                                        className={`${styles['change-font-size-of-date']} border-0 mt-2`}
+                                                        value={convertDateFormatToISOformat(val?.task_date)}
+                                                        onChange={(e) => onhandleEditChangeTaskDate(e, index)}
+                                                    />
+                                                </td>
+                                                :
+                                                <td className={`${styles['task-col']} ${styles['date-column']} `}
+                                                    onClick={(e) => onhandleClickEditTask(e, index)}
+                                                >
+                                                    <div className={`d-flex align-items-center justify-content-center
+                                                ${styles['sub-date-column change-font-size-of-date ']}`}
+                                                    >
+                                                        {val?.task_date}
+                                                    </div>
+                                                </td>
+                                            }
+                                        </tr>
+                                    )
+                                    :
+                                    ""
+
+                                }
+                                {/* 
                                 Show Cancel and Add Button 
                             */}
-                            {showInputFill &&
-                                <tr className=''>
-                                    <th scope="row" className=''>
-                                        <div className='d-flex justify-content-center mt-1 '>
-                                            <input
-                                                type="checkbox"
-                                                id="vehicle1" name="vehicle1" value="Bike"
-                                                className='text-break'
-                                            />
-                                        </div>
-                                    </th>
-                                    <td className={`p-0`}>
-                                        <div className='d-flex align-items-center mt-2'>
-                                            <textarea
-                                                rows="1"
-                                                className={`${styles.textarea} p-2`}
-                                                placeholder="Task name"
-                                                onChange={onhandleChangeTaskName}
-                                                // onKeyDown={onhandleChangeTaskName}
-                                                onKeyUp={onhandleChangeTaskName}
-                                                id="floatingTextarea">
-                                            </textarea>
-                                        </div>
-                                    </td>
-                                    <td className={` p-0`}>
-                                        <div className='d-flex align-items-center mt-2'>
-                                            <textarea
-                                                rows="1"
-                                                className={`${styles.textarea} p-2`}
-                                                placeholder="Leave your comment"
-                                                onChange={onhandleChangetaskDescriptionName}
-                                                onKeyUp={onhandleChangetaskDescriptionName}
-                                                id="floatingTextarea">
-                                            </textarea>
-                                        </div>
-                                    </td>
-                                    <td className={`d-flex justify-content-center ${styles['task-col']}`}>
-                                        <Dropdown onSelect={onhandleSelectDropDown}>
-                                            <Dropdown.Toggle
-                                                className={`${styles['dropdown-toggle']}`}
-                                                variant={status === DONE ? "success" : "danger"}
-                                                id="dropdown-basic" >
-                                                {status === "" || status === PROGRESS ? PROGRESS : DONE}
-                                                {/* {status === "" ? PROGRESS: DONE} */}
-                                            </Dropdown.Toggle>
-                                            <Dropdown.Menu
-                                                className={`${styles['dropdown-menu']}`}>
-                                                <Dropdown.Item
-                                                    eventKey={status === "" || status === PROGRESS ? DONE : PROGRESS}
-                                                    className={status === "" || status === PROGRESS ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
-                                                >
-                                                    {status === "" || status === PROGRESS ? DONE : PROGRESS}
-                                                    {/* {status !== "" ? PROGRESS : DONE} */}
-                                                </Dropdown.Item>
+                                {showInputFill &&
+                                    <tr className=''>
+                                        <th scope="row" className=''>
+                                            <div className='d-flex justify-content-center mt-1 '>
+                                                <input
+                                                    type="checkbox"
+                                                    id="vehicle1" name="vehicle1" value="Bike"
+                                                    className='text-break'
+                                                />
+                                            </div>
+                                        </th>
+                                        <td className={`p-0`}>
+                                            <div className='d-flex align-items-center mt-2'>
+                                                <textarea
+                                                    rows="1"
+                                                    className={`${styles.textarea} p-2`}
+                                                    placeholder="Task name"
+                                                    onChange={onhandleChangeTaskName}
+                                                    // onKeyDown={onhandleChangeTaskName}
+                                                    onKeyUp={onhandleChangeTaskName}
+                                                    id="floatingTextarea">
+                                                </textarea>
+                                            </div>
+                                        </td>
+                                        <td className={` p-0`}>
+                                            <div className='d-flex align-items-center mt-2'>
+                                                <textarea
+                                                    rows="1"
+                                                    className={`${styles.textarea} p-2`}
+                                                    placeholder="Leave your comment"
+                                                    onChange={onhandleChangetaskDescriptionName}
+                                                    onKeyUp={onhandleChangetaskDescriptionName}
+                                                    id="floatingTextarea">
+                                                </textarea>
+                                            </div>
+                                        </td>
+                                        <td className={`d-flex justify-content-center ${styles['task-col']}`}>
+                                            <Dropdown onSelect={onhandleSelectDropDown}>
+                                                <Dropdown.Toggle
+                                                    className={`${styles['dropdown-toggle']}`}
+                                                    variant={status === DONE ? "success" : "danger"}
+                                                    id="dropdown-basic" >
+                                                    {status === "" || status === PROGRESS ? PROGRESS : DONE}
+                                                    {/* {status === "" ? PROGRESS: DONE} */}
+                                                </Dropdown.Toggle>
+                                                <Dropdown.Menu
+                                                    className={`${styles['dropdown-menu']}`}>
+                                                    <Dropdown.Item
+                                                        eventKey={status === "" || status === PROGRESS ? DONE : PROGRESS}
+                                                        className={status === "" || status === PROGRESS ? `${styles['dropdown-item-1']}` : `${styles['dropdown-item-2']}`}
+                                                    >
+                                                        {status === "" || status === PROGRESS ? DONE : PROGRESS}
+                                                        {/* {status !== "" ? PROGRESS : DONE} */}
+                                                    </Dropdown.Item>
 
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </td>
-                                    <td className=''>
-                                        <input
-                                            type='date'
-                                            className={`${styles['change-font-size-of-date']} border-0 mt-2 `}
-                                            onChange={onhandleChangeDate}
-                                            onKeyUp={onhandleChangeDate}
-                                        />
-                                        {/* {isDateEmpty && <div className='text-danger'>Input date cannot be empty</div>} */}
-                                    </td>
-                                    {/* <td className=''><i className={`${styles.trash} bi bi-trash`}></i></td> */}
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <Row>
-                        <Col md={9}>
-                            <div className={`${styles.add_task_plus_sign} d-flex gap-2 `} onClick={switchShowFillInput}>
-                                <div className={` ms-3 fw-bold`} >+</div>
-                                <p>Create new TaskList</p>
-                            </div>
-                        </Col>
-                        <Col md={3}>
-                            {showInputFill &&
-                                <div className={`d-flex justify-content-end gap-2 `}>
-                                    <button
-                                        type="button"
-                                        className={` ${styles['media-query-add-cancel-btn']} btn btn-light`}
-                                        onClick={onhandleCloseInputFill}>Cancel</button>
-                                    <Button
-                                        variant="danger"
-                                        className={` ${styles['media-query-add-cancel-btn']}`}
-                                        disabled={taskRequest || !taskName}
-                                        onClick={onhandleAddTask}
-                                    >
-                                        {taskRequest ? 'Loading…' : 'Add task'}
-                                    </Button>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </td>
+                                        <td className=''>
+                                            <input
+                                                type='date'
+                                                className={`${styles['change-font-size-of-date']} border-0 mt-2 `}
+                                                onChange={onhandleChangeDate}
+                                                onKeyUp={onhandleChangeDate}
+                                            />
+                                            {/* {isDateEmpty && <div className='text-danger'>Input date cannot be empty</div>} */}
+                                        </td>
+                                        {/* <td className=''><i className={`${styles.trash} bi bi-trash`}></i></td> */}
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <Row>
+                            <Col md={9}>
+                                <div className={`${styles.add_task_plus_sign} d-flex gap-2 `} onClick={switchShowFillInput}>
+                                    <div className={` ms-3 fw-bold`} >+</div>
+                                    <p>Create new TaskList</p>
                                 </div>
-                            }
-                        </Col>
-                    </Row>
-                </div >
+                            </Col>
+                            <Col md={3}>
+                                {showInputFill &&
+                                    <div className={`d-flex justify-content-end gap-2 `}>
+                                        <button
+                                            type="button"
+                                            className={` ${styles['media-query-add-cancel-btn']} btn btn-light`}
+                                            onClick={onhandleCloseInputFill}>Cancel</button>
+                                        <Button
+                                            variant="danger"
+                                            className={` ${styles['media-query-add-cancel-btn']}`}
+                                            disabled={taskRequest || !taskName}
+                                            onClick={onhandleAddTask}
+                                        >
+                                            {taskRequest ? 'Loading…' : 'Add task'}
+                                        </Button>
+                                    </div>
+                                }
+                            </Col>
+                        </Row>
+                    </div >
+                }
+               
             </div>}
             {/* <Container className={`${styles["sub-project-list-container"]} p-5 border border-danger `}> */}
          
