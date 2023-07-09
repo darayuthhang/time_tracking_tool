@@ -3,12 +3,13 @@ const { ApiServiceMessage } = require("../constant/message");
 const logger = require("../utils/error-handler")
 const { APIError, STATUS_CODES } = require("../utils/app-errors");
 
-const { ProjectRepository } = require("../database/repository/index"); // {UserResponsetory : require}  ===> Userespo1.userresponse(reuire) => new
+const { ProjectRepository, ConsentRepository } = require("../database/repository/index"); // {UserResponsetory : require}  ===> Userespo1.userresponse(reuire) => new
 
 module.exports = class ProjectService{
     constructor(){
         this.projectService = "PROJECT SERVICE";
         this.projectRepository = new ProjectRepository();
+        this.consentRepository = new ConsentRepository();
     }
     async createProject(projectName, projectDescription, userId){
         logger.info(ApiServiceMessage(this.projectService, "createProject"))
@@ -26,8 +27,16 @@ module.exports = class ProjectService{
     async getProjectByUserId(userId){
         logger.info(ApiServiceMessage(this.projectService, "getProjectByUserId"))
         try {
+            let object = {}
+            let res = await this.consentRepository.getTotalPhoneNumberConsent(userId);
             let data = await this.projectRepository.getProjectByUserId(userId);
-            return data;
+            if(data.length > 0){
+                object = {
+                    total_projects: data,
+                    total_consent: res[0]?.total_consent
+                }
+            }
+            return object;
         } catch (error) {
       
             if (error instanceof APIError) {

@@ -5,7 +5,7 @@ const { MidError } = require("./utils/middleware-error");
 
 // const NodeCache = require("node-cache");
 // const cache = new NodeCache({ stdTTL: 100, checkperiod: 100 });
-module.exports = async (app, cache) => {
+module.exports = async (app, cache, express) => {
     const setupForStripeWebhooks = {
         // Because Stripe needs the raw body, we compute it but only when hitting the Stripe callback URL.
         verify: function (req, res, buf) {
@@ -15,16 +15,19 @@ module.exports = async (app, cache) => {
             }
         }
     };
+    // app.use(express.raw({ type: 'application/json' }));
     // app.use(express.static('public'));
     // app.use(express.json())
     app.use(express.json(setupForStripeWebhooks));
+   
+    // app.use(express.raw({ type: 'application/json' }))
     app.use(cors());
 
     user(app);
     task(app, cache);
     project(app);
     consent(app);
-    stripePayment(app, cache)
+    stripePayment(app, cache, express)
 
     //api
     // customer(app);

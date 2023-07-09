@@ -31,7 +31,7 @@ module.exports = class ConsentService {
                 timeZone,
                 taskTosend,
                 userId);
-            return this.scheduleUtil.sendScheduleThroughPhone(scheduleDateAndTime, timeZone, taskTosend, phoneNumber, scheduleId)
+            return await this.scheduleUtil.sendScheduleThroughPhone(scheduleDateAndTime, timeZone, taskTosend, phoneNumber, scheduleId)
         } catch (error) {
             throw new APIError('Data Not found', error)           
         }

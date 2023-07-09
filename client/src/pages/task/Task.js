@@ -27,10 +27,11 @@ const Task = () => {
     const {
         getAccountTypeData,
         // getAccountTypeRequest,
-        // getAccountTypeSuccess,
+        getAccountTypeSuccess,
         // getAccountTypeError
     } = useSelector((state) => state.accountTypeReducers)
     const accountType = getAccountTypeData?.data?.account_type
+ 
     const dispatch = useDispatch();
 
     //const {user} = useSelector((state) => state.authReducers);
@@ -38,7 +39,7 @@ const Task = () => {
  
     const { projectRequest, projectSuccess } = useSelector((state) => state.projectReducers);
     const { projectListData } = useSelector((state) => state.projectListReducers)
-   
+ 
     useEffect(() => {
         if(projectSuccess){
             dispatch(resetStateCreateSuccess());
@@ -48,12 +49,12 @@ const Task = () => {
         
       }
     }, [projectSuccess])
-    useEffect(() => {
-        if (user?.userId) {
-            dispatch(fetchAccountType(user?.userId));
-        }
-        return () => { }
-    }, [])
+    // useEffect(() => {
+    //     if (user?.userId) {
+    //         dispatch(fetchAccountType(user?.userId));
+    //     }
+    //     return () => { }
+    // }, [])
     /**
      * 
      * @Description onhandleAddProject() is handle sending post request to back-end.
@@ -141,8 +142,8 @@ const Task = () => {
                                     </div>
                                 </Nav.Link>
                             </Nav.Item >
-                            {projectListData.length > 0 && 
-                                projectListData.map((val, index) => 
+                            {projectListData?.length > 0 && 
+                                projectListData?.map((val, index) => 
                                     <Nav.Item  
                                         key={val?.id}  >
                                         <Nav.Link 

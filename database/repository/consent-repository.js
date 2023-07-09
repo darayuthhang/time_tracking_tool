@@ -22,7 +22,8 @@ module.exports = class ConsentRepository{
         scheduleDateAndTime,
         timeZone,
         taskTosend,
-        userId){
+        userId,
+        ){
         let phoneConsentId = "";
         let scheduleId = null;
         try {
@@ -85,6 +86,19 @@ module.exports = class ConsentRepository{
                 'API Error',
                 STATUS_CODES.INTERNAL_ERROR,
                 `Unable to updateIsSent`)
+        }
+    }
+    async getTotalPhoneNumberConsent(userId){
+        try {
+            const consent = await db(TABLE_USER_CONSENT_PHONE_NUMBER)
+                .count('id as total_consent')
+                .where({ user_id: userId })
+            return consent;
+        } catch (error) {
+            throw new APIError(
+                'API Error',
+                STATUS_CODES.INTERNAL_ERROR,
+                `Unable to getTotalPhoneNumberConsent`)
         }
     }
 }

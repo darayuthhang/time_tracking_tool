@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { UserRepository } = require("../database/repository/index")
+const { UserRepository, SubscriptionRepository } = require("../database/repository/index")
 const { APIError, STATUS_CODES } = require("../utils/app-errors");
 
 module.exports = class StripeService {
@@ -10,58 +10,62 @@ module.exports = class StripeService {
     constructor() {
         this.stripeSecretKey = "";
         this.productPRO = ""
+        this.clientUrl = ""
         if (process.env.NODE_ENV === 'local') {
+            this.clientUrl = process.env.CLIENT_URL
             this.stripeSecretKey = process.env.STRIPE_TEST_SECRET_KEY
-            this.productPRO = "price_1NM0g6EHMSSFUM4oWRPoouu8"
+            this.productPRO = process.env.STIRPE_PRODUCT_PRO_TEST
         } else {
+            this.clientUrl = "https://www.taskkru.com"
             this.productPRO = "price_1NL9uIEHMSSFUM4ooucxHgum"
             this.stripeSecretKey = process.env.STRIPE_SECRET_KEY
         }
         this.stripe = require("stripe")(this.stripeSecretKey);
-        this.userRepository = new UserRepository();
-        this.clientUrl = ""
-        if(process.env.NODE_ENV === 'local'){
-            this.clientUrl = process.env.CLIENT_URL
-        }else{
-            this.clientUrl = "https://www.taskkru.com"
-        }
-      
+        this.subscriptionRepository = new SubscriptionRepository();
     }
-    async createCheckout() {
-        const session = await this.stripe.checkout.sessions.create({
-            //card
-            payment_method_types: ["card"],
-            line_items: [
-                {
-                    price: this.productPRO,
-                    quantity: 1
-                },
-            ],
-            mode: "subscription",
-            success_url: `${this.clientUrl}/stripe-payment/success`,
-            cancel_url: `${this.clientUrl}/stripe-payment/failure`,
-        });
-       
-        // await this.UserRepository.updateAccountType(userId, accountType)
-        return session.id
-    }
-    async subscribe(userId, accountType){
+    async createCheckout(userId) {
         try {
-            await this.userRepository.updateAccountType(userId, accountType);
+            const subId = await this.subscriptionRepository.getSubId(userId);
+            if (subId){
+                const subscription = await this.stripe.subscriptions.retrieve(subId);
+                 // Check if customer has an active subscription
+                if(subscription){
+                    throw new Error('You are already subscribed.')
+                }
+            }else{
+                const session = await this.stripe.checkout.sessions.create({
+                    //card
+                    payment_method_types: ["card"],
+                    line_items: [
+                        {
+                            price: this.productPRO,
+                            quantity: 1
+                        },
+                    ],
+                    mode: "subscription",
+                    success_url: `${this.clientUrl}/stripe-payment/success`,
+                    cancel_url: `${this.clientUrl}/stripe-payment/failure`,
+                });
+                return session.id
+            }
+           
+        } catch (error) {
+            throw new APIError('API Error', error?.message);
+        }
+        
+    }
+    async subscribe(userId, accountType, plan, stripeSubId){
+        try {
+            let subDb = await this.subscriptionRepository.createSubscription(userId, accountType, plan, stripeSubId);
         } catch (error) {
             throw new APIError('API Error', error?.message);
         }
     }
-    async unsubscribe(userId, accountType) {
-        /**
-         * accept unsubscribe input and send stripe api
-         * then strip api talk to webhook
-         * then we update user to free account.
-         * 
-         * 
-         */
+    async unsubscribe(userId) {
         try {
-            await this.userRepository.updateAccountType(userId, accountType);
+            let subId = await this.subscriptionRepository.getSubId(userId);
+            await this.stripe.subscriptions.del(subId);
+            await this.subscriptionRepository.unsubscribe(userId, subId, "free")
         } catch (error) {
             throw new APIError('API Error', error?.message);
         }

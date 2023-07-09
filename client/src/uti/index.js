@@ -58,3 +58,15 @@ export const getLastUpdateAgo = (timestamp) => {
     }
 };
 
+export const isFreeAccountAndThreePhoneConsent = (
+    totalPhoneConsent,
+    accountType
+) => {
+    return totalPhoneConsent && parseInt(totalPhoneConsent) >= 3 && accountType === "free";
+}
+export const isProAccountAnd200PhoneConsent = (
+    totalPhoneConsent,
+    accountType
+) => {
+    return totalPhoneConsent && parseInt(totalPhoneConsent) >= 200 && accountType === "pro";
+}

@@ -7,6 +7,7 @@ const useStripePayment = (initialValue, loadingValue) => {
 
     const [stripePayment, setStripePayment] = useState(initialValue);
     const [loading, setLoading] = useState(loadingValue);
+    const [subscribeSuccess, setSuccess] = useState(false);
     const user = Cookie.getUser();
     let publicKey = "";
   
@@ -38,12 +39,17 @@ const useStripePayment = (initialValue, loadingValue) => {
                 sessionId: session?.data?.id,
             });
             setLoading(false)
+            setSuccess(true)
         } catch (error) {
             console.log(error);
             setLoading(false)
         }
     };
-    return [stripePayment, makePayment, loading]
+    const setSubscribeSuccess = () => {
+        setSuccess(false)
+    }
+   
+    return [stripePayment, makePayment, loading, subscribeSuccess, setSubscribeSuccess ]
 };
 
 export default useStripePayment;

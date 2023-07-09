@@ -3,5 +3,6 @@ module.exports = {
     TokenRepository:require("./token-repository"),
     ProjectRepository:require("./project-repository"),
     TaskRepository:require("./task-repository"),
-    ConsentRepository:require('./consent-repository')
+    ConsentRepository:require('./consent-repository'),
+    SubscriptionRepository:require("./subscription-repository")
 }

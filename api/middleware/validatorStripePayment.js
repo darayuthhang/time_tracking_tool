@@ -10,6 +10,13 @@ const validationStripePaymentData = () => {
         .withMessage('UserId is not uuid').trim(),
     ]
 }
+const validationStripeUnsubscribeData = () => {
+    return [
+        param('userId')
+            .isUUID()
+            .withMessage('UserId is not uuid').trim(),
+    ]
+}
 const validationStripePaymentRule = (req, res, next) => {
   
     const errors = validationResult(req);
@@ -27,5 +34,6 @@ const validationStripePaymentRule = (req, res, next) => {
 
 module.exports = {
     validationStripePaymentData,
+    validationStripeUnsubscribeData,
     validationStripePaymentRule
 };

@@ -41,7 +41,7 @@ const StartServer = async () => {
 
   
     await databaseConnection();
-    await expressApp(app, client);
+    await expressApp(app, client, express);
     const PORT = process.env.PORT || 5000;
     if (process.env.NODE_ENV !== 'local') {
         app.use(express.static(path.join(__dirname, 'client/build')));

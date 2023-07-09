@@ -7,7 +7,7 @@ const {
 const db = require("../../config/index");
 const logger = require("../../utils/error-handler")
 const { ApiRepositoryMessage } = require('../../constant/message');
-const { TABLE_PROJECTS, TABLE_TASKS, TABLE_USERS } = require("../table-name");
+const { TABLE_PROJECTS, TABLE_TASKS, TABLE_USERS, TABLE_USER_CONSENT_PHONE_NUMBER } = require("../table-name");
 
 
 module.exports = class ProjectRepository {
@@ -37,18 +37,37 @@ module.exports = class ProjectRepository {
          */
         logger.info(ApiRepositoryMessage(this.project, "getProjectByUserId"))
         try {
+            // const projects = await db('projects')
+            //     .leftJoin(
+            //         `${TABLE_USER_CONSENT_PHONE_NUMBER}`,
+            //         `${TABLE_PROJECTS}.user_id`,
+            //         `${TABLE_USER_CONSENT_PHONE_NUMBER}.user_id`
+            //     )
+            //     .select(
+            //         `${TABLE_PROJECTS}.id as id`,
+            //         `${TABLE_PROJECTS}.project_name`,
+            //         `${TABLE_PROJECTS}.project_description`,
+            //         `${TABLE_PROJECTS}.created_at`,
+            //         db.raw(`CAST((SELECT COUNT(id) FROM ${TABLE_USER_CONSENT_PHONE_NUMBER} WHERE ${TABLE_USER_CONSENT_PHONE_NUMBER}.user_id = projects.user_id) AS INTEGER) as consent_count`)
+
+            //     )
+            //     .where('projects.user_id', userId)
+            //     .orderBy('projects.created_at', 'asc');
+    
             // const projects = await db(TABLE_PROJECTS)
-            // .join(`${TABLE_USERS}`, `${TABLE_USERS}.id`, `${TABLE_PROJECTS}.user_id`)
-            // .select(`${TABLE_PROJECTS}.*`, `${TABLE_USERS}.account_type`)
+            // .join(`${TABLE_USER_CONSENT_PHONE_NUMBER}`, `${TABLE_PROJECTS}.user_id`, `${TABLE_USER_CONSENT_PHONE_NUMBER}.user_id`)
+            // .select(`${TABLE_PROJECTS}.*`, `count(${TABLE_USER_CONSENT_PHONE_NUMBER}.id)`)
             // .where(
             //     {
             //         user_id: userId
             //     }
-            // )
+            // ).orderBy(`${TABLE_PROJECTS}.created_at, '${TABLE_PROJECTS}.asc'`)
+            // console.log(projects);
             const projects = await db(TABLE_PROJECTS)
             .select('*')
             .where({ user_id: userId})
             .orderBy('created_at', 'asc')
+        
             return projects;
         } catch (error) {
              throw new APIError('API Error', STATUS_CODES.NOT_FOUND, `Unable to GET project:${error.message}`)

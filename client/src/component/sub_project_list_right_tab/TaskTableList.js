@@ -24,7 +24,9 @@ import {
         parsePhoneNumber,
         formatPhoneNumber } from 'react-phone-number-input'
 import { createPhoneConsent } from '../../redux/action/ConsentAction';
-
+import { 
+    isFreeAccountAndThreePhoneConsent,
+    isProAccountAnd200PhoneConsent } from '../../uti';
 const TaskTableList = ({ 
     projectNameHeading, 
     projectId,
@@ -91,7 +93,11 @@ const TaskTableList = ({
     const { taskListRequest, taskListData } = useSelector((state) => state.taskListReducers);
     const { taskListDeleteRequest, taskListDeleteSuccess } = useSelector((state) => state.taskListDeleteReducers)
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const { totalPhoneConsent } = useSelector((state) => state.projectListReducers)
     const { createPhoneConsentError } = useSelector((state) => state.createPhoneConsentReducers);
+    const {getAccountTypeData} = useSelector((state) => state.accountTypeReducers)
+    const accountType = getAccountTypeData?.data?.account_type;
+
     /**
     * @description 
     *   - useEffect once after mount(react app dom add to dom)
@@ -184,7 +190,18 @@ const TaskTableList = ({
         setShowPhoneNumberModal(false);
     }
     const onhandleShowPhoneModal = () => {
+        // check totalPhoneConsent === 3 and account !== pro
+        if (isFreeAccountAndThreePhoneConsent(totalPhoneConsent, accountType)){
+            alert("Please upgrade to Pro");
+            return;
+      
+        }else if (isProAccountAnd200PhoneConsent(totalPhoneConsent, accountType)){
+            //pro account
+            alert("You have reached limit of Pro account this month.");
+            return;
+        }
         setShowPhoneNumberModal(true)
+       
     }
     /**
        * @description
@@ -333,8 +350,6 @@ const TaskTableList = ({
             && timeZone
             && scheduleDateAndTime
             && isValidPhoneNumber(phoneNumber)) {
-     
-      
             const phoneNumb = parsePhoneNumber(phoneNumber);
             const countryCode = phoneNumb?.countryCallingCode
             const task = tasksIds;
@@ -471,7 +486,6 @@ const TaskTableList = ({
                             </div>
                         </div>
                     }
-
                 </Breadcrumb>
                 {taskListRequest ?
                     <div className='d-flex justify-content-center'>

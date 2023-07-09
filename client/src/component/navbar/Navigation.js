@@ -10,7 +10,6 @@ import styles from './navigation.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import Cookie from '../../uti/Cookie';
 import { removeAuth } from '../../redux/action/AuthAction';
-import { fetchAccountType } from '../../redux/action/UserAction';
 
 import {
     useNavigate,
@@ -18,6 +17,10 @@ import {
     Navigate
 } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
+import { useUnSubscribeModal } from '../../hooks/useNavigationModal';
+import UnsubcribeModal from './UnsubcribeModal';
+import { fetchAccountType } from '../../redux/action/UserAction';
+import { resetUnsubscribeSuccess } from '../../redux/action/StripeAction';
 const Navigation = ({
     // isAuth,
     // handleLogout,
@@ -26,7 +29,7 @@ const Navigation = ({
   
 }) => {
     const { isAuth } = useSelector((state) => state.authReducers)
-    const [stripePayment, makePayment, loading] = useStripePayment('', false);
+    const [stripePayment, makePayment, loading, subscribeSuccess, setSubscribeSuccess] = useStripePayment('', false);
     const dispatch = useDispatch();
     const user = Cookie.getUser();
     const refreshToken = Cookie.getLocalRefreshToken();
@@ -36,10 +39,28 @@ const Navigation = ({
         getAccountTypeSuccess,
         getAccountTypeError
     } = useSelector((state) => state.accountTypeReducers)
+    const { 
+        stripeUnsubscribeRequest, 
+        stripeUnsubscribeSuccess,
+        stripeUnsubscribeError } = useSelector((state) => state.stripeUnsubscribeReducers)
  
     const accountType = getAccountTypeData?.data?.account_type
     const navigate = useNavigate();
-
+    const [
+        handleUnSubscribeModalShow, 
+        handleUnSubscribeModalClose,
+        unSubscribeModalShow,
+        handleUnsubcribe] = useUnSubscribeModal(false, user?.userId);
+  
+    useEffect(() => {
+        if (user?.userId) {
+            dispatch(fetchAccountType(user?.userId));
+            if (subscribeSuccess) setSubscribeSuccess();
+            if (stripeUnsubscribeSuccess) resetUnsubscribeSuccess();
+        }
+        return () => { }
+    }, [stripeUnsubscribeSuccess, subscribeSuccess])
+    
     const navigateToHomePage = () => {
         dispatch(removeAuth());
         window.location.reload()
@@ -52,7 +73,6 @@ const Navigation = ({
             //check the cookies from back-end
             Cookie.removeUser();
             navigateToHomePage();
-          
         }
     }
 
@@ -61,11 +81,19 @@ const Navigation = ({
         Cookie.removeUser();
         navigateToHomePage();
     }
- 
+    // const unsubscribePayment = () => {
+    //     dispatch(unsubscribe(user?.userId))
+    // }
+    
     return (
         
         <Navbar expand="lg" className={`${styles['bg-color']}`}>
-         
+            <UnsubcribeModal 
+                show={unSubscribeModalShow}
+                handleClose={handleUnSubscribeModalClose}
+                handleUnsubcribe={handleUnsubcribe}
+
+            />
             {/* <Container className=''> */}
                 <span style={{ fontSize: "16px" }} className='m-2'>&#9200;</span>  
                 {isAuth ? 
@@ -102,48 +130,43 @@ const Navigation = ({
                             >   Sigup
                             </Nav.Link >
                         }
-                        {/* {!isAuth &&
-                            <Nav.Link
-                                className={`${styles['text-hover']} text-dark fw-medium`}
-                             
-                                as={Link}
-                                // to={ReactEndPoint.SIGN_UP}
-
-                            >   Pricing
-                            </Nav.Link >
-                        } */}
                     </Nav>
                     {isAuth ?
                         <Nav className='ms-auto text-center'>
-                        {accountType === 'pro' ?
-                            <Button
-                                // onClick={makePayment}
-                                variant='success'
-                                className={`text-white fw-medium ${styles['fixed-size-button']}`}
+                            {accountType === 'pro' ?
+                                <Button
+                                    onClick={handleUnSubscribeModalShow}
+                                    variant='success'
+                                    className={`text-white fw-medium ${styles['fixed-size-button']}`}
 
-                            >
-                                {getAccountTypeRequest ?
-                                    <Spinner animation="border" size="sm" />
-                                    :
-                                    "Unsubcribe"
-                                }
-                            </Button>
-                            :
-                            <Button
-                                onClick={makePayment}
-                                variant='dark'
-                                className={`text-white fw-medium ${styles['fixed-size-button']}`}
+                                >
+                                    {getAccountTypeRequest ?
+                                        <Spinner animation="border" size="sm" />
+                                        :
+                                        <div>
+                                        {stripeUnsubscribeRequest ?
+                                            <Spinner animation="border" size="sm" />
+                                            :
+                                            "Unsubcribe"
+                                        }
+                                        </div>
+                                      
+                                    }
+                                </Button>
+                                :
+                                <Button
+                                    onClick={makePayment}
+                                    variant='dark'
+                                    className={`text-white fw-medium ${styles['fixed-size-button']}`}
 
-                            >
-                                {loading ?
-                                    <Spinner animation="border" size="sm" />
-                                    :
-                                    "Upgrade to pro"
-                                }
-                            </Button>
-                        }
-                         
-
+                                >
+                                    {loading ?
+                                        <Spinner animation="border" size="sm" />
+                                        :
+                                        "Upgrade to pro"
+                                    }
+                                </Button>
+                            }
                             <Nav.Link
                                 className={`${styles['text-hover']} text-dark fw-medium`}
                                 onClick={handleLogout}

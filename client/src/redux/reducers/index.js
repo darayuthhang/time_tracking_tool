@@ -18,7 +18,7 @@ import {
 import {
     createPhoneConsentReducers
 } from './ConsentReducers'
-
+import { stripeUnsubscribeReducers } from './StripeReducers'
 const allReducers = combineReducers({
     userSignUpReducers,
     userLoginReducers,
@@ -33,6 +33,7 @@ const allReducers = combineReducers({
     projectUpdateReducers,
     projectDeleteReducers,
     createPhoneConsentReducers,
-    accountTypeReducers
+    accountTypeReducers,
+    stripeUnsubscribeReducers
 })
 export default allReducers;

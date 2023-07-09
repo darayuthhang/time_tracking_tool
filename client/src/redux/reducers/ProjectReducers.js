@@ -63,16 +63,19 @@ export function projectListReducers(state = {
     projectListRequest: false,
     projectListSuccess: false,
     projectListError: null,
-    projectListData:[]
+    projectListData:[],
+    totalPhoneConsent:0
 }, action) {
     switch (action.type) {
         case ProjectTypes.PROJECT_LISTS_REQUEST:
             return { ...state, projectListRequest: true };
         case ProjectTypes.PROJECT_LISTS_SUCCESS:
+            console.log(action.payload.data);
             return { ...state, 
                 projectListSuccess: true, 
                 projectListRequest: false,
-                projectListData: action.payload.data  };
+                projectListData: action.payload.data?.total_projects,
+                totalPhoneConsent: action.payload.data?.total_consent};
         case ProjectTypes.PROJECT_LISTS_ERROR:
             return { ...state, projectListError: null };
         default: return state;
