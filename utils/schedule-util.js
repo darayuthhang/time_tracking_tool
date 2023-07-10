@@ -23,7 +23,7 @@ module.exports = class ScheduleUtil {
             /**
              * @description
              *  59   21     14              6       * (wildcard task can execute anytime)
-             *  min  hour   day of month    month   day of the week
+             *  min  hour   day of month    months   day of the week
           */
             scheduleTask = cron.schedule(croScheduleDateTime, async () => {
                 await this.twilioService.sendOutBoundText(taskTosend, phoneNumber)
