@@ -50,7 +50,8 @@ module.exports = (app, cache, express) => {
                 stripe = require("stripe")(process.env.STRIPE_TEST_SECRET_KEY);
                 webhookSecret = process.env.STRIPE_WEB_HOOK_END_POINT_TESTING
             }else{
-                
+                stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+                webhookSecret = process.env.STRIPE_WEB_HOOK_END_POINT_PROD
                 // stripe = require("stripe")(process.env.STRIPE_TEST_SECRET_KEY);
             }
            
