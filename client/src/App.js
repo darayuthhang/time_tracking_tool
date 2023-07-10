@@ -23,8 +23,25 @@ import './index.css';
 
 import StripePaymentSuccess from "./component/stripe_payment_sucess/StripePaymentSuccess";
 import StripePaymentFailure from "./component/stripe_payment_failure/StripePaymentFailure";
-
+import Cookie from "./uti/Cookie";
+import jwt_decode from "jwt-decode";
+import { removeAuth } from "./redux/action/AuthAction";
 function App() {  
+  const refreshToken = Cookie.getLocalRefreshToken();
+  const dispatch = useDispatch()
+  const navigateToHomePage = () => {
+    dispatch(removeAuth());
+    window.location.reload()
+  }
+  if (refreshToken) {
+    var decoded = jwt_decode(refreshToken);
+    //if token expire.
+    if (decoded?.exp * 1000 < Date.now()) {
+      //check the cookies from back-end
+      Cookie.removeUser();
+      navigateToHomePage();
+    }
+  }
   return (
     <div className="font-monospace">
       <div className="App">

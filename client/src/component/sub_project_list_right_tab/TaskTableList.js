@@ -365,8 +365,6 @@ const TaskTableList = ({
             if (!createPhoneConsentError) onhandleClosePhoneModal();
             ResetStatePhoneNumberInputModalToDefault();
         }
-      
-      
     }
     /**
     * @Description

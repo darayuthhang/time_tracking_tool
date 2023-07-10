@@ -38,7 +38,6 @@ module.exports = class ProjectService{
             }
             return object;
         } catch (error) {
-      
             if (error instanceof APIError) {
                 throw new APIError('API Error', error?.statusCode, error?.message)
             } else {
