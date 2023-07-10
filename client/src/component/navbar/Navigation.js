@@ -66,15 +66,15 @@ const Navigation = ({
         window.location.reload()
     }
 
-    if (refreshToken) {
-        var decoded = jwt_decode(refreshToken);
-        //if token expire.
-        if (decoded?.exp * 1000 < Date.now()) {
-            //check the cookies from back-end
-            Cookie.removeUser();
-            navigateToHomePage();
-        }
-    }
+    // if (refreshToken) {
+    //     var decoded = jwt_decode(refreshToken);
+    //     //if token expire.
+    //     if (decoded?.exp * 1000 < Date.now()) {
+    //         //check the cookies from back-end
+    //         Cookie.removeUser();
+    //         navigateToHomePage();
+    //     }
+    // }
 
     const handleLogout = () => {
         navigate("/home")

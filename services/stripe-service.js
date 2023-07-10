@@ -16,8 +16,12 @@ module.exports = class StripeService {
             this.stripeSecretKey = process.env.STRIPE_TEST_SECRET_KEY
             this.productPRO = process.env.STIRPE_PRODUCT_PRO_TEST
         } else {
+            const ONE_DOLLAR = "price_1NSMhUEHMSSFUM4o8oIWH3vH";
+            const TWO_DOLLAR = "price_1NL9uIEHMSSFUM4ooucxHgum"
+            //price_1NSMhUEHMSSFUM4o8oIWH3vH this is one dollar
+            //price_1NL9uIEHMSSFUM4ooucxHgum this is 8 dollar
             this.clientUrl = "https://www.taskkru.com"
-            this.productPRO = "price_1NL9uIEHMSSFUM4ooucxHgum"
+            this.productPRO = ONE_DOLLAR
             this.stripeSecretKey = process.env.STRIPE_SECRET_KEY
         }
         this.stripe = require("stripe")(this.stripeSecretKey);
