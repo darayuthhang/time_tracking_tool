@@ -191,15 +191,15 @@ const TaskTableList = ({
     }
     const onhandleShowPhoneModal = () => {
         // check totalPhoneConsent === 3 and account !== pro
-        if (isFreeAccountAndThreePhoneConsent(totalPhoneConsent, accountType)){
-            alert("Please upgrade to Pro");
-            return;
+        // if (isFreeAccountAndThreePhoneConsent(totalPhoneConsent, accountType)){
+        //     alert("Please upgrade to Pro");
+        //     return;
       
-        }else if (isProAccountAnd200PhoneConsent(totalPhoneConsent, accountType)){
-            //pro account
-            alert("You have reached limit of Pro account this month.");
-            return;
-        }
+        // }else if (isProAccountAnd200PhoneConsent(totalPhoneConsent, accountType)){
+        //     //pro account
+        //     alert("You have reached limit of Pro account this month.");
+        //     return;
+        // }
         setShowPhoneNumberModal(true)
        
     }
