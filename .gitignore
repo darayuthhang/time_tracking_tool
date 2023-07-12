@@ -1,5 +1,5 @@
 node_modules
-**/client/.env
+my_startup/time_tracking_tool/client/.env
 .env
 # misc
 .DS_Store
