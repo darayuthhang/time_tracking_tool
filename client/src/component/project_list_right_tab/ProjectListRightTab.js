@@ -129,7 +129,7 @@ const ProjectListRightTab = ({
             <Container className=''>
                 <h5 className='fw-bold'>Projects</h5>
                 <Row className='mt-5'>
-                    {projectListData.length > 0 &&
+                    {projectListData?.length > 0 &&
                         projectListData.map((val, index) =>
                             <Col
                                 className={`${styles['fixed-height-col']} mb-5`}

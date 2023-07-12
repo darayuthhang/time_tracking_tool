@@ -18,23 +18,25 @@ module.exports = class ScheduleUtil {
         phoneNumber,
         scheduleId) {
         try {
+            // scheduleDateAndTime = "2023-07-12 08:58:00+00"
             let scheduleTask = null;
             const croScheduleDateTime = FormatScheduleDate(scheduleDateAndTime);
+            console.log(croScheduleDateTime);
             /**
              * @description
              *  59   21     14              6       * (wildcard task can execute anytime)
              *  min  hour   day of month    monthss   day of the week
           */
-            scheduleTask = cron.schedule(croScheduleDateTime, async () => {
-                await this.twilioService.sendOutBoundText(taskTosend, phoneNumber)
-                //update is sent to true to validate schedule has sent
-                await this.consentRepository.updateIsSent(scheduleId, true);
-                scheduleTask.stop();
-            }, {
-                scheduled: true,
-                timezone: timeZone
-            });
-            scheduleTask.start();
+            // scheduleTask = cron.schedule(croScheduleDateTime, async () => {
+            //     await this.twilioService.sendOutBoundText(taskTosend, phoneNumber)
+            //     //update is sent to true to validate schedule has sent
+            //     await this.consentRepository.updateIsSent(scheduleId, true);
+            //     scheduleTask.stop();
+            // }, {
+            //     scheduled: true,
+            //     timezone: timeZone
+            // });
+            // scheduleTask.start();
             return true;
         } catch (error) {
             console.error(error);

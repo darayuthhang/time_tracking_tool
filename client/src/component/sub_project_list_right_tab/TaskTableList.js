@@ -191,15 +191,15 @@ const TaskTableList = ({
     }
     const onhandleShowPhoneModal = () => {
         // check totalPhoneConsent === 3 and account !== pro
-        if (isFreeAccountAndThreePhoneConsent(totalPhoneConsent, accountType)){
-            alert("Please upgrade to Pro");
-            return;
+        // if (isFreeAccountAndThreePhoneConsent(totalPhoneConsent, accountType)){
+        //     alert("Please upgrade to Pro");
+        //     return;
       
-        }else if (isProAccountAnd200PhoneConsent(totalPhoneConsent, accountType)){
-            //pro account
-            alert("You have reached limit of Pro account this month.");
-            return;
-        }
+        // }else if (isProAccountAnd200PhoneConsent(totalPhoneConsent, accountType)){
+        //     //pro account
+        //     alert("You have reached limit of Pro account this month.");
+        //     return;
+        // }
         setShowPhoneNumberModal(true)
        
     }
@@ -429,7 +429,7 @@ const TaskTableList = ({
                 <TableModal
                     show={showDeleteModal}
                     handleClose={handleCloseDeleteModal}
-                    title={tasksIds.length === 1 ? `Delete this task?` : "Delete these tasks?"}
+                    title={tasksIds?.length === 1 ? `Delete this task?` : "Delete these tasks?"}
                     // bodyText="hello "
                     onhandleDeleteTask={onhandleDeleteTask}
                 />
@@ -515,7 +515,7 @@ const TaskTableList = ({
                                 Show data that have already added.
                             */}
 
-                                {taskListData.length > 0 ?
+                                {taskListData?.length > 0 ?
                                     taskListData.map((val, index) =>
                                         <tr key={val?.id}>
                                             <th scope="col" onClick={(e) => { e.stopPropagation() }}

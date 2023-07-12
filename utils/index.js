@@ -139,7 +139,7 @@ module.exports.FormatScheduleDate = (scheduleDateTime) => {
             dayOfMonth = targetTimestamp.day;
             month = targetTimestamp.month;
         }else{
-            const targetTimestampJsFormat = DateTime.fromJSDate(scheduleDateTime, zoneUTC);
+            const targetTimestampJsFormat = DateTime.fromFormat(scheduleDateTime, 'yyyy-MM-dd HH:mm:ssZZ', zoneUTC);
             minutes = targetTimestampJsFormat.minute;
             hours = targetTimestampJsFormat.hour;
             dayOfMonth = targetTimestampJsFormat.day;

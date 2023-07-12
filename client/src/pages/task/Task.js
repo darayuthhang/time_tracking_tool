@@ -83,12 +83,12 @@ const Task = () => {
         const LENGTH_PROJECTS = 7;
         const LENGTH_PRO_PROJECTS = 300;
         if (accountType === "pro"){
-            if (projectListData.length >= LENGTH_PRO_PROJECTS) {
+            if (projectListData?.length >= LENGTH_PRO_PROJECTS) {
                 alert("Reach Maximum limit of pro account.");
                 return;
             }
         }else{
-            if (projectListData.length >= LENGTH_PROJECTS) {
+            if (projectListData?.length >= LENGTH_PROJECTS) {
                 alert("Please upgrade to pro");
                 return;
             }
@@ -175,7 +175,7 @@ const Task = () => {
                                     />   
                                     
                                 </Tab.Pane>
-                                {projectListData.length > 0 &&
+                                {projectListData?.length > 0 &&
                                     projectListData.map((val, index) =>
                                         <Tab.Pane 
                                             className=" "
