@@ -20,30 +20,27 @@
 FROM node:18-alpine AS client
 
 
-WORKDIR /usr/app/client
-
-COPY client/package*.json ./
-RUN npm install
-COPY client .
-
-# Build the React application
-RUN npm run build
-
-
-# Use a separate stage for the Node.js Express server
-FROM node:18-alpine AS server
-
 WORKDIR /usr/app
 
-COPY package*.json knexfile.js ./
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install --global npm && \
     npm install --global knex && \
     npm install bcrypt && \
     npm install
-COPY --from=client /usr/app/client/build ./client/build
+
+# Copy the client directory
+COPY client ./client
+
+# Build the React application
+RUN cd client && \
+    npm install && \
+    npm run build
 
 # Expose the desired port
 EXPOSE 5000
 
-# Start the Node.js server
+# Start the server
 CMD ["npm", "run", "start"]
