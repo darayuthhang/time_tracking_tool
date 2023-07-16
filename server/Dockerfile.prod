@@ -5,13 +5,18 @@ WORKDIR /usr/app
 COPY package.json knexfile.js ./
 COPY . /usr/app/
 
+# RUN npm install --global npm && \
+#     npm install --global knex && \
+#     npm install bcrypt && \
+#     npm install && \
+#     npm cache clean --force && \
+#     npm install --prefix client && \
+#     npm run --prefix client build
+# Install server dependencies
 RUN npm install --global npm && \
     npm install --global knex && \
     npm install bcrypt && \
-    npm install && \
-    npm cache clean --force && \
-    npm install --prefix client && \
-    npm run --prefix client build
+    npm install
 # Build the client
 WORKDIR /usr/app/client
 RUN npm install && npm run build
