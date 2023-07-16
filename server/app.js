@@ -64,6 +64,9 @@ const StartServer = async () => {
         })
         .catch((error) => {
             console.error('Error confisgusring cron jobsssssss:', error);
+            app.listen(PORT, () => {
+                console.log(`listening to port ${PORT}`);
+            })
         })
         // .on('error', (err) => {
         // console.log(err);
