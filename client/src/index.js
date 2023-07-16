@@ -1,4 +1,4 @@
-require('dotenv').config()
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 // import './index.css';
@@ -26,7 +26,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
     <Provider store={store}>
-    <GoogleOAuthProvider clientId="871413368797-fh2aihlesr0f3smmio61qs87p8038g1o.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
         <Router>
             <App />
         </Router>
