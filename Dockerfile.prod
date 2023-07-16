@@ -1,18 +1,47 @@
-FROM node:18-alpine
+# FROM node:18-alpine
+
+# WORKDIR /usr/app
+
+# COPY package.json knexfile.js ./
+# COPY . /usr/app/
+
+# RUN npm install --global npm && \
+#     npm install --global knex && \
+#     npm install bcrypt && \
+#     npm install && \
+#     npm cache clean --force && \
+#     npm install --prefix client && \
+#     npm run --prefix client build
+
+# EXPOSE 5000
+
+# CMD ["npm", "run", "start"]
+# Use a lightweight Node.js image as the base image for the React client
+FROM node:18-alpine AS client
+
+WORKDIR /usr/app/client
+
+COPY client/package*.json ./
+RUN npm install
+COPY client ./
+
+# Build the React application
+RUN npm run build
+
+# Use a separate stage for the Node.js Express server
+FROM node:18-alpine AS server
 
 WORKDIR /usr/app
 
-COPY package.json knexfile.js ./
-COPY . /usr/app/
-
+COPY package*.json knexfile.js ./
 RUN npm install --global npm && \
     npm install --global knex && \
     npm install bcrypt && \
-    npm install && \
-    npm cache clean --force && \
-    npm install --prefix client && \
-    npm run --prefix client build
+    npm install
+COPY . .
 
+# Expose the desired port
 EXPOSE 5000
 
+# Start the Node.js server
 CMD ["npm", "run", "start"]
