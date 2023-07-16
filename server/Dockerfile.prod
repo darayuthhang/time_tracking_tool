@@ -12,7 +12,12 @@ RUN npm install --global npm && \
     npm cache clean --force && \
     npm install --prefix client && \
     npm run --prefix client build
+# Build the client
+WORKDIR /usr/app/client
+RUN npm install && npm run build
 
+# Move back to the server folder
+WORKDIR /usr/app
 EXPOSE 5000
 
 CMD ["npm", "run", "start"]
