@@ -19,12 +19,12 @@ RUN npm install
 
 COPY server/ ./
 
-# Set the environment variables for production
+# # Set the environment variables for production
 
-ENV NODE_ENV=production
-ENV PORT=5000
+# ENV NODE_ENV=production
+# ENV PORT=5000
 
-# Expose the desired server port
-EXPOSE $PORT
+# # Expose the desired server port
+# EXPOSE $PORT
 
 CMD ["npm", "start"]

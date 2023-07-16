@@ -39,7 +39,7 @@ const StartServer = async () => {
     });
     client.on('error', err => console.log('Redis Client Error', err));
 
-  
+    console.log(path.join(__dirname + '/../client/build/index.html'))
     await databaseConnection();
     await expressApp(app, client, express);
     const PORT = process.env.PORT || 5000;
