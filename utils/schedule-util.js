@@ -21,12 +21,11 @@ module.exports = class ScheduleUtil {
             // scheduleDateAndTime = "2023-07-12 08:58:00+00"
             let scheduleTask = null;
             const croScheduleDateTime = FormatScheduleDate(scheduleDateAndTime);
-         
             /**
              * @description
              *  59   21     14              6       * (wildcard task can execute anytime)
              *  min  hour   day of month    monthss   day of the week
-          */
+            */
             scheduleTask = cron.schedule(croScheduleDateTime, async () => {
                 await this.twilioService.sendOutBoundText(taskTosend, phoneNumber)
                 //update is sent to true to validate schedule has sent
