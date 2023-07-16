@@ -1,0 +1,19 @@
+FROM node:18-alpine
+
+WORKDIR /usr/app
+
+COPY package.json knexfile.js ./
+COPY . /usr/app/
+
+RUN npm install --global npm && \
+    npm install --global knex && \
+    npm install bcrypt && \
+    npm install && \
+    npm cache clean --force && \
+    npm install --prefix client && \
+    npm run --prefix client build
+
+EXPOSE 5000
+
+CMD ["npm", "run", "start"]
+# Use a lightweight Node.js image as the base image for the React client

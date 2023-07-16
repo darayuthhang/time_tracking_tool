@@ -1,0 +1,33 @@
+
+psql -d postgres -U me  
+psql -p 5432 -d me -U me
+
+----> access user of db
+
+\
+postgres=> \c api ----> access table in db
+
+\
+//fixed if posgres not running
+
+$ rm /usr/local/var/postgres/postmaster.pid
+$ brew services restart postgresql
+
+knex migrate:make migration_name 
+
+knex migrate:down 20230124182218_add_type.js
+A good practice is to fetch only the data that you currently need, 
+to avoid unnecessary load and traffic on the server.
+
+docker exec -it <container_name> knex migrate:latest
+
+
+ client: 'postgres',
+    connection: {
+      user: 'me',
+      host: 'postgres',
+      database: 'api',
+      password: 'password',
+      port: 5432,
+
+    },

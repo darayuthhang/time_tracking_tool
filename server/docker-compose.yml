@@ -1,0 +1,69 @@
+version: "3.8"
+#project name api does not have to be the samel name
+services:
+  redis: 
+    image: redis:latest
+    container_name: redis_c
+    restart: unless-stopped
+    expose:
+      - 6379
+  back_end:
+    depends_on:
+      - redis
+   #find docker file in our code to build it
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+  #automatically create container back_end_c
+    container_name: back_end_c
+    ports:
+      - '5000:5000'
+    volumes:
+      #map currendirect to /app of docker
+      - .:/usr/app
+      #maksure node modules app container does not delete.
+      - /usr/app/node_modules
+    environment:
+      - REDIS_URL=redis://cache
+  db:
+    container_name: postgres
+    image: postgres
+    #maps the /var/lib/postgresql/data directory in the PostgreSQL container to the /path/to/pgdata directory on the host machine
+    # volumes:
+    #   - ~/pgdata:/var/lib/postgresql/data
+    #left docker port right is local port
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: me
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: api
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - db
+    # environment:
+    #   DATABASE_URL: postgres://me:password@db/api
+    # restart the dockefile after docker compost run
+    restart: on-failure
+    command: npm run migrate && npm run server
+
+  
+
+  client:
+    build: ../client
+    container_name: client_c
+    ports:
+      - '3000:3000'
+    volumes:
+      - ../client:/app
+      - /app/node_modules
+    #means that the container will have an open STDIN stream 
+    #when it is run. This allows you to send input to t
+    #he container over its STDIN stream, which can be useful in certain situations.
+    # Open interactive mode in react a mode of operation that allows a 
+    #computer or electronic device to respond to a user’s input.
+    stdin_open: true
+    tty: true
