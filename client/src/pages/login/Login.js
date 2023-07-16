@@ -5,11 +5,7 @@ import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { Form, Container, Button, Alert, Row, Col, Stack } from 'react-bootstrap'
 import { login, resetLoginError, googleLogin, resetGoogleLoginError } from '../../redux/action/UserAction';
 import { useSelector, dispatch, useDispatch } from 'react-redux';
-// import { signup, sendNewLinkToVerifyUser, resetloginSuccess } from '../../redux/action/UserAction';
 import ReactEndPoint from '../../constant/ReactEndPoint';
-// import { GoogleLogin } from 'react-google-login';
-import GoogleButton from 'react-google-button'
-// import { GoogleLogin } from '@react-oauth/google';;
 import { 
     useGoogleOneTapLogin, 
     useGoogleLogin,
@@ -60,7 +56,6 @@ const Login = () => {
     }
     const handleLoginSuccess = (response) => {
         const googleTokenExist = response?.access_token;
-     
         if (googleTokenExist) {
             dispatch(googleLogin(googleTokenExist, "login"))
         } else {
