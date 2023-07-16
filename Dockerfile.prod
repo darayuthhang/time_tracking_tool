@@ -2,7 +2,7 @@ FROM node:18-alpine
 
 WORKDIR /usr/app
 
-COPY package.json knexfile.js ./
+COPY server/package.json server/knexfile.js ./
 COPY . /usr/app/
 
 RUN npm install --global npm && \
