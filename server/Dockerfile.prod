@@ -19,7 +19,7 @@ RUN npm install --global npm && \
     npm install
 # Build the client
 WORKDIR /usr/app/client
-RUN npm install && npm run build
+RUN npm install && npm run build:client
 
 # Move back to the server folder
 WORKDIR /usr/app
