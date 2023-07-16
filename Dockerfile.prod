@@ -19,14 +19,16 @@
 # Use a lightweight Node.js image as the base image for the React client
 FROM node:18-alpine AS client
 
+
 WORKDIR /usr/app/client
 
 COPY client/package*.json ./
 RUN npm install
-COPY client ./
+COPY client .
 
 # Build the React application
 RUN npm run build
+
 
 # Use a separate stage for the Node.js Express server
 FROM node:18-alpine AS server
@@ -38,7 +40,7 @@ RUN npm install --global npm && \
     npm install --global knex && \
     npm install bcrypt && \
     npm install
-COPY . .
+COPY --from=client /usr/app/client/build ./client/build
 
 # Expose the desired port
 EXPOSE 5000
