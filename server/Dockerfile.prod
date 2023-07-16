@@ -20,7 +20,7 @@ RUN npm install --global npm && \
 # Build the client
 WORKDIR /usr/app/client
 # Copy client folder from separate location
-COPY ../path/to/client /usr/app/client
+COPY ../client/package.json /usr/app/client
 
 # Install client dependencies
 RUN npm install
