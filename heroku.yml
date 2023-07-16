@@ -4,9 +4,11 @@ setup:
       as: DATABASE
 build:
   docker:
-    web: Dockerfile.prod 
+    web: server/Dockerfile.prod 
 release:
   image: web
   command:
-    - knex migrate:latest --env production
+    - sh
+    - -c
+    - "cd server && knex migrate:latest --env production"
 
