@@ -10,5 +10,6 @@ release:
   command:
     - sh
     - -c
-    - "cd server && knex migrate:latest --env production"
+     - "cd server && knex migrate:latest --env production && npm run start"
+    
 
