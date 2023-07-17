@@ -6,8 +6,8 @@ class UserMailer {
         return nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'darayuthhang12@gmail.com',
-                pass: 'uzivshjdteagebre',
+                user: '',
+                pass: '',
             },
         });
     }
